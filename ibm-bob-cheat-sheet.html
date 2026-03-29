@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM Bob 完整指南 - Cheat Sheet</title>
+    <style>
+        /* A4 頁面設定 */
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 9px;
+            line-height: 1.2;
+            color: #e5e5e5;
+            background: #0a0a0a;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 8mm;
+        }
+        
+        /* Impeccable 設計風格 - 暗色主題 */
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .header .subtitle {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+        
+        .version-info {
+            position: absolute;
+            top: 8mm;
+            right: 8mm;
+            background: #2a2a2a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 7px;
+            color: #a0a0a0;
+            border: 1px solid #404040;
+        }
+        
+        /* 網格佈局 */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .grid-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        /* 卡片樣式 - 暗色主題 */
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            padding: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            background: linear-gradient(90deg, #2a2a2a, #1a1a1a);
+            margin: -6px -6px 4px -6px;
+            padding: 4px 6px;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid #404040;
+            font-weight: 600;
+            font-size: 10px;
+            color: #e5e5e5;
+        }
+        
+        /* 圖示 */
+        .icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        
+        .icon-commands { background: #28a745; }
+        .icon-rules { background: #17a2b8; }
+        .icon-skills { background: #ffc107; }
+        .icon-agents { background: #dc3545; }
+        .icon-tools { background: #6f42c1; }
+        .icon-token { background: #fd7e14; }
+        
+        /* 表格樣式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+            margin-bottom: 4px;
+        }
+        
+        th, td {
+            padding: 2px 4px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        th {
+            background: #2a2a2a;
+            font-weight: 600;
+            color: #e5e5e5;
+        }
+        
+        /* 列表樣式 */
+        ul, ol {
+            margin-left: 12px;
+            margin-bottom: 4px;
+        }
+        
+        li {
+            margin-bottom: 1px;
+            font-size: 8px;
+        }
+        
+        /* 程式碼樣式 */
+        code {
+            background: #2a2a2a;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 7px;
+            color: #ff6b9d;
+            border: 1px solid #333;
+        }
+        
+        /* 標籤樣式 */
+        .badge {
+            display: inline-block;
+            padding: 1px 4px;
+            font-size: 6px;
+            font-weight: 600;
+            border-radius: 2px;
+            margin-right: 2px;
+        }
+        
+        .badge-success { background: #198754; color: #ffffff; }
+        .badge-warning { background: #fd7e14; color: #ffffff; }
+        .badge-danger { background: #dc3545; color: #ffffff; }
+        .badge-info { background: #0dcaf0; color: #000000; }
+        
+        /* 成本指示器 - 暗色主題 */
+        .cost-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 3px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .cost-low { background: #198754; }
+        .cost-medium { background: #fd7e14; }
+        .cost-high { background: #fd7e14; }
+        .cost-very-high { background: #dc3545; }
+        
+        /* 特殊樣式 - 暗色主題 */
+        .highlight {
+            background: #2a4a5a;
+            color: #e5e5e5;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin: 2px 0;
+            border: 1px solid #404040;
+        }
+        
+        .tip {
+            background: #1a3a4a;
+            border-left: 3px solid #0dcaf0;
+            color: #e5e5e5;
+            padding: 3px 6px;
+            margin: 2px 0;
+            font-size: 7px;
+        }
+        
+        .warning {
+            background: #4a3a1a;
+            border-left: 3px solid #ff9800;
+            color: #e5e5e5;
+            padding: 3px 6px;
+            margin: 2px 0;
+            font-size: 7px;
+        }
+        
+        /* 響應式調整 */
+        @media print {
+            body {
+                width: auto;
+                margin: 0;
+                padding: 5mm;
+                background: white !important;
+                color: black !important;
+            }
+            .card {
+                background: white !important;
+                border: 1px solid #ddd !important;
+                color: black !important;
+            }
+            .section-title {
+                color: #333 !important;
+            }
+            th {
+                background: #f8f9fa !important;
+                color: #333 !important;
+            }
+            td {
+                color: #333 !important;
+            }
+            code {
+                background: #f8f9fa !important;
+                color: #e83e8c !important;
+            }
+            .highlight, .tip, .warning {
+                background: #f8f9fa !important;
+                color: #333 !important;
+            }
+            .version-info { display: none; }
+        }
+        
+        /* 文字大小調整 */
+        .text-xs { font-size: 6px; }
+        .text-sm { font-size: 7px; }
+        .text-md { font-size: 8px; }
+        .text-lg { font-size: 9px; }
+        
+        /* 間距調整 */
+        .mb-1 { margin-bottom: 2px; }
+        .mb-2 { margin-bottom: 4px; }
+        .mt-1 { margin-top: 2px; }
+        .mt-2 { margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="version-info">
+        v1.0 | 2026-03-29
+    </div>
+    
+    <div class="header">
+        <h1><img src="bob.svg" alt="IBM Bob" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">IBM Bob 完整指南</h1>
+        <div class="subtitle">四大自訂機制 • 12個內建工具 • Token優化策略 • 最佳實踐</div>
+    </div>
+    
+    <!-- 四大自訂機制概覽 -->
+    <div class="grid mb-2">
+        <div class="card">
+            <div class="card-header">
+                <span class="icon icon-commands"></span>1️⃣ Slash Commands
+            </div>
+            <div class="highlight text-sm mb-1">快速執行預定義操作</div>
+            <ul class="text-xs">
+                <li><strong>位置：</strong><code>.bob/commands/</code></li>
+                <li><strong>觸發：</strong>手動輸入 <code>/command</code></li>
+                <li><strong>成本：</strong><span class="cost-indicator cost-low"></span>極低 (50-200 tokens)</li>
+                <li><strong>範例：</strong><code>/review</code>, <code>/test</code>, <code>/deploy</code></li>
+            </ul>
+            <div class="tip">
+                <strong>💡 最佳用途：</strong>常見任務快捷方式，按需載入
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="icon icon-rules"></span>2️⃣ Custom Rules
+            </div>
+            <div class="highlight text-sm mb-1">定義「如何做事」的偏好設定</div>
+            <ul class="text-xs">
+                <li><strong>位置：</strong><code>.bobrules</code> 或 <code>.bob/rules/</code></li>
+                <li><strong>觸發：</strong>自動載入</li>
+                <li><strong>成本：</strong><span class="cost-indicator cost-medium"></span>中等 (500-5,000 tokens)</li>
+                <li><strong>範圍：</strong>全域 + 工作區 + 模式特定</li>
+            </ul>
+            <div class="tip">
+                <strong>💡 最佳用途：</strong>編碼風格、技術規則、個人偏好
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="icon icon-skills"></span>3️⃣ Skills
+            </div>
+            <div class="highlight text-sm mb-1">定義「做什麼」的工作流程配方</div>
+            <ul class="text-xs">
+                <li><strong>位置：</strong><code>.bob/skills/*/SKILL.md</code></li>
+                <li><strong>觸發：</strong>任務相關時提示（需批准）</li>
+                <li><strong>成本：</strong><span class="cost-indicator cost-high"></span>較高 (1,000-10,000 tokens)</li>
+                <li><strong>限制：</strong>僅 Advanced 模式</li>
+            </ul>
+            <div class="warning">
+                <strong>⚠️ 注意：</strong>可包含支援檔案，使用者可控制載入
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="icon icon-agents"></span>4️⃣ Agents (AGENTS.md)
+            </div>
+            <div class="highlight text-sm mb-1">定義「為什麼」的團隊標準</div>
+            <ul class="text-xs">
+                <li><strong>位置：</strong>專案根目錄 <code>AGENTS.md</code></li>
+                <li><strong>觸發：</strong>自動載入（預設啟用）</li>
+                <li><strong>成本：</strong><span class="cost-indicator cost-very-high"></span>高 (2,000-20,000 tokens)</li>
+                <li><strong>範圍：</strong>僅工作區</li>
+            </ul>
+            <div class="tip">
+                <strong>💡 最佳用途：</strong>團隊開發規範、核心原則
+            </div>
+        </div>
+    </div>
+    
+    <!-- 12個內建工具 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">
+            <span class="icon icon-tools"></span>🔧 12個內建工具完整指南
+        </div>
+        <div class="grid grid-3">
+            <div>
+                <h4 class="text-md mb-1">📁 檔案操作</h4>
+                <table>
+                    <tr><th>工具</th><th>用途</th><th>Token節省</th></tr>
+                    <tr><td><code>read_file</code></td><td>讀取檔案</td><td>用line_range節省80-95%</td></tr>
+                    <tr><td><code>write_to_file</code></td><td>完整寫入</td><td>新檔案首選</td></tr>
+                    <tr><td><code>apply_diff</code></td><td>精準修改</td><td>小改動節省90%+</td></tr>
+                    <tr><td><code>insert_content</code></td><td>插入內容</td><td>不覆寫現有</td></tr>
+                </table>
+            </div>
+            <div>
+                <h4 class="text-md mb-1">🔍 搜尋探索</h4>
+                <table>
+                    <tr><th>工具</th><th>用途</th><th>最佳實踐</th></tr>
+                    <tr><td><code>search_files</code></td><td>Regex搜尋</td><td>節省70-90%探索成本</td></tr>
+                    <tr><td><code>list_files</code></td><td>列出結構</td><td>遞迴探索專案</td></tr>
+                    <tr><td><code>list_code_definition_names</code></td><td>程式碼定義</td><td>先找目標再讀取</td></tr>
+                </table>
+            </div>
+            <div>
+                <h4 class="text-md mb-1">⚙️ 執行互動</h4>
+                <table>
+                    <tr><th>工具</th><th>用途</th><th>技巧</th></tr>
+                    <tr><td><code>execute_command</code></td><td>CLI命令</td><td>合併命令、quiet模式</td></tr>
+                    <tr><td><code>ask_followup_question</code></td><td>詢問使用者</td><td>需要澄清時使用</td></tr>
+                </table>
+                <h4 class="text-md mb-1 mt-2">🎯 任務管理</h4>
+                <table>
+                    <tr><td><code>attempt_completion</code></td><td>呈現結果</td><td>任務完成時</td></tr>
+                    <tr><td><code>update_todo_list</code></td><td>待辦清單</td><td>複雜任務追蹤</td></tr>
+                    <tr><td><code>switch_mode</code></td><td>模式切換</td><td>需要不同功能時</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Token 優化策略 -->
+    <div class="grid mb-2">
+        <div class="card">
+            <div class="card-header">
+                <span class="icon icon-token"></span>💰 Token 節省策略
+            </div>
+            <div class="grid">
+                <div>
+                    <h4 class="text-sm mb-1">🎯 核心策略</h4>
+                    <ul class="text-xs">
+                        <li><span class="badge badge-success">精準任務</span>明確具體的描述</li>
+                        <li><span class="badge badge-success">Line Range</span>只讀需要的行</li>
+                        <li><span class="badge badge-success">批次處理</span>一次完成相關任務</li>
+                        <li><span class="badge badge-success">選對工具</span>apply_diff > write_to_file</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">⚠️ 高成本警示</h4>
+                    <ul class="text-xs">
+                        <li><span class="badge badge-danger">大檔案</span>讀取>1000行檔案</li>
+                        <li><span class="badge badge-danger">重複操作</span>相同檔案多次操作</li>
+                        <li><span class="badge badge-warning">模糊任務</span>不明確的描述</li>
+                        <li><span class="badge badge-warning">全專案掃描</span>無限制搜尋</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight text-xs">
+                <strong>💡 黃金法則：</strong>明確具體 → 精準讀取 → 批次處理 → 選對工具 → 避免重複 → 簡潔溝通
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">📊 成本估算參考</div>
+            <table class="text-xs">
+                <tr><th>操作類型</th><th>Token成本</th><th>優化建議</th></tr>
+                <tr><td>簡單查詢</td><td>100-500</td><td>直接執行</td></tr>
+                <tr><td>檔案修改</td><td>500-2,000</td><td>使用apply_diff</td></tr>
+                <tr><td>複雜重構</td><td>2,000-10,000</td><td>分階段處理</td></tr>
+                <tr><td>全專案分析</td><td>10,000+</td><td>精準指定範圍</td></tr>
+            </table>
+            <div class="tip text-xs">
+                <strong>MCP使用注意：</strong>連接MCP會增加基礎成本，只在必要時使用
+            </div>
+        </div>
+    </div>
+    
+    <!-- Skills 和 AgentSkills -->
+    <div class="grid mb-2">
+        <div class="card">
+            <div class="card-header">📖 Skills 系統</div>
+            <div class="text-xs">
+                <div class="mb-1"><strong>檔案結構：</strong></div>
+                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">.bob/skills/skill-name/
+├── SKILL.md (必需)
+├── checklist.md (選填)
+└── examples.md (選填)</pre>
+                
+                <div class="mb-1 mt-2"><strong>SKILL.md 格式：</strong></div>
+                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">---
+name: skill-name
+description: 清楚描述用途
+---
+執行步驟：
+1. 第一步驟
+2. 第二步驟</pre>
+                
+                <div class="warning text-xs mt-1">
+                    <strong>⚠️ 限制：</strong>僅Advanced模式，需使用者批准
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">🤝 AgentSkills 支援</div>
+            <table class="text-xs">
+                <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
+                <tr><td>技能定義</td><td>自訂模式</td></tr>
+                <tr><td>技能執行</td><td>工具和規則</td></tr>
+                <tr><td>技能驗證</td><td>程式碼審查</td></tr>
+                <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
+            </table>
+            <div class="tip text-xs">
+                <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
+            </div>
+        </div>
+    </div>
+    
+    <!-- SDLC 整合 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">🔄 SDLC 生命週期整合</div>
+        <div class="grid grid-3">
+            <div>
+                <h4 class="text-sm mb-1">📋 需求分析</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>互動式需求探索</li>
+                    <li><strong>CLI：</strong>批次分析需求文件</li>
+                    <li><strong>自動化：</strong>需求變更影響分析</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm mb-1">🎨 架構設計</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>互動式設計討論</li>
+                    <li><strong>CLI：</strong>批次驗證設計文件</li>
+                    <li><strong>自動化：</strong>架構一致性檢查</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm mb-1">💻 開發</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>即時程式碼輔助</li>
+                    <li><strong>CLI：</strong>批次程式碼生成</li>
+                    <li><strong>自動化：</strong>Pre-commit檢查</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm mb-1">🧪 測試</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>互動式測試撰寫</li>
+                    <li><strong>CLI：</strong>自動化測試執行</li>
+                    <li><strong>自動化：</strong>CI/CD測試流程</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm mb-1">🚀 部署</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>部署腳本審查</li>
+                    <li><strong>CLI：</strong>自動化部署檢查</li>
+                    <li><strong>自動化：</strong>CD流程整合</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm mb-1">🔧 維護</h4>
+                <ul class="text-xs">
+                    <li><strong>IDE：</strong>問題診斷修復</li>
+                    <li><strong>CLI：</strong>日誌分析報告</li>
+                    <li><strong>自動化：</strong>監控和警報</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 安全指南 - 警示風格 -->
+    <div style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); border: 2px solid #ff6b6b; border-radius: 8px; padding: 8px; margin-bottom: 6px; box-shadow: 0 3px 10px rgba(220,53,69,0.3);">
+        <div style="background: rgba(0,0,0,0.3); margin: -8px -8px 6px -8px; padding: 5px 8px; border-radius: 6px 6px 0 0; font-weight: 700; font-size: 11px; color: #ffffff; text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3);">
+            🔒 安全使用指南 - 必讀重要事項
+        </div>
+        
+        <div class="grid">
+            <!-- .bobignore -->
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
+                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
+                    📁 .bobignore 檔案保護
+                </h4>
+                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin: 3px 0;">
+                    <div style="font-size: 7px; color: #ffc107; margin-bottom: 2px;"><strong>語法：</strong>與 .gitignore 相同</div>
+                    <pre style="background: #0a0a0a; padding: 3px; border-radius: 2px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #2a2a2a; margin: 0; line-height: 1.3;"># 敏感資訊
+.env
+secrets/
+*.key
+# 客戶資料
+src/customer/
+data/customer/</pre>
+                </div>
+                <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ffcccc;">
+                    <strong>⚠️ 限制：</strong>僅工作區、可能被繞過、非沙箱
+                </div>
+            </div>
+            
+            <!-- 自動批准風險 -->
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
+                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
+                    ⚠️ 自動批准風險等級
+                </h4>
+                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin: 3px 0;">
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
+                        <span style="color: #e5e5e5;">編輯檔案</span>
+                        <span style="background: #dc3545; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🔴 高</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
+                        <span style="color: #e5e5e5;">執行命令</span>
+                        <span style="background: #dc3545; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🔴 高</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
+                        <span style="color: #e5e5e5;">使用MCP</span>
+                        <span style="background: #fd7e14; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🟠 中-高</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0; font-size: 7px;">
+                        <span style="color: #e5e5e5;">讀取檔案</span>
+                        <span style="background: #ffc107; color: #000; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🟡 中</span>
+                    </div>
+                </div>
+                <div style="background: #1a3a4a; border-left: 3px solid #0dcaf0; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ccf0ff;">
+                    <strong>💡 建議：</strong>僅受控環境啟用
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid" style="margin-top: 4px;">
+            <!-- 企業級六層防護 -->
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
+                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
+                    🛡️ 企業級六層防護（客戶PoC）
+                </h4>
+                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
+                    <div style="font-size: 7px; line-height: 1.4; color: #e5e5e5;">
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">1️⃣</strong> .bobignore 排除客戶資料</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">2️⃣</strong> 信任資料夾限制（Shell）</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">3️⃣</strong> 禁用自動批准</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">4️⃣</strong> 使用唯讀 API Key</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">5️⃣</strong> 沙箱環境隔離</div>
+                        <div style="padding: 2px 0;"><strong style="color: #4ade80;">6️⃣</strong> 稽核與監控</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 機密管理 + MCP -->
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
+                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
+                    🔐 機密管理 & MCP安全
+                </h4>
+                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin-bottom: 3px;">
+                    <div style="font-size: 7px; color: #e5e5e5; line-height: 1.4;">
+                        <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 使用環境變數</div>
+                        <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 配置 .gitignore + .bobignore</div>
+                        <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 機密管理工具</div>
+                        <div style="padding: 1px 0;"><span style="color: #dc3545;">✗</span> 直接提供機密給AI</div>
+                    </div>
+                </div>
+                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
+                    <div style="font-size: 6px; color: #0dcaf0; font-weight: 600; margin-bottom: 2px;">MCP 四大要求：</div>
+                    <div style="font-size: 7px; color: #e5e5e5; line-height: 1.3;">
+                        身份驗證 • 加密 • 存取控制 • 稽核
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 最佳實踐和快速參考 -->
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">✅ 最佳實踐</div>
+            <div class="grid">
+                <div>
+                    <h4 class="text-sm mb-1">🎯 工作流程</h4>
+                    <ul class="text-xs">
+                        <li>從Plan模式開始複雜專案</li>
+                        <li>使用檢查點安全實驗</li>
+                        <li>定期提交版本控制</li>
+                        <li>分解大型任務</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">💬 溝通</h4>
+                    <ul class="text-xs">
+                        <li>撰寫具體清晰提示</li>
+                        <li>使用上下文提及</li>
+                        <li>管理上下文視窗</li>
+                        <li>提供範例說明</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">🚀 快速決策指南</div>
+            <table class="text-xs">
+                <tr><th>需求</th><th>推薦機制</th><th>原因</th></tr>
+                <tr><td>快速任務</td><td>Slash Commands</td><td>即時觸發</td></tr>
+                <tr><td>編碼風格</td><td>Custom Rules</td><td>持續影響</td></tr>
+                <tr><td>複雜流程</td><td>Skills</td><td>步驟化</td></tr>
+                <tr><td>團隊規範</td><td>Agents</td><td>標準化</td></tr>
+            </table>
+            <div class="highlight text-xs">
+                <strong>🎯 組合策略：</strong>小型專案用Commands+Rules，中型加Agents，大型全套+Skills
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">⚡ 模式選擇</div>
+            <table class="text-xs">
+                <tr><th>模式</th><th>適用場景</th></tr>
+                <tr><td><strong>Code</strong></td><td>日常開發、程式碼修改</td></tr>
+                <tr><td><strong>Advanced</strong></td><td>複雜任務、MCP整合</td></tr>
+                <tr><td><strong>Plan</strong></td><td>規劃設計、架構討論</td></tr>
+                <tr><td><strong>Ask</strong></td><td>獲取資訊、學習概念</td></tr>
+                <tr><td><strong>Orchestrator</strong></td><td>多步驟專案協調</td></tr>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 頁腳 -->
+    <div style="margin-top: 8px; text-align: center; font-size: 6px; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 4px;">
+        <strong>IBM Bob 完整指南</strong> | 四大機制：Commands • Rules • Skills • Agents | 
+        12個工具：檔案操作 • 搜尋探索 • 執行互動 • 任務管理 • 模式切換 | 
+        Token優化：精準讀取 • 批次處理 • 選對工具 | 
+        <strong>記住：選對工具，事半功倍！🚀</strong>
+    </div>
+</body>
+</html>
