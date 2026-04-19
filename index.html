@@ -266,12 +266,12 @@
 </head>
 <body>
     <div class="version-info">
-        v1.0 | 2026-03-29
+        v2.0 | 2026-04-19 | 新增 Memory Import 與完整架構說明
     </div>
     
     <div class="header">
         <h1><img src="bob.svg" alt="IBM Bob" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">IBM Bob 完整指南</h1>
-        <div class="subtitle">四大自訂機制 • 12個內建工具 • Token優化策略 • 最佳實踐</div>
+        <div class="subtitle">四大自訂機制 • 12個內建工具 • Memory Import • Token優化 • 企業級安全</div>
     </div>
     
     <!-- 四大自訂機制概覽 -->
@@ -337,6 +337,97 @@
             </ul>
             <div class="tip">
                 <strong>💡 最佳用途：</strong>團隊開發規範、核心原則
+            </div>
+        </div>
+    </div>
+    
+    <!-- Memory Import 機制 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">
+            📚 Memory Import 記憶檔案匯入機制
+        </div>
+        <div class="grid">
+            <div>
+                <h4 class="text-sm mb-1">🎯 核心概念</h4>
+                <div class="text-xs" style="line-height: 1.4;">
+                    <p style="margin-bottom: 2px;">Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。</p>
+                    <div class="highlight text-xs" style="margin: 0; padding: 2px 4px;">
+                        <strong>範例：</strong><code>@./.bob/memory/core/tools.md</code>
+                    </div>
+                </div>
+                <h4 class="text-sm mb-1" style="margin-top: 6px;">📁 建議結構</h4>
+                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 0; line-height: 1.3;">.bob/memory/
+├── core/
+│   ├── mechanisms.md
+│   ├── tools.md
+│   └── modes.md
+├── features/
+│   ├── mcp-integration.md
+│   └── sandbox.md
+├── security/
+│   ├── file-access.md
+│   └── auto-approval.md
+└── best-practices/
+    ├── workflow.md
+    └── key-notes.md</pre>
+            </div>
+            <div style="grid-column: 2 / 4;">
+                <h4 class="text-sm mb-1">✅ 優勢</h4>
+                <ul class="text-xs" style="margin-bottom: 4px;">
+                    <li><span class="badge badge-success">模組化</span>拆分大型文件為小模組</li>
+                    <li><span class="badge badge-success">可維護</span>獨立更新各模組</li>
+                    <li><span class="badge badge-success">可重用</span>跨專案共享配置</li>
+                    <li><span class="badge badge-success">協作友善</span>團隊分工明確</li>
+                </ul>
+                <div class="tip text-xs" style="margin: 0; line-height: 1.5; padding: 4px 6px;">
+                    <strong>💰 Token 節省機制：</strong><br>
+                    <strong style="color: #4ade80;">為何節省？</strong>避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組<br>
+                    <strong style="color: #4ade80;">運作方式：</strong>每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文<br>
+                    <strong style="color: #4ade80;">實際效益：</strong>超過 200行(過多行數) AGENTS.md 拆成多個不同模組，只載入需要的部分，可節省 50-70% token
+                </div>
+            </div>
+        </div>
+        <div class="tip text-xs" style="margin-top: 4px;">
+            <strong>💡 最佳實踐：</strong>將超過 200行(過多行數)的 AGENTS.md 拆分成多個不同模組化檔案，每個檔案專注單一主題，提高可維護性和協作效率
+        </div>
+    </div>
+    
+    <!-- 四大機制關係圖 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">
+            🔄 四大機制工作流程與關係
+        </div>
+        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 8px; margin: 4px 0;">
+            <pre style="background: #0a0a0a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #2a2a2a; margin: 0; line-height: 1.5; text-align: center;">
+使用者需求
+    ↓
+<span style="color: #28a745;">Slash Commands</span> ──→ 快速觸發特定任務
+    ↓
+<span style="color: #dc3545;">Agents (AGENTS.md)</span> ──→ 提供團隊原則（為什麼這樣做）
+    ↓
+<span style="color: #17a2b8;">Custom Rules</span> ────→ 定義實作細節（如何做）
+    ↓
+<span style="color: #ffc107;">Skills</span> ──────────→ 執行工作流程（做什麼）
+    ↓
+完成任務</pre>
+        </div>
+        <div class="grid grid-3" style="margin-top: 4px;">
+            <div class="highlight text-xs" style="padding: 4px 6px; line-height: 2; min-height: 75px;">
+                <strong>載入順序（優先級由低到高）：</strong><br>
+                1. 全域規則 <code>~/.bob/rules/</code><br>
+                2. 工作區模式規則 <code>.bob/rules-{mode}/</code><br>
+                3. AGENTS.md（專案根目錄）<br>
+                4. 工作區一般規則 <code>.bob/rules/</code>
+            </div>
+            <div class="tip text-xs" style="padding: 4px 6px; line-height: 2; min-height: 75px;">
+                <strong>💡 組合策略：</strong><br>
+                • 小型專案：Commands + (Agents 或 Rules 擇一)<br>
+                • 中型專案：Commands + Agents + Rules<br>
+                • 大型專案：全套機制 + Skills
+            </div>
+            <div class="warning text-xs" style="padding: 4px 6px; line-height: 2; min-height: 75px;">
+                <strong>⚠️ 避免重複：</strong><br>
+                四大機制會累加 token 成本，避免在不同機制中重複相同內容，善用 Memory Import 共享配置
             </div>
         </div>
     </div>
@@ -470,6 +561,9 @@ description: 清楚描述用途
             <div class="tip text-xs">
                 <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
             </div>
+            <div class="highlight text-xs" style="margin-top: 3px;">
+                <strong>AgentSkills 對應：</strong>Bob 透過自訂模式實現技能定義，透過 AGENTS.md 實現團隊標準，透過內建工具實現技能執行，透過程式碼審查模式實現技能驗證
+            </div>
         </div>
     </div>
     
@@ -588,17 +682,20 @@ data/customer/</pre>
             <!-- 企業級六層防護 -->
             <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
                 <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    🛡️ 企業級六層防護（客戶PoC）
+                    🛡️ 企業級六層防護（客戶PoC必備）
                 </h4>
                 <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
                     <div style="font-size: 7px; line-height: 1.4; color: #e5e5e5;">
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">1️⃣</strong> .bobignore 排除客戶資料</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">2️⃣</strong> 信任資料夾限制（Shell）</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">3️⃣</strong> 禁用自動批准</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">4️⃣</strong> 使用唯讀 API Key</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">5️⃣</strong> 沙箱環境隔離</div>
-                        <div style="padding: 2px 0;"><strong style="color: #4ade80;">6️⃣</strong> 稽核與監控</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">1️⃣ .bobignore</strong> 排除客戶資料（語法同 .gitignore）</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">2️⃣ 信任資料夾</strong> 限制存取範圍（Shell 專用）</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">3️⃣ 禁用自動批准</strong> 所有操作需確認</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">4️⃣ 唯讀 API Key</strong> 限制 AI 權限</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">5️⃣ Sandbox 隔離</strong> 容器或 Seatbelt</div>
+                        <div style="padding: 2px 0;"><strong style="color: #4ade80;">6️⃣ 稽核監控</strong> 記錄所有操作</div>
                     </div>
+                </div>
+                <div style="background: #1a3a4a; border-left: 3px solid #0dcaf0; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ccf0ff;">
+                    <strong>💡 實施建議：</strong>PoC 階段至少實施前 3 層，生產環境建議全部實施
                 </div>
             </div>
             
@@ -721,10 +818,13 @@ data/customer/</pre>
     
     <!-- 頁腳 -->
     <div style="margin-top: 8px; text-align: center; font-size: 6px; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 4px;">
-        <strong>IBM Bob 完整指南</strong> | 四大機制：Commands • Rules • Skills • Agents | 
-        12個工具：檔案操作 • 搜尋探索 • 執行互動 • 任務管理 • 模式切換 | 
-        Token優化：精準讀取 • 批次處理 • 選對工具 | 
-        <strong>記住：選對工具，事半功倍！🚀</strong>
+        <strong>IBM Bob 完整指南 v2.0</strong> |
+        四大機制：Commands • Rules • Skills • Agents |
+        Memory Import：模組化管理 • 可重用配置 |
+        12個工具：檔案操作 • 搜尋探索 • 執行互動 • 任務管理 |
+        Token優化：精準讀取 • 批次處理 • 選對工具 |
+        企業安全：六層防護 • Sandbox 隔離 |
+        <strong>記住：模組化配置，選對工具，安全第一！🚀</strong>
     </div>
 </body>
 </html>
