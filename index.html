@@ -4,274 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBM Bob 完整指南 - Cheat Sheet</title>
-    <style>
-        /* A4 頁面設定 */
-        @page {
-            size: A4;
-            margin: 10mm;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 9px;
-            line-height: 1.2;
-            color: #e5e5e5;
-            background: #0a0a0a;
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
-            padding: 8mm;
-        }
-        
-        /* Impeccable 設計風格 - 暗色主題 */
-        .header {
-            background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            border: 1px solid #333;
-        }
-        
-        .header h1 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        
-        .header .subtitle {
-            font-size: 10px;
-            opacity: 0.9;
-        }
-        
-        .version-info {
-            position: absolute;
-            top: 8mm;
-            right: 8mm;
-            background: #2a2a2a;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 7px;
-            color: #a0a0a0;
-            border: 1px solid #404040;
-        }
-        
-        /* 網格佈局 */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-        
-        .grid-3 {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-        
-        .full-width {
-            grid-column: 1 / -1;
-        }
-        
-        /* 卡片樣式 - 暗色主題 */
-        .card {
-            background: #1a1a1a;
-            border: 1px solid #404040;
-            border-radius: 6px;
-            padding: 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-        
-        .card-header {
-            background: linear-gradient(90deg, #2a2a2a, #1a1a1a);
-            margin: -6px -6px 4px -6px;
-            padding: 4px 6px;
-            border-radius: 5px 5px 0 0;
-            border-bottom: 1px solid #404040;
-            font-weight: 600;
-            font-size: 10px;
-            color: #e5e5e5;
-        }
-        
-        /* 圖示 */
-        .icon {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin-right: 4px;
-            vertical-align: middle;
-        }
-        
-        .icon-commands { background: #28a745; }
-        .icon-rules { background: #17a2b8; }
-        .icon-skills { background: #ffc107; }
-        .icon-agents { background: #dc3545; }
-        .icon-tools { background: #6f42c1; }
-        .icon-token { background: #fd7e14; }
-        
-        /* 表格樣式 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 7px;
-            margin-bottom: 4px;
-        }
-        
-        th, td {
-            padding: 2px 4px;
-            text-align: left;
-            border-bottom: 1px solid #333;
-        }
-        
-        th {
-            background: #2a2a2a;
-            font-weight: 600;
-            color: #e5e5e5;
-        }
-        
-        /* 列表樣式 */
-        ul, ol {
-            margin-left: 12px;
-            margin-bottom: 4px;
-        }
-        
-        li {
-            margin-bottom: 1px;
-            font-size: 8px;
-        }
-        
-        /* 程式碼樣式 */
-        code {
-            background: #2a2a2a;
-            padding: 1px 3px;
-            border-radius: 2px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 7px;
-            color: #ff6b9d;
-            border: 1px solid #333;
-        }
-        
-        /* 標籤樣式 */
-        .badge {
-            display: inline-block;
-            padding: 1px 4px;
-            font-size: 6px;
-            font-weight: 600;
-            border-radius: 2px;
-            margin-right: 2px;
-        }
-        
-        .badge-success { background: #198754; color: #ffffff; }
-        .badge-warning { background: #fd7e14; color: #ffffff; }
-        .badge-danger { background: #dc3545; color: #ffffff; }
-        .badge-info { background: #0dcaf0; color: #000000; }
-        
-        /* 成本指示器 - 暗色主題 */
-        .cost-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 3px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .cost-low { background: #198754; }
-        .cost-medium { background: #fd7e14; }
-        .cost-high { background: #fd7e14; }
-        .cost-very-high { background: #dc3545; }
-        
-        /* 特殊樣式 - 暗色主題 */
-        .highlight {
-            background: #2a4a5a;
-            color: #e5e5e5;
-            padding: 3px 6px;
-            border-radius: 4px;
-            margin: 2px 0;
-            border: 1px solid #404040;
-        }
-        
-        .tip {
-            background: #1a3a4a;
-            border-left: 3px solid #0dcaf0;
-            color: #e5e5e5;
-            padding: 3px 6px;
-            margin: 2px 0;
-            font-size: 7px;
-        }
-        
-        .warning {
-            background: #4a3a1a;
-            border-left: 3px solid #ff9800;
-            color: #e5e5e5;
-            padding: 3px 6px;
-            margin: 2px 0;
-            font-size: 7px;
-        }
-        
-        /* 響應式調整 */
-        @media print {
-            body {
-                width: auto;
-                margin: 0;
-                padding: 5mm;
-                background: white !important;
-                color: black !important;
-            }
-            .card {
-                background: white !important;
-                border: 1px solid #ddd !important;
-                color: black !important;
-            }
-            .section-title {
-                color: #333 !important;
-            }
-            th {
-                background: #f8f9fa !important;
-                color: #333 !important;
-            }
-            td {
-                color: #333 !important;
-            }
-            code {
-                background: #f8f9fa !important;
-                color: #e83e8c !important;
-            }
-            .highlight, .tip, .warning {
-                background: #f8f9fa !important;
-                color: #333 !important;
-            }
-            .version-info { display: none; }
-        }
-        
-        /* 文字大小調整 */
-        .text-xs { font-size: 6px; }
-        .text-sm { font-size: 7px; }
-        .text-md { font-size: 8px; }
-        .text-lg { font-size: 9px; }
-        
-        /* 間距調整 */
-        .mb-1 { margin-bottom: 2px; }
-        .mb-2 { margin-bottom: 4px; }
-        .mt-1 { margin-top: 2px; }
-        .mt-2 { margin-top: 4px; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="version-info">
-        v2.0 | 2026-04-19 | 新增 Memory Import 與完整架構說明
+        v2.1 | 2026-04-27 | 新增分頁導覽與詳細檔案結構說明
     </div>
     
     <div class="header">
         <h1><img src="bob.svg" alt="IBM Bob" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">IBM Bob 完整指南</h1>
         <div class="subtitle">四大自訂機制 • 12個內建工具 • Memory Import • Token優化 • 企業級安全</div>
+    </div>
+    
+    <!-- Tab 導覽 -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('overview')">📋 總覽</div>
+        <div class="tab" onclick="switchTab('structure')">📁 建議結構</div>
+    </div>
+    
+    <!-- 總覽 Tab -->
+    <div id="overview" class="tab-content active">
+    
+    <!-- ========== 核心機制區 ========== -->
+    <div style="background: linear-gradient(90deg, #1e40af, #7c2d12); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
+        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">📋 核心機制區</h2>
+        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">四大自訂機制 • Memory Import • 工作流程</div>
     </div>
     
     <!-- 四大自訂機制概覽 -->
@@ -341,54 +98,47 @@
         </div>
     </div>
     
-    <!-- Memory Import 機制 -->
-    <div class="card full-width mb-2">
-        <div class="card-header">
-            📚 Memory Import 記憶檔案匯入機制
-        </div>
-        <div class="grid">
-            <div>
-                <h4 class="text-sm mb-1">🎯 核心概念</h4>
-                <div class="text-xs" style="line-height: 1.4;">
-                    <p style="margin-bottom: 2px;">Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。</p>
-                    <div class="highlight text-xs" style="margin: 0; padding: 2px 4px;">
-                        <strong>範例：</strong><code>@./.bob/memory/core/tools.md</code>
-                    </div>
-                </div>
-                <h4 class="text-sm mb-1" style="margin-top: 6px;">📁 建議結構</h4>
-                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 0; line-height: 1.3;">.bob/memory/
-├── core/
-│   ├── mechanisms.md
-│   ├── tools.md
-│   └── modes.md
-├── features/
-│   ├── mcp-integration.md
-│   └── sandbox.md
-├── security/
-│   ├── file-access.md
-│   └── auto-approval.md
-└── best-practices/
-    ├── workflow.md
-    └── key-notes.md</pre>
-            </div>
-            <div style="grid-column: 2 / 4;">
-                <h4 class="text-sm mb-1">✅ 優勢</h4>
-                <ul class="text-xs" style="margin-bottom: 4px;">
-                    <li><span class="badge badge-success">模組化</span>拆分大型文件為小模組</li>
-                    <li><span class="badge badge-success">可維護</span>獨立更新各模組</li>
-                    <li><span class="badge badge-success">可重用</span>跨專案共享配置</li>
-                    <li><span class="badge badge-success">協作友善</span>團隊分工明確</li>
-                </ul>
-                <div class="tip text-xs" style="margin: 0; line-height: 1.5; padding: 4px 6px;">
-                    <strong>💰 Token 節省機制：</strong><br>
-                    <strong style="color: #4ade80;">為何節省？</strong>避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組<br>
-                    <strong style="color: #4ade80;">運作方式：</strong>每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文<br>
-                    <strong style="color: #4ade80;">實際效益：</strong>超過 200行(過多行數) AGENTS.md 拆成多個不同模組，只載入需要的部分，可節省 50-70% token
+    <!-- Skills 和 AgentSkills -->
+    <div class="grid mb-2">
+        <div class="card">
+            <div class="card-header">📖 Skills 系統</div>
+            <div class="text-xs">
+                <div class="mb-1"><strong>檔案結構：</strong></div>
+                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">.bob/skills/skill-name/
+├── SKILL.md (必需)
+├── checklist.md (選填)
+└── examples.md (選填)</pre>
+                
+                <div class="mb-1 mt-2"><strong>SKILL.md 格式：</strong></div>
+                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">---
+name: skill-name
+description: 清楚描述用途
+---
+執行步驟：
+1. 第一步驟
+2. 第二步驟</pre>
+                
+                <div class="warning text-xs mt-1">
+                    <strong>⚠️ 限制：</strong>僅Advanced模式，需使用者批准
                 </div>
             </div>
         </div>
-        <div class="tip text-xs" style="margin-top: 4px;">
-            <strong>💡 最佳實踐：</strong>將超過 200行(過多行數)的 AGENTS.md 拆分成多個不同模組化檔案，每個檔案專注單一主題，提高可維護性和協作效率
+        
+        <div class="card">
+            <div class="card-header">🤝 AgentSkills 支援</div>
+            <table class="text-xs">
+                <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
+                <tr><td>技能定義</td><td>自訂模式</td></tr>
+                <tr><td>技能執行</td><td>工具和規則</td></tr>
+                <tr><td>技能驗證</td><td>程式碼審查</td></tr>
+                <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
+            </table>
+            <div class="tip text-xs">
+                <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
+            </div>
+            <div class="highlight text-xs" style="margin-top: 3px;">
+                <strong>AgentSkills 對應：</strong>Bob 透過自訂模式實現技能定義，透過 AGENTS.md 實現團隊標準，透過內建工具實現技能執行，透過程式碼審查模式實現技能驗證
+            </div>
         </div>
     </div>
     
@@ -430,6 +180,48 @@
                 四大機制會累加 token 成本，避免在不同機制中重複相同內容，善用 Memory Import 共享配置
             </div>
         </div>
+    </div>
+    
+    <!-- Memory Import 機制 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">
+            📚 Memory Import 記憶檔案匯入機制
+        </div>
+        <div class="grid">
+            <div>
+                <h4 class="text-sm mb-1">🎯 核心概念</h4>
+                <div class="text-xs" style="line-height: 1.4;">
+                    <p style="margin-bottom: 2px;">Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。</p>
+                    <div class="highlight text-xs" style="margin: 0; padding: 2px 4px;">
+                        <strong>範例：</strong><code>@./.bob/memory/core/tools.md</code>
+                    </div>
+                </div>
+            </div>
+            <div style="grid-column: 2 / 4;">
+                <h4 class="text-sm mb-1">✅ 優勢</h4>
+                <ul class="text-xs" style="margin-bottom: 4px;">
+                    <li><span class="badge badge-success">模組化</span>拆分大型文件為小模組</li>
+                    <li><span class="badge badge-success">可維護</span>獨立更新各模組</li>
+                    <li><span class="badge badge-success">可重用</span>跨專案共享配置</li>
+                    <li><span class="badge badge-success">協作友善</span>團隊分工明確</li>
+                </ul>
+                <div class="tip text-xs" style="margin: 0; line-height: 1.5; padding: 4px 6px;">
+                    <strong>💰 Token 節省機制：</strong><br>
+                    <strong style="color: #4ade80;">為何節省？</strong>避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組<br>
+                    <strong style="color: #4ade80;">運作方式：</strong>每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文<br>
+                    <strong style="color: #4ade80;">實際效益：</strong>超過 200行(過多行數) AGENTS.md 拆成多個不同模組，只載入需要的部分，可節省 50-70% token
+                </div>
+            </div>
+        </div>
+        <div class="tip text-xs" style="margin-top: 4px;">
+            <strong>💡 最佳實踐：</strong>將超過 200行(過多行數)的 AGENTS.md 拆分成多個不同模組化檔案，每個檔案專注單一主題，提高可維護性和協作效率。詳細結構請參考「建議結構」分頁。
+        </div>
+    </div>
+    
+    <!-- ========== 工具與優化區 ========== -->
+    <div style="background: linear-gradient(90deg, #6f42c1, #17a2b8); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
+        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">🔧 工具與優化區</h2>
+        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">12個內建工具 • Token優化策略 • SDLC整合</div>
     </div>
     
     <!-- 12個內建工具 -->
@@ -526,49 +318,6 @@
         </div>
     </div>
     
-    <!-- Skills 和 AgentSkills -->
-    <div class="grid mb-2">
-        <div class="card">
-            <div class="card-header">📖 Skills 系統</div>
-            <div class="text-xs">
-                <div class="mb-1"><strong>檔案結構：</strong></div>
-                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">.bob/skills/skill-name/
-├── SKILL.md (必需)
-├── checklist.md (選填)
-└── examples.md (選填)</pre>
-                
-                <div class="mb-1 mt-2"><strong>SKILL.md 格式：</strong></div>
-                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">---
-name: skill-name
-description: 清楚描述用途
----
-執行步驟：
-1. 第一步驟
-2. 第二步驟</pre>
-                
-                <div class="warning text-xs mt-1">
-                    <strong>⚠️ 限制：</strong>僅Advanced模式，需使用者批准
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">🤝 AgentSkills 支援</div>
-            <table class="text-xs">
-                <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
-                <tr><td>技能定義</td><td>自訂模式</td></tr>
-                <tr><td>技能執行</td><td>工具和規則</td></tr>
-                <tr><td>技能驗證</td><td>程式碼審查</td></tr>
-                <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
-            </table>
-            <div class="tip text-xs">
-                <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
-            </div>
-            <div class="highlight text-xs" style="margin-top: 3px;">
-                <strong>AgentSkills 對應：</strong>Bob 透過自訂模式實現技能定義，透過 AGENTS.md 實現團隊標準，透過內建工具實現技能執行，透過程式碼審查模式實現技能驗證
-            </div>
-        </div>
-    </div>
     
     <!-- SDLC 整合 -->
     <div class="card full-width mb-2">
@@ -623,6 +372,12 @@ description: 清楚描述用途
                 </ul>
             </div>
         </div>
+    </div>
+    
+    <!-- ========== 安全與最佳實踐區 ========== -->
+    <div style="background: linear-gradient(90deg, #dc3545, #fd7e14); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
+        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">🔒 安全與最佳實踐區</h2>
+        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">企業級安全 • Sandbox隔離 • 工作流程 • 模式選擇</div>
     </div>
     
     <!-- 安全指南 - 警示風格 -->
@@ -833,10 +588,319 @@ data/customer/</pre>
             </div>
         </div>
     </div>
+    </div>
+    
+    <!-- 建議結構 Tab -->
+    <div id="structure" class="tab-content">
+        <div class="card full-width mb-2">
+            <div class="card-header">
+                📁 IBM Bob 完整檔案結構說明
+            </div>
+            <div class="text-xs" style="margin-bottom: 6px;">
+                <strong>說明：</strong>本結構圖涵蓋全域設定、專案設定及各檔案的用途與影響範圍。
+            </div>
+            
+            <!-- 全域設定 -->
+            <div class="card mb-2">
+                <div class="card-header" style="background: linear-gradient(90deg, #1e40af, #1a1a1a);">
+                    🌐 全域設定 (適用所有專案)
+                </div>
+                <table class="text-xs">
+                    <tr>
+                        <th style="width: 30%;">路徑/檔案</th>
+                        <th style="width: 25%;">概要</th>
+                        <th style="width: 30%;">對上下文的影響</th>
+                        <th style="width: 15%;">備註</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
+                            <code>{user_name}/AppData/Roaming/IBM Bob/User/</code> (Windows)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>settings.json</code></td>
+                        <td>IBM Bob 系統管理的設定檔</td>
+                        <td>不影響</td>
+                        <td>可註冊命令自動執行</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
+                            <code>{user_name}/.bob/</code> (全域配置目錄)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>settings.json</code></td>
+                        <td>主要由 Bob Shell 編輯的設定檔</td>
+                        <td>不影響</td>
+                        <td>可註冊命令自動執行</td>
+                    </tr>
+                    <tr>
+                        <td><code>custom_modes.yaml</code></td>
+                        <td>全域自訂模式配置檔</td>
+                        <td><span class="badge badge-warning">高</span> Custom instructions 全部插入系統提示</td>
+                        <td>專案設定優先於全域設定</td>
+                    </tr>
+                    <tr>
+                        <td><code>mcp_settings.json</code></td>
+                        <td>MCP 伺服器連接設定檔</td>
+                        <td><span class="badge badge-warning">高</span> 所有 MCP description 插入系統提示</td>
+                        <td>Settings 安裝的 MCP 隨 Bob 啟動</td>
+                    </tr>
+                    <tr>
+                        <td><code>rules/</code></td>
+                        <td>全域共用規則目錄</td>
+                        <td>不影響</td>
+                        <td>IBM Bob 推薦方法</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ rules.md</code></td>
+                        <td>模式共用規則檔案</td>
+                        <td><span class="badge badge-info">中</span> 專案規則後插入系統提示</td>
+                        <td>多檔案按字母順序載入</td>
+                    </tr>
+                    <tr>
+                        <td><code>rules-{mode-slug}/</code></td>
+                        <td>全域模式特定規則目錄</td>
+                        <td>不影響</td>
+                        <td>IBM Bob 推薦方法</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ rules.md</code></td>
+                        <td>模式特定規則檔案</td>
+                        <td><span class="badge badge-info">中</span> 專案規則後插入系統提示</td>
+                        <td>多檔案按字母順序載入</td>
+                    </tr>
+                    <tr>
+                        <td><code>skills/</code></td>
+                        <td>全域技能目錄</td>
+                        <td>不影響</td>
+                        <td>由 bob_skills.md 引用</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ skill-01/</code></td>
+                        <td>技能資料夾</td>
+                        <td>不影響</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>&nbsp;&nbsp;&nbsp;&nbsp;└─ SKILL.md</code></td>
+                        <td>技能定義檔</td>
+                        <td><span class="badge badge-warning">高</span> 選擇時插入執行區域提示</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>commands/</code></td>
+                        <td>全域斜線命令目錄</td>
+                        <td>不影響</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ command-01.md</code></td>
+                        <td>斜線命令檔案</td>
+                        <td><span class="badge badge-success">低</span> 執行時插入執行區域提示</td>
+                        <td>-</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- 專案設定 -->
+            <div class="card mb-2">
+                <div class="card-header" style="background: linear-gradient(90deg, #7c2d12, #1a1a1a);">
+                    📦 專案設定 (僅當前專案)
+                </div>
+                <table class="text-xs">
+                    <tr>
+                        <th style="width: 30%;">路徑/檔案</th>
+                        <th style="width: 25%;">概要</th>
+                        <th style="width: 30%;">對上下文的影響</th>
+                        <th style="width: 15%;">備註</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
+                            <code>{project}/</code> (專案根目錄)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AGENTS.md</code></td>
+                        <td>高抽象度團隊規則檔案</td>
+                        <td><span class="badge badge-danger">極高</span> 模式規則後、工作區規則前插入</td>
+                        <td>定義「為什麼」</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bobignore</code></td>
+                        <td>Bob 忽略檔案清單</td>
+                        <td>不影響</td>
+                        <td>語法同 .gitignore</td>
+                    </tr>
+                    <tr>
+                        <td><code>.gitignore</code></td>
+                        <td>Git 忽略檔案清單</td>
+                        <td>不影響</td>
+                        <td>同時作為 .bobignore</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
+                            <code>{project}/.bob/</code> (專案配置目錄)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>settings.json</code></td>
+                        <td>專案設定檔</td>
+                        <td>不影響</td>
+                        <td>可註冊命令自動執行</td>
+                    </tr>
+                    <tr>
+                        <td><code>custom_modes.yaml</code></td>
+                        <td>專案自訂模式配置檔</td>
+                        <td><span class="badge badge-warning">高</span> Custom instructions 全部插入系統提示</td>
+                        <td>覆蓋全域設定</td>
+                    </tr>
+                    <tr>
+                        <td><code>mcp_settings.json</code></td>
+                        <td>專案 MCP 伺服器設定</td>
+                        <td><span class="badge badge-warning">高</span> 所有 MCP description 插入系統提示</td>
+                        <td>Settings 安裝的 MCP 隨 Bob 啟動</td>
+                    </tr>
+                    <tr>
+                        <td><code>rules/</code></td>
+                        <td>專案共用規則目錄</td>
+                        <td>不影響</td>
+                        <td>IBM Bob 推薦方法</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ rules.md</code></td>
+                        <td>模式共用規則檔案</td>
+                        <td><span class="badge badge-info">中</span> 模式規則後插入系統提示</td>
+                        <td>多檔案按字母順序載入</td>
+                    </tr>
+                    <tr>
+                        <td><code>rules-{mode-slug}/</code></td>
+                        <td>專案模式特定規則目錄</td>
+                        <td>不影響</td>
+                        <td>IBM Bob 推薦方法</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ rules.md</code></td>
+                        <td>模式特定規則檔案</td>
+                        <td><span class="badge badge-info">中</span> Custom instructions 後載入</td>
+                        <td>多檔案按字母順序載入</td>
+                    </tr>
+                    <tr>
+                        <td><code>skills/</code></td>
+                        <td>專案技能目錄</td>
+                        <td>不影響</td>
+                        <td>由 bob_skills.md 引用</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ skill-01/</code></td>
+                        <td>技能資料夾</td>
+                        <td>不影響</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>&nbsp;&nbsp;&nbsp;&nbsp;└─ SKILL.md</code></td>
+                        <td>技能定義檔</td>
+                        <td><span class="badge badge-warning">高</span> 選擇時插入執行區域提示</td>
+                        <td>1,000 行載入限制</td>
+                    </tr>
+                    <tr>
+                        <td><code>commands/</code></td>
+                        <td>專案斜線命令目錄</td>
+                        <td>不影響</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>└─ command-01.md</code></td>
+                        <td>斜線命令檔案</td>
+                        <td><span class="badge badge-success">低</span> 執行時插入執行區域提示</td>
+                        <td>1,000 行載入限制</td>
+                    </tr>
+                    <tr>
+                        <td><code>memory/</code></td>
+                        <td>Memory Import 模組目錄</td>
+                        <td>不影響</td>
+                        <td>建議結構見下方</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Memory Import 建議結構 -->
+            <div class="card mb-2">
+                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
+                    📚 Memory Import 建議結構
+                </div>
+                <div class="text-xs" style="margin-bottom: 4px;">
+                    <strong>目的：</strong>將大型 AGENTS.md 拆分為可重用的模組，提升維護性並節省 token。
+                </div>
+                <pre style="background: #2a2a2a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #333; margin: 4px 0; line-height: 1.4;">.bob/memory/
+├── intro/                    # 入門介紹
+│   ├── quick-start.md       # 快速開始指南
+│   ├── architecture.md      # 架構說明
+│   └── further-reading.md   # 延伸閱讀
+├── core/                     # 核心機制
+│   ├── mechanisms.md        # 四大自訂機制
+│   ├── tools.md             # 12個內建工具
+│   └── modes.md             # 模式說明
+├── features/                 # 進階功能
+│   ├── mcp-integration.md   # MCP 整合
+│   ├── sandbox.md           # Sandbox 隔離
+│   ├── token-optimization.md # Token 優化
+│   └── sdlc-integration.md  # SDLC 整合
+├── security/                 # 安全機制
+│   ├── file-access.md       # 檔案存取控制
+│   └── auto-approval.md     # 自動批准設定
+├── best-practices/           # 最佳實踐
+│   ├── key-notes.md         # 關鍵注意事項
+│   └── workflow.md          # 工作流程指南
+└── project-context.md        # 專案資訊</pre>
+                
+                <div class="tip text-xs">
+                    <strong>💡 使用方式：</strong>在 AGENTS.md 中使用 <code>@./.bob/memory/core/tools.md</code> 語法引用模組
+                </div>
+                <div class="highlight text-xs" style="margin-top: 3px;">
+                    <strong>📊 效益：</strong>200+ 行 AGENTS.md 拆分後可節省 50-70% token，提升載入速度與維護效率
+                </div>
+            </div>
+            
+            <!-- 載入順序與優先級 -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #fd7e14, #1a1a1a);">
+                    🔄 載入順序與優先級
+                </div>
+                <div class="grid grid-3">
+                    <div>
+                        <h4 class="text-sm mb-1">📋 系統提示載入順序</h4>
+                        <ol class="text-xs" style="line-height: 1.6;">
+                            <li>全域規則 <code>~/.bob/rules/</code></li>
+                            <li>工作區模式規則 <code>.bob/rules-{mode}/</code></li>
+                            <li>AGENTS.md (專案根目錄)</li>
+                            <li>工作區一般規則 <code>.bob/rules/</code></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="text-sm mb-1">⚡ 執行時載入</h4>
+                        <ul class="text-xs" style="line-height: 1.6;">
+                            <li><strong>Slash Commands：</strong>手動觸發時載入</li>
+                            <li><strong>Skills：</strong>任務相關時提示載入</li>
+                            <li><strong>MCP：</strong>連接時載入 description</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-sm mb-1">🎯 優先級規則</h4>
+                        <ul class="text-xs" style="line-height: 1.6;">
+                            <li>專案設定 > 全域設定</li>
+                            <li>模式特定 > 共用規則</li>
+                            <li>後載入 > 先載入</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- 頁腳 -->
     <div style="margin-top: 8px; text-align: center; font-size: 6px; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 4px;">
-        <strong>IBM Bob 完整指南 v2.0</strong> |
+        <strong>IBM Bob 完整指南 v2.1</strong> |
         四大機制：Commands • Rules • Skills • Agents |
         Memory Import：模組化管理 • 可重用配置 |
         12個工具：檔案操作 • 搜尋探索 • 執行互動 • 任務管理 |
@@ -844,5 +908,7 @@ data/customer/</pre>
         企業安全：六層防護 • Sandbox 隔離 |
         <strong>記住：模組化配置，選對工具，安全第一！🚀</strong>
     </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>

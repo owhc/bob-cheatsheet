@@ -1,0 +1,299 @@
+/* A4 頁面設定 */
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 9px;
+    line-height: 1.2;
+    color: #e5e5e5;
+    background: #0a0a0a;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 8mm;
+}
+
+/* Tab 樣式 */
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #404040;
+}
+
+.tab {
+    background: #1a1a1a;
+    border: 1px solid #404040;
+    border-bottom: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    font-size: 10px;
+    font-weight: 600;
+    color: #a0a0a0;
+    transition: all 0.3s;
+}
+
+.tab:hover {
+    background: #2a2a2a;
+    color: #e5e5e5;
+}
+
+.tab.active {
+    background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
+    color: white;
+    border-color: #1e40af;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Impeccable 設計風格 - 暗色主題 */
+.header {
+    background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+}
+
+.header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.header .subtitle {
+    font-size: 10px;
+    opacity: 0.9;
+}
+
+.version-info {
+    position: absolute;
+    top: 8mm;
+    right: 8mm;
+    background: #2a2a2a;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 7px;
+    color: #a0a0a0;
+    border: 1px solid #404040;
+}
+
+/* 網格佈局 */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+/* 卡片樣式 - 暗色主題 */
+.card {
+    background: #1a1a1a;
+    border: 1px solid #404040;
+    border-radius: 6px;
+    padding: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.card-header {
+    background: linear-gradient(90deg, #2a2a2a, #1a1a1a);
+    margin: -6px -6px 4px -6px;
+    padding: 4px 6px;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid #404040;
+    font-weight: 600;
+    font-size: 10px;
+    color: #e5e5e5;
+}
+
+/* 圖示 */
+.icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.icon-commands { background: #28a745; }
+.icon-rules { background: #17a2b8; }
+.icon-skills { background: #ffc107; }
+.icon-agents { background: #dc3545; }
+.icon-tools { background: #6f42c1; }
+.icon-token { background: #fd7e14; }
+
+/* 表格樣式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7px;
+    margin-bottom: 4px;
+}
+
+th, td {
+    padding: 2px 4px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+th {
+    background: #2a2a2a;
+    font-weight: 600;
+    color: #e5e5e5;
+}
+
+/* 列表樣式 */
+ul, ol {
+    margin-left: 12px;
+    margin-bottom: 4px;
+}
+
+li {
+    margin-bottom: 1px;
+    font-size: 8px;
+}
+
+/* 程式碼樣式 */
+code {
+    background: #2a2a2a;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 7px;
+    color: #ff6b9d;
+    border: 1px solid #333;
+}
+
+/* 標籤樣式 */
+.badge {
+    display: inline-block;
+    padding: 1px 4px;
+    font-size: 6px;
+    font-weight: 600;
+    border-radius: 2px;
+    margin-right: 2px;
+}
+
+.badge-success { background: #198754; color: #ffffff; }
+.badge-warning { background: #fd7e14; color: #ffffff; }
+.badge-danger { background: #dc3545; color: #ffffff; }
+.badge-info { background: #0dcaf0; color: #000000; }
+
+/* 成本指示器 - 暗色主題 */
+.cost-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 3px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.cost-low { background: #198754; }
+.cost-medium { background: #fd7e14; }
+.cost-high { background: #fd7e14; }
+.cost-very-high { background: #dc3545; }
+
+/* 特殊樣式 - 暗色主題 */
+.highlight {
+    background: #2a4a5a;
+    color: #e5e5e5;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin: 2px 0;
+    border: 1px solid #404040;
+}
+
+.tip {
+    background: #1a3a4a;
+    border-left: 3px solid #0dcaf0;
+    color: #e5e5e5;
+    padding: 3px 6px;
+    margin: 2px 0;
+    font-size: 7px;
+}
+
+.warning {
+    background: #4a3a1a;
+    border-left: 3px solid #ff9800;
+    color: #e5e5e5;
+    padding: 3px 6px;
+    margin: 2px 0;
+    font-size: 7px;
+}
+
+/* 響應式調整 */
+@media print {
+    body {
+        width: auto;
+        margin: 0;
+        padding: 5mm;
+        background: white !important;
+        color: black !important;
+    }
+    .card {
+        background: white !important;
+        border: 1px solid #ddd !important;
+        color: black !important;
+    }
+    .section-title {
+        color: #333 !important;
+    }
+    th {
+        background: #f8f9fa !important;
+        color: #333 !important;
+    }
+    td {
+        color: #333 !important;
+    }
+    code {
+        background: #f8f9fa !important;
+        color: #e83e8c !important;
+    }
+    .highlight, .tip, .warning {
+        background: #f8f9fa !important;
+        color: #333 !important;
+    }
+    .version-info { display: none; }
+}
+
+/* 文字大小調整 */
+.text-xs { font-size: 6px; }
+.text-sm { font-size: 7px; }
+.text-md { font-size: 8px; }
+.text-lg { font-size: 9px; }
+
+/* 間距調整 */
+.mb-1 { margin-bottom: 2px; }
+.mb-2 { margin-bottom: 4px; }
+.mt-1 { margin-top: 2px; }
+.mt-2 { margin-top: 4px; }
+
+/* Made with Bob */
