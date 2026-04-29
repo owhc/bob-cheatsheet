@@ -594,303 +594,270 @@ data/customer/</pre>
     <div id="structure" class="tab-content">
         <div class="card full-width mb-2">
             <div class="card-header">
-                📁 IBM Bob 完整檔案結構說明
+                📁 IBM Bob folder mapping（重新整理版）
             </div>
-            <div class="text-xs" style="margin-bottom: 6px;">
-                <strong>說明：</strong>本結構圖涵蓋全域設定、專案設定及各檔案的用途與影響範圍。
+            <div class="highlight text-xs" style="margin-bottom: 6px; line-height: 1.5;">
+                <strong>設計重點：</strong>參考附圖的「folder fully mapped」呈現方式，將第 2 分頁改為 <strong>根目錄 → 全域設定 → 專案內 .bob/ 子系統 → 載入行為</strong> 的映射說明，讓使用者一眼看懂「放哪裡、何時生效、會不會進上下文」。
             </div>
-            
-            <!-- 全域設定 -->
+
+            <div class="grid mb-2">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(90deg, #1e40af, #1a1a1a);">
+                        🧭 先看總原則
+                    </div>
+                    <ul class="text-xs" style="line-height: 1.6;">
+                        <li><strong>專案根目錄：</strong><code>AGENTS.md</code> 放「為什麼」、<code>.bobignore</code> 放「不能碰什麼」</li>
+                        <li><strong>專案內 .bob/：</strong>放可操作的配置，例如 Rules、Commands、Skills、Memory Import</li>
+                        <li><strong>全域 ~/.bob/：</strong>放跨專案共用設定，例如個人模式、MCP、常用規則</li>
+                        <li><strong>高成本項：</strong><code>AGENTS.md</code>、<code>custom_modes.yaml</code>、<code>mcp_settings.json</code></li>
+                        <li><strong>按需載入項：</strong>Slash Commands、Skills</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(90deg, #198754, #1a1a1a);">
+                        🎯 三種判讀方式
+                    </div>
+                    <div class="text-xs" style="line-height: 1.6;">
+                        <div style="margin-bottom: 3px;"><span class="badge badge-danger">高</span> 會直接影響系統提示或長期上下文</div>
+                        <div style="margin-bottom: 3px;"><span class="badge badge-info">中</span> 規則類檔案，依載入順序生效</div>
+                        <div style="margin-bottom: 3px;"><span class="badge badge-success">低</span> 僅在觸發時載入，不會常駐</div>
+                        <div class="tip text-xs" style="margin-top: 4px;">
+                            <strong>判讀公式：</strong>位置決定範圍、檔名決定用途、載入時機決定 token 成本。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bob 映射主圖 -->
             <div class="card mb-2">
-                <div class="card-header" style="background: linear-gradient(90deg, #1e40af, #1a1a1a);">
-                    🌐 全域設定 (適用所有專案)
+                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
+                    🗺️ Bob canonical folder mapping
+                </div>
+                <pre style="background: #111; padding: 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #e5e5e5; border: 1px solid #333; margin: 4px 0; line-height: 1.55;">your-project/                                   ← 目前工作區 / project root
+├── AGENTS.md                                   ← 團隊原則、開發標準、自動載入
+├── .bobignore                                  ← 阻擋敏感檔案/資料夾，不進工具存取範圍
+├── .gitignore                                  ← Git 忽略；常與 .bobignore 搭配
+└── .bob/                                       ← 專案級 Bob 設定，優先於全域
+    ├── settings.json                           ← 專案設定；不直接進上下文
+    ├── custom_modes.yaml                       ← 專案自訂模式；模式指令會進系統提示
+    ├── mcp_settings.json                       ← 專案 MCP 設定；description 成本高
+    ├── rules/                                  ← 專案共用規則
+    │   └── *.md                                ← 所有模式共用；持續影響回應
+    ├── rules-{mode-slug}/                      ← 專案模式專屬規則
+    │   └── *.md                                ← 只在該 mode 載入
+    ├── commands/                               ← Slash Commands
+    │   └── *.md                                ← 手動觸發時載入，低成本
+    ├── skills/                                 ← Skills（Advanced）
+    │   └── skill-name/
+    │       ├── SKILL.md                        ← 技能主定義；選擇時載入
+    │       └── support-files...                ← 範例、checklist、流程檔
+    └── memory/                                 ← Memory Import 模組庫
+        ├── intro/                              ← 導讀、架構、快速開始
+        ├── core/                               ← 機制、工具、模式
+        ├── features/                           ← MCP、Sandbox、Token、SDLC
+        ├── security/                           ← 存取控制、自動批准
+        ├── best-practices/                     ← 關鍵注意事項、workflow
+        └── project-context.md                  ← 專案背景、目錄、技術棧
+
+~/.bob/                                         ← 全域設定，跨專案共用
+├── settings.json                               ← 使用者層級設定
+├── custom_modes.yaml                           ← 全域自訂模式
+├── mcp_settings.json                           ← 全域 MCP 設定
+├── rules/                                      ← 全域共用規則
+├── rules-{mode-slug}/                          ← 全域模式規則
+├── commands/                                   ← 全域 Slash Commands
+└── skills/                                     ← 全域 Skills</pre>
+                <div class="tip text-xs">
+                    <strong>💡 對照附圖的關鍵差異：</strong>Claude 偏向把多種能力集中在 <code>.claude/</code>；Bob 則以 <code>AGENTS.md</code> + <code>.bob/</code> 分層，將「原則」與「可執行配置」拆開。
+                </div>
+            </div>
+
+            <!-- 映射說明 -->
+            <div class="grid mb-2">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(90deg, #7c2d12, #1a1a1a);">
+                        📦 根目錄層：最先理解的 3 個檔案
+                    </div>
+                    <table class="text-xs">
+                        <tr>
+                            <th style="width: 28%;">檔案</th>
+                            <th style="width: 37%;">角色</th>
+                            <th style="width: 35%;">重點</th>
+                        </tr>
+                        <tr>
+                            <td><code>AGENTS.md</code></td>
+                            <td>團隊規範、核心原則、為什麼這樣做</td>
+                            <td><span class="badge badge-danger">高</span> 自動載入，避免寫成百科全書</td>
+                        </tr>
+                        <tr>
+                            <td><code>.bobignore</code></td>
+                            <td>限制 Bob 工具可接觸的檔案範圍</td>
+                            <td>安全邊界，不是上下文內容</td>
+                        </tr>
+                        <tr>
+                            <td><code>.gitignore</code></td>
+                            <td>版本控制忽略規則</td>
+                            <td>常與 <code>.bobignore</code> 一起維護</td>
+                        </tr>
+                    </table>
+                    <div class="warning text-xs">
+                        <strong>⚠️ 建議：</strong><code>AGENTS.md</code> 留原則與索引，細節拆到 <code>.bob/memory/</code>，避免持續膨脹。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(90deg, #0d6efd, #1a1a1a);">
+                        🌐 全域層 vs 專案層
+                    </div>
+                    <table class="text-xs">
+                        <tr><th>層級</th><th>適用範圍</th><th>典型內容</th></tr>
+                        <tr><td><code>~/.bob/</code></td><td>所有專案</td><td>個人偏好、常用模式、共用 MCP</td></tr>
+                        <tr><td><code>{project}/.bob/</code></td><td>單一專案</td><td>專案規則、專案命令、專案 skills</td></tr>
+                    </table>
+                    <div class="highlight text-xs">
+                        <strong>優先級：</strong>專案設定 <strong>></strong> 全域設定；模式專屬規則 <strong>></strong> 共用規則。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子資料夾地圖 -->
+            <div class="card mb-2">
+                <div class="card-header" style="background: linear-gradient(90deg, #198754, #1a1a1a);">
+                    🧩 `.bob/` 子資料夾用途地圖
                 </div>
                 <table class="text-xs">
                     <tr>
-                        <th style="width: 30%;">路徑/檔案</th>
-                        <th style="width: 25%;">概要</th>
-                        <th style="width: 30%;">對上下文的影響</th>
-                        <th style="width: 15%;">備註</th>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="background: linear-gradient(90deg, #3b5998, #2a2a2a); font-weight: 600; color: #e5e5e5; padding: 4px 8px; border: 1px solid #4a6fa5;">
-                            💻 <code>{user_name}/AppData/Roaming/IBM Bob/User/</code> (Windows)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>settings.json</code></td>
-                        <td>IBM Bob 系統管理的設定檔</td>
-                        <td>不影響</td>
-                        <td>可註冊命令自動執行</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="background: linear-gradient(90deg, #3b5998, #2a2a2a); font-weight: 600; color: #e5e5e5; padding: 4px 8px; border: 1px solid #4a6fa5;">
-                            🏠 <code>{user_name}/.bob/</code> (全域配置目錄)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>settings.json</code></td>
-                        <td>主要由 Bob Shell 編輯的設定檔</td>
-                        <td>不影響</td>
-                        <td>可註冊命令自動執行</td>
-                    </tr>
-                    <tr>
-                        <td><code>custom_modes.yaml</code></td>
-                        <td>全域自訂模式配置檔</td>
-                        <td><span class="badge badge-warning">高</span> Custom instructions 全部插入系統提示</td>
-                        <td>專案設定優先於全域設定</td>
-                    </tr>
-                    <tr>
-                        <td><code>mcp_settings.json</code></td>
-                        <td>MCP 伺服器連接設定檔</td>
-                        <td><span class="badge badge-warning">高</span> 所有 MCP description 插入系統提示</td>
-                        <td>Settings 安裝的 MCP 隨 Bob 啟動</td>
+                        <th style="width: 20%;">路徑</th>
+                        <th style="width: 30%;">主要用途</th>
+                        <th style="width: 25%;">載入時機</th>
+                        <th style="width: 25%;">建議寫法</th>
                     </tr>
                     <tr>
                         <td><code>rules/</code></td>
-                        <td>全域共用規則目錄</td>
-                        <td>不影響</td>
-                        <td>IBM Bob 推薦方法</td>
+                        <td>所有模式共用規則</td>
+                        <td><span class="badge badge-info">中</span> 對話開始時納入規則鏈</td>
+                        <td>短、小、單一主題、多檔拆分</td>
                     </tr>
                     <tr>
-                        <td><code>└─ rules.md</code></td>
-                        <td>模式共用規則檔案</td>
-                        <td><span class="badge badge-info">中</span> 專案規則後插入系統提示</td>
-                        <td>多檔案按字母順序載入</td>
-                    </tr>
-                    <tr>
-                        <td><code>rules-{mode-slug}/</code></td>
-                        <td>全域模式特定規則目錄</td>
-                        <td>不影響</td>
-                        <td>IBM Bob 推薦方法</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ rules.md</code></td>
-                        <td>模式特定規則檔案</td>
-                        <td><span class="badge badge-info">中</span> 專案規則後插入系統提示</td>
-                        <td>多檔案按字母順序載入</td>
-                    </tr>
-                    <tr>
-                        <td><code>skills/</code></td>
-                        <td>全域技能目錄</td>
-                        <td>不影響</td>
-                        <td>由 bob_skills.md 引用</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ skill-01/</code></td>
-                        <td>技能資料夾</td>
-                        <td>不影響</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><code>&nbsp;&nbsp;&nbsp;&nbsp;└─ SKILL.md</code></td>
-                        <td>技能定義檔</td>
-                        <td><span class="badge badge-warning">高</span> 選擇時插入執行區域提示</td>
-                        <td>-</td>
+                        <td><code>rules-{mode}/</code></td>
+                        <td>某一 mode 專用規則</td>
+                        <td><span class="badge badge-info">中</span> 僅該模式啟用時</td>
+                        <td>只寫該 mode 真正需要的限制</td>
                     </tr>
                     <tr>
                         <td><code>commands/</code></td>
-                        <td>全域斜線命令目錄</td>
-                        <td>不影響</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ command-01.md</code></td>
-                        <td>斜線命令檔案</td>
-                        <td><span class="badge badge-success">低</span> 執行時插入執行區域提示</td>
-                        <td>-</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <!-- 專案設定 -->
-            <div class="card mb-2">
-                <div class="card-header" style="background: linear-gradient(90deg, #7c2d12, #1a1a1a);">
-                    📦 專案設定 (僅當前專案)
-                </div>
-                <table class="text-xs">
-                    <tr>
-                        <th style="width: 30%;">路徑/檔案</th>
-                        <th style="width: 25%;">概要</th>
-                        <th style="width: 30%;">對上下文的影響</th>
-                        <th style="width: 15%;">備註</th>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
-                            <code>{project}/</code> (專案根目錄)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>AGENTS.md</code></td>
-                        <td>高抽象度團隊規則檔案</td>
-                        <td><span class="badge badge-danger">極高</span> 模式規則後、工作區規則前插入</td>
-                        <td>定義「為什麼」</td>
-                    </tr>
-                    <tr>
-                        <td><code>.bobignore</code></td>
-                        <td>Bob 忽略檔案清單</td>
-                        <td>不影響</td>
-                        <td>語法同 .gitignore</td>
-                    </tr>
-                    <tr>
-                        <td><code>.gitignore</code></td>
-                        <td>Git 忽略檔案清單</td>
-                        <td>不影響</td>
-                        <td>同時作為 .bobignore</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="background: #2a2a2a; font-weight: 600;">
-                            <code>{project}/.bob/</code> (專案配置目錄)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>settings.json</code></td>
-                        <td>專案設定檔</td>
-                        <td>不影響</td>
-                        <td>可註冊命令自動執行</td>
-                    </tr>
-                    <tr>
-                        <td><code>custom_modes.yaml</code></td>
-                        <td>專案自訂模式配置檔</td>
-                        <td><span class="badge badge-warning">高</span> Custom instructions 全部插入系統提示</td>
-                        <td>覆蓋全域設定</td>
-                    </tr>
-                    <tr>
-                        <td><code>mcp_settings.json</code></td>
-                        <td>專案 MCP 伺服器設定</td>
-                        <td><span class="badge badge-warning">高</span> 所有 MCP description 插入系統提示</td>
-                        <td>Settings 安裝的 MCP 隨 Bob 啟動</td>
-                    </tr>
-                    <tr>
-                        <td><code>rules/</code></td>
-                        <td>專案共用規則目錄</td>
-                        <td>不影響</td>
-                        <td>IBM Bob 推薦方法</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ rules.md</code></td>
-                        <td>模式共用規則檔案</td>
-                        <td><span class="badge badge-info">中</span> 模式規則後插入系統提示</td>
-                        <td>多檔案按字母順序載入</td>
-                    </tr>
-                    <tr>
-                        <td><code>rules-{mode-slug}/</code></td>
-                        <td>專案模式特定規則目錄</td>
-                        <td>不影響</td>
-                        <td>IBM Bob 推薦方法</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ rules.md</code></td>
-                        <td>模式特定規則檔案</td>
-                        <td><span class="badge badge-info">中</span> Custom instructions 後載入</td>
-                        <td>多檔案按字母順序載入</td>
+                        <td>Slash Commands</td>
+                        <td><span class="badge badge-success">低</span> 手動觸發時</td>
+                        <td>一個命令只做一件事</td>
                     </tr>
                     <tr>
                         <td><code>skills/</code></td>
-                        <td>專案技能目錄</td>
-                        <td>不影響</td>
-                        <td>由 bob_skills.md 引用</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ skill-01/</code></td>
-                        <td>技能資料夾</td>
-                        <td>不影響</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><code>&nbsp;&nbsp;&nbsp;&nbsp;└─ SKILL.md</code></td>
-                        <td>技能定義檔</td>
-                        <td><span class="badge badge-warning">高</span> 選擇時插入執行區域提示</td>
-                        <td>1,000 行載入限制</td>
-                    </tr>
-                    <tr>
-                        <td><code>commands/</code></td>
-                        <td>專案斜線命令目錄</td>
-                        <td>不影響</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><code>└─ command-01.md</code></td>
-                        <td>斜線命令檔案</td>
-                        <td><span class="badge badge-success">低</span> 執行時插入執行區域提示</td>
-                        <td>1,000 行載入限制</td>
+                        <td>複雜任務流程、配方化執行</td>
+                        <td><span class="badge badge-warning">高</span> 被選中時載入</td>
+                        <td><code>SKILL.md</code> 保持聚焦，支援檔案外拆</td>
                     </tr>
                     <tr>
                         <td><code>memory/</code></td>
-                        <td>Memory Import 模組目錄</td>
-                        <td>不影響</td>
-                        <td>建議結構見下方</td>
+                        <td>被 <code>@path</code> 引用的模組化知識</td>
+                        <td>由 AGENTS.md / 規則引用時</td>
+                        <td>按主題分層，不要堆成單一大檔</td>
+                    </tr>
+                    <tr>
+                        <td><code>custom_modes.yaml</code></td>
+                        <td>定義角色與 custom instructions</td>
+                        <td><span class="badge badge-warning">高</span> 進系統提示</td>
+                        <td>只保留必要 persona 與行為</td>
+                    </tr>
+                    <tr>
+                        <td><code>mcp_settings.json</code></td>
+                        <td>MCP server 註冊與描述</td>
+                        <td><span class="badge badge-warning">高</span> description 成本明顯</td>
+                        <td>只連必要 MCP，description 要短</td>
+                    </tr>
+                    <tr>
+                        <td><code>settings.json</code></td>
+                        <td>設定與行為開關</td>
+                        <td>通常不進上下文</td>
+                        <td>視為執行設定，不要混規範內容</td>
                     </tr>
                 </table>
             </div>
-            
-            <!-- Memory Import 建議結構 -->
+
+            <!-- Memory Import -->
             <div class="card mb-2">
                 <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
-                    📚 Memory Import 建議結構
+                    📚 Memory Import：推薦拆法
                 </div>
-                <div class="text-xs" style="margin-bottom: 4px;">
-                    <strong>目的：</strong>將大型 AGENTS.md 拆分為可重用的模組，提升維護性並節省 token。
+                <div class="text-xs" style="margin-bottom: 4px; line-height: 1.5;">
+                    <strong>核心想法：</strong><code>AGENTS.md</code> 當入口頁，只放核心原則與模組索引；詳細內容交給 <code>.bob/memory/</code>。
                 </div>
-                <pre style="background: #2a2a2a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #333; margin: 4px 0; line-height: 1.4;">.bob/memory/
-├── intro/                    # 入門介紹
-│   ├── quick-start.md       # 快速開始指南
-│   ├── architecture.md      # 架構說明
-│   └── further-reading.md   # 延伸閱讀
-├── core/                     # 核心機制
-│   ├── mechanisms.md        # 四大自訂機制
-│   ├── tools.md             # 12個內建工具
-│   └── modes.md             # 模式說明
-├── features/                 # 進階功能
-│   ├── mcp-integration.md   # MCP 整合
-│   ├── sandbox.md           # Sandbox 隔離
-│   ├── token-optimization.md # Token 優化
-│   └── sdlc-integration.md  # SDLC 整合
-├── security/                 # 安全機制
-│   ├── file-access.md       # 檔案存取控制
-│   └── auto-approval.md     # 自動批准設定
-├── best-practices/           # 最佳實踐
-│   ├── key-notes.md         # 關鍵注意事項
-│   └── workflow.md          # 工作流程指南
-└── project-context.md        # 專案資訊</pre>
-                
-                <div class="tip text-xs">
-                    <strong>💡 使用方式：</strong>在 AGENTS.md 中使用 <code>@./.bob/memory/core/tools.md</code> 語法引用模組
-                </div>
-                <div class="highlight text-xs" style="margin-top: 3px;">
-                    <strong>📊 效益：</strong>200+ 行 AGENTS.md 拆分後可節省 50-70% token，提升載入速度與維護效率
+                <pre style="background: #2a2a2a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #333; margin: 4px 0; line-height: 1.45;">.bob/memory/
+├── intro/
+│   ├── quick-start.md
+│   ├── architecture.md
+│   └── further-reading.md
+├── core/
+│   ├── mechanisms.md
+│   ├── tools.md
+│   └── modes.md
+├── features/
+│   ├── mcp-integration.md
+│   ├── sandbox.md
+│   ├── token-optimization.md
+│   └── sdlc-integration.md
+├── security/
+│   ├── file-access.md
+│   └── auto-approval.md
+├── best-practices/
+│   ├── key-notes.md
+│   └── workflow.md
+└── project-context.md</pre>
+                <div class="grid grid-3" style="margin-top: 4px;">
+                    <div class="tip text-xs" style="line-height: 1.5;">
+                        <strong>引用方式：</strong><br>
+                        <code>@./.bob/memory/core/tools.md</code>
+                    </div>
+                    <div class="highlight text-xs" style="line-height: 1.5;">
+                        <strong>拆分原則：</strong><br>
+                        一檔一主題、名稱可預測、避免跨模組重複
+                    </div>
+                    <div class="warning text-xs" style="line-height: 1.5;">
+                        <strong>避免：</strong><br>
+                        把所有內容塞回 AGENTS.md，失去 Memory Import 意義
+                    </div>
                 </div>
             </div>
-            
-            <!-- 載入順序與優先級 -->
+
+            <!-- 載入順序 -->
             <div class="card">
                 <div class="card-header" style="background: linear-gradient(90deg, #fd7e14, #1a1a1a);">
-                    🔄 載入順序與優先級
+                    🔄 載入順序、觸發時機、實務解讀
                 </div>
                 <div class="grid grid-3">
                     <div>
-                        <h4 class="text-sm mb-1">📋 系統提示載入順序</h4>
+                        <h4 class="text-sm mb-1">📋 規則鏈</h4>
                         <ol class="text-xs" style="line-height: 1.6;">
                             <li>全域規則 <code>~/.bob/rules/</code></li>
                             <li>工作區模式規則 <code>.bob/rules-{mode}/</code></li>
-                            <li>AGENTS.md (專案根目錄)</li>
+                            <li><code>AGENTS.md</code></li>
                             <li>工作區一般規則 <code>.bob/rules/</code></li>
                         </ol>
                     </div>
                     <div>
-                        <h4 class="text-sm mb-1">⚡ 執行時載入</h4>
+                        <h4 class="text-sm mb-1">⚡ 按需載入</h4>
                         <ul class="text-xs" style="line-height: 1.6;">
-                            <li><strong>Slash Commands：</strong>手動觸發時載入</li>
-                            <li><strong>Skills：</strong>任務相關時提示載入</li>
-                            <li><strong>MCP：</strong>連接時載入 description</li>
+                            <li><strong>Commands：</strong>使用該命令時才載入</li>
+                            <li><strong>Skills：</strong>被挑選/批准後才載入</li>
+                            <li><strong>MCP：</strong>連線時描述會進提示</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="text-sm mb-1">🎯 優先級規則</h4>
+                        <h4 class="text-sm mb-1">💡 實務建議</h4>
                         <ul class="text-xs" style="line-height: 1.6;">
-                            <li>專案設定 > 全域設定</li>
-                            <li>模式特定 > 共用規則</li>
-                            <li>後載入 > 先載入</li>
+                            <li>長內容放 Memory，不放根 AGENTS</li>
+                            <li>共用規則短、模式規則更短</li>
+                            <li>高成本設定只保留必要項</li>
                         </ul>
                     </div>
                 </div>
