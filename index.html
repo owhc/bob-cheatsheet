@@ -20,6 +20,7 @@
     <div class="tabs">
         <div class="tab active" onclick="switchTab('overview')">📋 總覽</div>
         <div class="tab" onclick="switchTab('structure')">📁 建議結構</div>
+        <div class="tab" onclick="switchTab('examples')">📝 實戰範例</div>
     </div>
     
     <!-- 總覽 Tab -->
@@ -861,6 +862,349 @@ data/customer/</pre>
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 實戰範例 Tab -->
+    <div id="examples" class="tab-content">
+        <!-- 標題區 -->
+        <div style="background: linear-gradient(90deg, #6f42c1, #fd7e14); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
+            <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">📝 實戰範例區</h2>
+            <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">SKILL.md • Custom Mode • Rules • AGENTS.md • Memory Import</div>
+        </div>
+
+        <!-- 五大機制範例 -->
+        <div class="grid grid-3 mb-2">
+            <!-- SKILL.md -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #ffc107, #1a1a1a);">
+                    🎯 SKILL.md
+                </div>
+                <h4 class="text-sm mb-1">📁 結構</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/api-integration/
+├── SKILL.md
+├── checklist.md
+└── examples.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 SKILL.md</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">---
+name: api-integration
+description: API 整合流程
+---
+# API 整合技能
+## 執行步驟
+1. 分析 API 文件
+2. 設計介面層
+3. 撰寫測試
+4. 文件化</pre>
+                <div class="warning text-xs">
+                    <strong>⚠️</strong> 僅 Advanced 模式，需批准
+                </div>
+            </div>
+
+            <!-- Custom Mode -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #17a2b8, #1a1a1a);">
+                    🎨 Custom Mode
+                </div>
+                <h4 class="text-sm mb-1">📁 位置</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 內容</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">custom_modes:
+  - slug: architect
+    name: "🏗️ Architect"
+    custom_instructions: |
+      資深架構師，專注：
+      1. 系統設計
+      2. 技術決策
+      3. 文件產出</pre>
+                <div class="highlight text-xs">
+                    <strong>🎯</strong> 選擇模式即啟用
+                </div>
+            </div>
+
+            <!-- Rules -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #dc3545, #1a1a1a);">
+                    📋 Rules
+                </div>
+                <h4 class="text-sm mb-1">📁 結構</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/rules/
+├── typescript.md
+└── testing.md
+.bob/rules-code/
+└── code-style.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 typescript.md</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># TypeScript 規範
+## 型別定義
+- 優先 interface
+- 避免 any
+## 命名規範
+- 介面：PascalCase
+- 函數：camelCase</pre>
+                <div class="warning text-xs">
+                    <strong>⚠️</strong> 持續影響，保持簡短
+                </div>
+            </div>
+
+            <!-- AGENTS.md -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #28a745, #1a1a1a);">
+                    🤝 AGENTS.md
+                </div>
+                <h4 class="text-sm mb-1">📁 位置</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">專案根目錄/AGENTS.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 內容</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># 團隊規範
+## 核心原則
+1. 品質優先
+2. 安全不妥協
+## 詳細規範
+@./.bob/memory/core/
+  coding-standards.md
+@./.bob/memory/security/
+  security-checklist.md</pre>
+                <div class="highlight text-xs">
+                    <strong>🎯</strong> 用 @path 引用模組
+                </div>
+            </div>
+
+            <!-- Memory Import -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
+                    📚 Memory Import
+                </div>
+                <h4 class="text-sm mb-1">📁 結構</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/memory/
+├── core/
+├── security/
+├── workflows/
+└── project-context.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 範例</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># coding-standards.md
+## 程式碼風格
+- ESLint + Prettier
+- Airbnb Style Guide
+## 提交訊息
+格式：type(scope): subject</pre>
+                <div class="tip text-xs">
+                    <strong>💡</strong> 模組化管理，易維護
+                </div>
+            </div>
+
+            <!-- Slash Commands -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(90deg, #0d6efd, #1a1a1a);">
+                    ⚡ Slash Commands
+                </div>
+                <h4 class="text-sm mb-1">📁 結構</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/commands/
+├── review.md
+├── test.md
+└── deploy.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 review.md</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># Code Review
+執行程式碼審查：
+1. 檢查程式碼風格
+2. 驗證測試覆蓋率
+3. 安全性檢查
+4. 效能評估</pre>
+                <div class="tip text-xs">
+                    <strong>💡</strong> 手動觸發，低成本
+                </div>
+            </div>
+        </div>
+
+        <!-- 完整專案配置範例 -->
+        <div class="card full-width mb-2">
+            <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
+                📚 Memory Import 完整範例：模組化配置
+            </div>
+            <div class="grid grid-3">
+                <div>
+                    <h4 class="text-sm mb-1">📁 目錄結構</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.35;">.bob/memory/
+├── core/
+│   ├── coding-standards.md
+│   ├── testing-strategy.md
+│   └── architecture.md
+├── security/
+│   ├── security-checklist.md
+│   └── auth-guidelines.md
+├── workflows/
+│   ├── git-workflow.md
+│   └── deployment.md
+└── project-context.md</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">📄 coding-standards.md</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 編碼標準
+
+## 程式碼風格
+- 使用 ESLint + Prettier
+- 遵循 Airbnb Style Guide
+- 最大行長：80 字元
+
+## 註解規範
+- 使用 JSDoc 格式
+- 複雜邏輯必須註解
+- TODO 標記待辦事項
+
+## 提交訊息
+格式：`type(scope): subject`
+
+類型：
+- feat: 新功能
+- fix: 修復
+- docs: 文件
+- refactor: 重構
+- test: 測試</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">📄 project-context.md</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 專案背景
+
+## 專案資訊
+- 名稱：電商平台 API
+- 版本：v2.0
+- 團隊：5 人
+
+## 目錄結構
+src/
+├── api/        # API 路由
+├── services/   # 業務邏輯
+├── models/     # 資料模型
+├── utils/      # 工具函數
+└── tests/      # 測試檔案
+
+## 關鍵依賴
+- express: ^4.18.0
+- prisma: ^5.0.0
+- zod: ^3.22.0</pre>
+                </div>
+            </div>
+            <div class="grid grid-3" style="margin-top: 4px;">
+                <div class="tip text-xs">
+                    <strong>💡 優勢：</strong>模組化管理，易於維護更新
+                </div>
+                <div class="highlight text-xs">
+                    <strong>🎯 引用：</strong>在 AGENTS.md 用 <br><br><code>@./.bob/memory/core/coding-standards.md</code>
+                </div>
+                <div class="warning text-xs">
+                    <strong>⚠️ 注意：</strong>避免循環引用，保持層級清晰
+                </div>
+            </div>
+        </div>
+
+        <!-- 組合使用範例 -->
+        <div class="card full-width mb-2">
+            <div class="card-header" style="background: linear-gradient(90deg, #fd7e14, #1a1a1a);">
+                🔄 完整專案配置範例
+            </div>
+            <div class="text-xs" style="margin-bottom: 4px; line-height: 1.5;">
+                <strong>情境：</strong>中型 Web 應用，5 人團隊，標準化開發流程
+            </div>
+            <div class="grid grid-3">
+                <div>
+                    <h4 class="text-sm mb-1">1️⃣ AGENTS.md（核心原則）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 團隊規範
+
+## 核心價值
+- 品質 > 速度
+- 安全 > 便利
+- 團隊 > 個人
+
+## 技術決策
+@./.bob/memory/core/architecture.md
+@./.bob/memory/core/tech-stack.md
+
+## 開發標準
+@./.bob/memory/core/coding-standards.md
+@./.bob/memory/workflows/git-workflow.md</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">2️⃣ Rules（實作細節）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/rules/
+├── typescript.md      # TS 規範
+├── react.md          # React 規範
+└── api-design.md     # API 設計
+
+.bob/rules-code/
+└── code-review.md    # Code 模式專用</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">3️⃣ Commands（快速任務）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/commands/
+├── review.md         # /review
+├── test.md          # /test
+├── deploy.md        # /deploy
+└── docs.md          # /docs</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">4️⃣ Skills（複雜流程）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/
+├── api-integration/
+│   └── SKILL.md
+├── database-migration/
+│   └── SKILL.md
+└── security-audit/
+    └── SKILL.md</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">5️⃣ Custom Mode（專家角色）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml
+
+custom_modes:
+  - slug: architect
+    name: "🏗️ Architect"
+  - slug: reviewer
+    name: "👀 Reviewer"</pre>
+                </div>
+                <div>
+                    <h4 class="text-sm mb-1">6️⃣ Memory（詳細文件）</h4>
+                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/memory/
+├── core/
+├── security/
+├── workflows/
+└── project-context.md</pre>
+                </div>
+            </div>
+            <div class="highlight text-xs" style="margin-top: 4px;">
+                <strong>🎯 使用流程：</strong>AGENTS.md 定義「為什麼」→ Rules 定義「如何做」→ Commands 快速執行 → Skills 處理複雜任務 → Custom Mode 切換專家角色 → Memory Import 提供詳細文件
+            </div>
+        </div>
+
+        <!-- 實戰指南 -->
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="card-header">💡 實戰技巧</div>
+                <ul class="text-xs" style="line-height: 1.6;">
+                    <li><strong>從小開始：</strong>先建立 AGENTS.md + 1-2 個 Rules</li>
+                    <li><strong>逐步擴展：</strong>需要時才加 Commands 和 Skills</li>
+                    <li><strong>保持簡短：</strong>每個檔案專注單一主題</li>
+                    <li><strong>定期審查：</strong>移除不再使用的配置</li>
+                    <li><strong>團隊協作：</strong>配置納入版本控制</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-header">⚠️ 常見錯誤</div>
+                <ul class="text-xs" style="line-height: 1.6;">
+                    <li><strong>過度配置：</strong>一開始就建立所有機制</li>
+                    <li><strong>內容重複：</strong>在多個地方寫相同規則</li>
+                    <li><strong>檔案過大：</strong>AGENTS.md 超過 500 行</li>
+                    <li><strong>缺乏組織：</strong>Memory 檔案沒有分類</li>
+                    <li><strong>忽略成本：</strong>載入過多不必要的內容</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-header">🚀 進階應用</div>
+                <ul class="text-xs" style="line-height: 1.6;">
+                    <li><strong>多專案共用：</strong>全域 Rules 放個人偏好</li>
+                    <li><strong>模式專屬：</strong>rules-code/ 只在 Code 模式</li>
+                    <li><strong>動態載入：</strong>Skills 按需批准載入</li>
+                    <li><strong>分層管理：</strong>Memory 按主題分目錄</li>
+                    <li><strong>版本演進：</strong>配置隨專案成長調整</li>
+                </ul>
             </div>
         </div>
     </div>
