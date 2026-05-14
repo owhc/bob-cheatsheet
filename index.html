@@ -100,51 +100,30 @@
         </div>
     </div>
     
-    <!-- Skills 和 AgentSkills -->
-    <div class="grid mb-2">
-        <div class="card">
-            <div class="card-header">📖 Skills 系統完整指南</div>
-            <div class="text-xs">
-                <div class="mb-1"><strong>檔案結構：</strong></div>
-                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">.bob/skills/skill-name/
-├── SKILL.md (必需)
-├── checklist.md (選填)
-└── examples.md (選填)</pre>
-                
-                <div class="mb-1 mt-2"><strong>SKILL.md 格式（必要欄位）：</strong></div>
-                <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">---
-name: code-review (必需)
-description: Review code for bugs, security issues (必需，影響Bob判斷)
----
-執行步驟：
-1. 檢查安全漏洞
-2. 審查效能問題
-3. 提供嚴重程度分級</pre>
-                
-                <div class="warning text-xs mt-1">
-                    <strong>⚠️ 限制：</strong>僅Advanced模式。預設需批准（可在設定中關閉）。專案級優先於全域級
+    <!-- AgentSkills 支援說明 -->
+    <div class="card full-width mb-2">
+        <div class="card-header">🤝 AgentSkills 支援說明</div>
+        <div class="grid">
+            <div>
+                <table class="text-xs">
+                    <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
+                    <tr><td>技能定義</td><td>自訂模式 + Skills</td></tr>
+                    <tr><td>技能執行</td><td>工具和規則</td></tr>
+                    <tr><td>技能驗證</td><td>程式碼審查</td></tr>
+                    <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
+                </table>
+            </div>
+            <div>
+                <div class="tip text-xs">
+                    <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
                 </div>
-                <div class="tip text-xs mt-1">
-                    <strong>💡 位置：</strong><code>.bob/skills/</code> (專案) 或 <code>~/.bob/skills/</code> (全域)
+                <div class="highlight text-xs" style="margin-top: 3px;">
+                    <strong>實現方式：</strong>透過自訂模式定義角色，透過 Skills 定義工作流程，透過 AGENTS.md 實現團隊標準，透過內建工具執行任務
                 </div>
             </div>
         </div>
-        
-        <div class="card">
-            <div class="card-header">🤝 AgentSkills 支援</div>
-            <table class="text-xs">
-                <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
-                <tr><td>技能定義</td><td>自訂模式</td></tr>
-                <tr><td>技能執行</td><td>工具和規則</td></tr>
-                <tr><td>技能驗證</td><td>程式碼審查</td></tr>
-                <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
-            </table>
-            <div class="tip text-xs">
-                <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
-            </div>
-            <div class="highlight text-xs" style="margin-top: 3px;">
-                <strong>AgentSkills 對應：</strong>Bob 透過自訂模式實現技能定義，透過 AGENTS.md 實現團隊標準，透過內建工具實現技能執行，透過程式碼審查模式實現技能驗證
-            </div>
+        <div class="tip text-xs" style="margin-top: 4px;">
+            <strong>📝 詳細範例：</strong>請參考「實戰範例」分頁的 SKILL.md 完整格式說明
         </div>
     </div>
     
