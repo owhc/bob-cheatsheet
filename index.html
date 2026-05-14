@@ -242,8 +242,9 @@ description: Review code for bugs, security issues (必需，影響Bob判斷)
             <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 4px 6px; border-radius: 4px;">
                 <h4 class="text-xs mb-1" style="color: #ff6b6b; font-weight: 600;">⚠️ 錯誤處理</h4>
                 <div class="text-xs" style="line-height: 1.5; color: #ffcccc;">
-                    <div>檔案不存在：<br><code style="font-size: 6px;"><!-- Error: File not found --></code></div>
-                    <div style="margin-top: 2px;">權限錯誤：<br><code style="font-size: 6px;"><!-- Error: Permission denied --></code></div>
+                    <div style="margin-bottom: 2px;"><strong>檔案不存在：</strong><br>顯示錯誤訊息，不中斷載入</div>
+                    <div style="margin-bottom: 2px;"><strong>權限錯誤：</strong><br>跳過該檔案，記錄警告</div>
+                    <div><strong>循環引用：</strong><br>自動偵測並阻止無限迴圈</div>
                 </div>
             </div>
             
