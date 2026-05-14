@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="version-info">
-        v2.1 | 2026-04-27 | 新增分頁導覽與詳細檔案結構說明
+        v2.2 | 2026-05-15 | 基於官方文檔 (2026-05-14) 更新：Modes、Skills、Commands、Custom Modes
     </div>
     
     <div class="header">
@@ -40,13 +40,13 @@
             </div>
             <div class="highlight text-sm mb-1">快速執行預定義操作</div>
             <ul class="text-xs">
-                <li><strong>位置：</strong><code>.bob/commands/</code></li>
+                <li><strong>位置：</strong><code>.bob/commands/</code> 或 <code>~/.bob/commands/</code></li>
                 <li><strong>觸發：</strong>手動輸入 <code>/command</code></li>
                 <li><strong>成本：</strong><span class="cost-indicator cost-low"></span>極低 (50-200 tokens)</li>
-                <li><strong>範例：</strong><code>/review</code>, <code>/test</code>, <code>/deploy</code></li>
+                <li><strong>內建命令：</strong><code>/init</code>, <code>/review</code>, <code>/create-pr</code></li>
             </ul>
             <div class="tip">
-                <strong>💡 最佳用途：</strong>常見任務快捷方式，按需載入
+                <strong>💡 最佳用途：</strong>常見任務快捷方式，按需載入。支援 argument-hint 參數提示
             </div>
         </div>
         
@@ -72,13 +72,14 @@
             </div>
             <div class="highlight text-sm mb-1">定義「做什麼」的工作流程配方</div>
             <ul class="text-xs">
-                <li><strong>位置：</strong><code>.bob/skills/*/SKILL.md</code></li>
-                <li><strong>觸發：</strong>任務相關時提示（需批准）</li>
+                <li><strong>位置：</strong><code>.bob/skills/*/SKILL.md</code> 或 <code>~/.bob/skills/</code></li>
+                <li><strong>觸發：</strong>任務相關時提示（預設需批准）</li>
                 <li><strong>成本：</strong><span class="cost-indicator cost-high"></span>較高 (1,000-10,000 tokens)</li>
-                <li><strong>限制：</strong>僅 Advanced 模式</li>
+                <li><strong>限制：</strong>⚠️ 僅 Advanced 模式可用</li>
+                <li><strong>必要欄位：</strong>name, description（影響Bob判斷）</li>
             </ul>
             <div class="warning">
-                <strong>⚠️ 注意：</strong>可包含支援檔案，使用者可控制載入
+                <strong>⚠️ 注意：</strong>可包含支援檔案。專案級優先於全域級。可在設定中關閉批准提示
             </div>
         </div>
         
@@ -102,7 +103,7 @@
     <!-- Skills 和 AgentSkills -->
     <div class="grid mb-2">
         <div class="card">
-            <div class="card-header">📖 Skills 系統</div>
+            <div class="card-header">📖 Skills 系統完整指南</div>
             <div class="text-xs">
                 <div class="mb-1"><strong>檔案結構：</strong></div>
                 <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">.bob/skills/skill-name/
@@ -110,17 +111,21 @@
 ├── checklist.md (選填)
 └── examples.md (選填)</pre>
                 
-                <div class="mb-1 mt-2"><strong>SKILL.md 格式：</strong></div>
+                <div class="mb-1 mt-2"><strong>SKILL.md 格式（必要欄位）：</strong></div>
                 <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 7px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.4;">---
-name: skill-name
-description: 清楚描述用途
+name: code-review (必需)
+description: Review code for bugs, security issues (必需，影響Bob判斷)
 ---
 執行步驟：
-1. 第一步驟
-2. 第二步驟</pre>
+1. 檢查安全漏洞
+2. 審查效能問題
+3. 提供嚴重程度分級</pre>
                 
                 <div class="warning text-xs mt-1">
-                    <strong>⚠️ 限制：</strong>僅Advanced模式，需使用者批准
+                    <strong>⚠️ 限制：</strong>僅Advanced模式。預設需批准（可在設定中關閉）。專案級優先於全域級
+                </div>
+                <div class="tip text-xs mt-1">
+                    <strong>💡 位置：</strong><code>.bob/skills/</code> (專案) 或 <code>~/.bob/skills/</code> (全域)
                 </div>
             </div>
         </div>
@@ -188,34 +193,75 @@ description: 清楚描述用途
         <div class="card-header">
             📚 Memory Import 記憶檔案匯入機制
         </div>
-        <div class="grid">
-            <div>
-                <h4 class="text-sm mb-1">🎯 核心概念</h4>
-                <div class="text-xs" style="line-height: 1.4;">
-                    <p style="margin-bottom: 2px;">Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。</p>
-                    <div class="highlight text-xs" style="margin: 0; padding: 2px 4px;">
-                        <strong>範例：</strong><code>@./.bob/memory/core/tools.md</code>
+        
+        <!-- 核心概念 -->
+        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px; margin-bottom: 4px;">
+            <h4 class="text-sm mb-1" style="color: #4ade80;">🎯 核心概念</h4>
+            <div class="text-xs" style="line-height: 1.5; color: #e5e5e5;">
+                Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。
+            </div>
+            <div class="highlight text-xs" style="margin-top: 3px; padding: 3px 6px;">
+                <strong>範例：</strong><code>@./.bob/memory/core/tools.md</code>
+            </div>
+        </div>
+        
+        <!-- 優勢與安全機制 -->
+        <div class="grid" style="margin-bottom: 4px;">
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
+                <h4 class="text-sm mb-1" style="color: #4ade80;">✅ 優勢與安全機制</h4>
+                <ul class="text-xs" style="line-height: 1.6; margin-bottom: 0;">
+                    <li><span class="badge badge-success">模組化</span> 拆分大型文件為小模組</li>
+                    <li><span class="badge badge-success">可維護</span> 獨立更新各模組</li>
+                    <li><span class="badge badge-success">可重用</span> 跨專案共享配置</li>
+                    <li><span class="badge badge-success">協作友善</span> 團隊分工明確</li>
+                    <li><span class="badge badge-info">安全</span> 循環引用偵測、檔案存取驗證、最大深度5層</li>
+                </ul>
+            </div>
+            
+            <div style="background: #1a3a4a; border: 1px solid #0dcaf0; border-radius: 4px; padding: 6px;">
+                <h4 class="text-sm mb-1" style="color: #0dcaf0;">💰 Token 節省機制</h4>
+                <div class="text-xs" style="line-height: 1.6;">
+                    <div style="margin-bottom: 3px;">
+                        <strong style="color: #4ade80;">為何節省？</strong><br>
+                        避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組
+                    </div>
+                    <div style="margin-bottom: 3px;">
+                        <strong style="color: #4ade80;">運作方式：</strong><br>
+                        每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文
+                    </div>
+                    <div>
+                        <strong style="color: #4ade80;">實際效益：</strong><br>
+                        超過 200行 AGENTS.md 拆成多個模組，只載入需要的部分，可節省 <strong style="color: #ffc107;">50-70% token</strong>
                     </div>
                 </div>
             </div>
-            <div style="grid-column: 2 / 4;">
-                <h4 class="text-sm mb-1">✅ 優勢</h4>
-                <ul class="text-xs" style="margin-bottom: 4px;">
-                    <li><span class="badge badge-success">模組化</span>拆分大型文件為小模組</li>
-                    <li><span class="badge badge-success">可維護</span>獨立更新各模組</li>
-                    <li><span class="badge badge-success">可重用</span>跨專案共享配置</li>
-                    <li><span class="badge badge-success">協作友善</span>團隊分工明確</li>
-                </ul>
-                <div class="tip text-xs" style="margin: 0; line-height: 1.5; padding: 4px 6px;">
-                    <strong>💰 Token 節省機制：</strong><br>
-                    <strong style="color: #4ade80;">為何節省？</strong>避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組<br>
-                    <strong style="color: #4ade80;">運作方式：</strong>每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文<br>
-                    <strong style="color: #4ade80;">實際效益：</strong>超過 200行(過多行數) AGENTS.md 拆成多個不同模組，只載入需要的部分，可節省 50-70% token
+        </div>
+        
+        <!-- 錯誤處理、進階功能、最佳實踐 -->
+        <div class="grid grid-3">
+            <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 4px 6px; border-radius: 4px;">
+                <h4 class="text-xs mb-1" style="color: #ff6b6b; font-weight: 600;">⚠️ 錯誤處理</h4>
+                <div class="text-xs" style="line-height: 1.5; color: #ffcccc;">
+                    <div>檔案不存在：<br><code style="font-size: 6px;"><!-- Error: File not found --></code></div>
+                    <div style="margin-top: 2px;">權限錯誤：<br><code style="font-size: 6px;"><!-- Error: Permission denied --></code></div>
                 </div>
             </div>
-        </div>
-        <div class="tip text-xs" style="margin-top: 4px;">
-            <strong>💡 最佳實踐：</strong>將超過 200行(過多行數)的 AGENTS.md 拆分成多個不同模組化檔案，每個檔案專注單一主題，提高可維護性和協作效率。詳細結構請參考「建議結構」分頁。
+            
+            <div style="background: #2a4a5a; border-left: 3px solid #0dcaf0; padding: 4px 6px; border-radius: 4px;">
+                <h4 class="text-xs mb-1" style="color: #0dcaf0; font-weight: 600;">🔍 進階功能</h4>
+                <div class="text-xs" style="line-height: 1.5; color: #ccf0ff;">
+                    • 程式碼區塊偵測（忽略程式碼中的@引用）<br>
+                    • 引用樹視覺化<br>
+                    • 巢狀引用支援
+                </div>
+            </div>
+            
+            <div style="background: #1a3a4a; border-left: 3px solid #4ade80; padding: 4px 6px; border-radius: 4px;">
+                <h4 class="text-xs mb-1" style="color: #4ade80; font-weight: 600;">💡 最佳實踐</h4>
+                <div class="text-xs" style="line-height: 1.5; color: #ccffcc;">
+                    將超過 200行的 AGENTS.md 拆分成模組化檔案，每個檔案專注單一主題。詳見「建議結構」分頁
+                </div>
+            </div>
         </div>
     </div>
     
@@ -563,17 +609,20 @@ data/customer/</pre>
         </div>
         
         <div class="card">
-            <div class="card-header">⚡ 模式選擇</div>
+            <div class="card-header">⚡ 5個內建模式完整指南</div>
             <table class="text-xs">
-                <tr><th>模式</th><th>適用場景</th></tr>
-                <tr><td><strong>Code</strong></td><td>日常開發、程式碼修改</td></tr>
-                <tr><td><strong>Advanced</strong></td><td>複雜任務、MCP整合</td></tr>
-                <tr><td><strong>Plan</strong></td><td>規劃設計、架構討論</td></tr>
-                <tr><td><strong>Ask</strong></td><td>獲取資訊、學習概念</td></tr>
-                <tr><td><strong>Orchestrator</strong></td><td>多步驟專案協調</td></tr>
+                <tr><th>模式</th><th>工具存取</th><th>適用場景</th></tr>
+                <tr><td><strong>💻 Code</strong></td><td>read, edit, command</td><td>日常開發、程式碼修改</td></tr>
+                <tr><td><strong>🛠️ Advanced</strong></td><td>read, edit, command, mcp</td><td>複雜任務、MCP整合、Skills</td></tr>
+                <tr><td><strong>📝 Plan</strong></td><td>read, edit(md only), browser, mcp</td><td>規劃設計、架構討論</td></tr>
+                <tr><td><strong>❓ Ask</strong></td><td>read, browser, mcp</td><td>獲取資訊、學習概念</td></tr>
+                <tr><td><strong>🔀 Orchestrator</strong></td><td>無工具（協調其他模式）</td><td>多步驟專案協調</td></tr>
             </table>
             <div class="highlight text-xs" style="margin-top: 4px;">
-                <strong>🎯 自訂模式：</strong>專業化領域專家（需配置 .bob/custom_modes.yaml）
+                <strong>🔄 4種切換方式：</strong>下拉選單 • Slash命令(/code, /plan等) • 快捷鍵(⌘+. / Ctrl+.) • 接受Bob建議
+            </div>
+            <div class="tip text-xs" style="margin-top: 2px;">
+                <strong>💡 自訂模式：</strong>可建立專業化領域專家（配置 .bob/custom_modes.yaml）
             </div>
         </div>
         
@@ -879,47 +928,57 @@ data/customer/</pre>
             <!-- SKILL.md -->
             <div class="card">
                 <div class="card-header" style="background: linear-gradient(90deg, #ffc107, #1a1a1a);">
-                    🎯 SKILL.md
+                    🎯 SKILL.md (僅Advanced模式)
                 </div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/api-integration/
-├── SKILL.md
-├── checklist.md
-└── examples.md</pre>
-                <h4 class="text-sm mb-1 mt-1">📄 SKILL.md</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/security-review/
+├── SKILL.md (必需)
+├── severity-levels.md (選填)
+└── checklist.md (選填)</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 SKILL.md (必要欄位)</h4>
                 <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">---
-name: api-integration
-description: API 整合流程
+name: security-review (必需)
+description: Review code for security vulnerabilities (必需)
 ---
-# API 整合技能
-## 執行步驟
-1. 分析 API 文件
-2. 設計介面層
-3. 撰寫測試
-4. 文件化</pre>
+執行安全審查：
+1. 檢查常見漏洞（SQL injection, XSS）
+2. 審查最佳實踐（輸入驗證、錯誤處理）
+3. 提供發現結果（嚴重程度、位置、修復建議）
+
+參考 severity-levels.md 進行分級</pre>
                 <div class="warning text-xs">
-                    <strong>⚠️</strong> 僅 Advanced 模式，需批准
+                    <strong>⚠️</strong> 僅 Advanced 模式。預設需批准（可在設定關閉）
+                </div>
+                <div class="tip text-xs">
+                    <strong>💡</strong> description 影響 Bob 判斷何時啟用
                 </div>
             </div>
 
             <!-- Custom Mode -->
             <div class="card">
                 <div class="card-header" style="background: linear-gradient(90deg, #17a2b8, #1a1a1a);">
-                    🎨 Custom Mode
+                    🎨 Custom Mode (YAML格式)
                 </div>
                 <h4 class="text-sm mb-1">📁 位置</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml</pre>
-                <h4 class="text-sm mb-1 mt-1">📄 內容</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">custom_modes:
-  - slug: architect
-    name: "🏗️ Architect"
-    custom_instructions: |
-      資深架構師，專注：
-      1. 系統設計
-      2. 技術決策
-      3. 文件產出</pre>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml 或 ~/.bob/custom_modes.yaml</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 完整範例（含工具限制）</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">customModes:
+  - slug: docs-writer
+    name: "📝 Documentation Writer"
+    roleDefinition: 技術文件專家
+    whenToUse: 撰寫和編輯文件時使用
+    customInstructions: 專注清晰完整
+    groups:
+      - read
+      - - edit
+        - fileRegex: \.(md|mdx)$
+          description: 僅 Markdown 檔案
+      - browser</pre>
                 <div class="highlight text-xs">
-                    <strong>🎯</strong> 選擇模式即啟用
+                    <strong>🎯 工具群組：</strong>read, edit, browser, command, mcp
+                </div>
+                <div class="tip text-xs">
+                    <strong>💡</strong> YAML 格式支援註解、更易維護
                 </div>
             </div>
 
@@ -999,18 +1058,20 @@ description: API 整合流程
                 </div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
                 <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/commands/
-├── review.md
-├── test.md
-└── deploy.md</pre>
-                <h4 class="text-sm mb-1 mt-1">📄 review.md</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># Code Review
-執行程式碼審查：
-1. 檢查程式碼風格
-2. 驗證測試覆蓋率
-3. 安全性檢查
-4. 效能評估</pre>
+├── api-endpoint.md
+└── review.md</pre>
+                <h4 class="text-sm mb-1 mt-1">📄 api-endpoint.md (含 argument-hint)</h4>
+                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">---
+description: Create a new API endpoint
+argument-hint: <endpoint-name> <http-method>
+---
+Create API endpoint called $1 that handles $2 requests.
+Include error handling and documentation.</pre>
+                <div class="highlight text-xs">
+                    <strong>🎯 內建命令：</strong>/init (初始化), /review (審查), /create-pr (建立PR)
+                </div>
                 <div class="tip text-xs">
-                    <strong>💡</strong> 手動觸發，低成本
+                    <strong>💡</strong> 支援 frontmatter 與參數提示
                 </div>
             </div>
         </div>
