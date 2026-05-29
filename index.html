@@ -77,9 +77,13 @@
                 <li><strong>成本：</strong><span class="cost-indicator cost-high"></span>較高 (1,000-10,000 tokens)</li>
                 <li><strong>限制：</strong>⚠️ 僅 Advanced 模式可用</li>
                 <li><strong>必要欄位：</strong>name, description（影響Bob判斷）</li>
+                <li><strong>支援檔案：</strong>可包含 checklist.md、templates、scripts 等</li>
             </ul>
             <div class="warning">
-                <strong>⚠️ 注意：</strong>可包含支援檔案。專案級優先於全域級。可在設定中關閉批准提示
+                <strong>⚠️ 注意：</strong>專案級優先於全域級。可在設定中關閉批准提示。每次對話只載入一次
+            </div>
+            <div class="tip text-xs" style="margin-top: 3px;">
+                <strong>💡 管理指令：</strong>使用 <code>npx skills</code> CLI 工具管理 Skills（詳見下方「Skills 管理指令」）
             </div>
         </div>
         
@@ -100,7 +104,62 @@
         </div>
     </div>
     
-    <!-- AgentSkills 支援說明 -->
+    <!-- Skills 管理指令 (npx skills CLI) -->
+    <div class="card full-width mb-2">
+        <div class="card-header">🔧 Skills 管理指令 (npx skills CLI)</div>
+        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px; margin-bottom: 4px;">
+            <div class="highlight text-xs" style="margin-bottom: 3px;">
+                <strong>🌐 開源生態系統：</strong><a href="https://github.com/vercel-labs/skills" target="_blank" style="color: #4ade80;">vercel-labs/skills</a> - 支援 Bob、Claude Code、Cursor 等 54+ 個 AI 編碼工具
+            </div>
+        </div>
+        
+        <div class="grid grid-3">
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
+                <h4 class="text-sm mb-1" style="color: #4ade80;">📦 安裝 Skills</h4>
+                <div class="text-xs" style="line-height: 1.6;">
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add vercel-labs/agent-skills</code>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add owner/repo --skill frontend-design</code>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add ./local-skills -g</code>
+                    <div style="margin-top: 3px; color: #888;">
+                        <strong>選項：</strong><code>-g</code> 全域安裝、<code>-a bob</code> 指定 agent、<code>-s skill-name</code> 指定技能、<code>-y</code> 跳過確認
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
+                <h4 class="text-sm mb-1" style="color: #0dcaf0;">📋 管理 Skills</h4>
+                <div class="text-xs" style="line-height: 1.6;">
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills list</code>
+                    <div style="color: #888; margin-left: 6px;">列出已安裝的 Skills</div>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills find typescript</code>
+                    <div style="color: #888; margin-left: 6px;">搜尋可用的 Skills</div>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills update</code>
+                    <div style="color: #888; margin-left: 6px;">更新已安裝的 Skills</div>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills remove my-skill</code>
+                    <div style="color: #888; margin-left: 6px;">移除指定的 Skill</div>
+                </div>
+            </div>
+            
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
+                <h4 class="text-sm mb-1" style="color: #ffc107;">✨ 建立 Skills</h4>
+                <div class="text-xs" style="line-height: 1.6;">
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init</code>
+                    <div style="color: #888; margin-left: 6px;">在當前目錄建立 SKILL.md 模板</div>
+                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init my-skill</code>
+                    <div style="color: #888; margin-left: 6px;">在子目錄建立新 Skill</div>
+                    <div style="margin-top: 3px; color: #888;">
+                        <strong>發現：</strong><a href="https://skills.sh" target="_blank" style="color: #4ade80;">skills.sh</a> - Skills 目錄與排行榜
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tip text-xs" style="margin-top: 4px;">
+            <strong>💡 安裝範圍：</strong>預設安裝到專案 <code>.bob/skills/</code>，使用 <code>-g</code> 安裝到全域 <code>~/.bob/skills/</code>。支援 symlink（推薦）或 copy 模式
+        </div>
+    </div>
+    
+    <!-- AgentSkills 支援說明 
     <div class="card full-width mb-2">
         <div class="card-header">🤝 AgentSkills 支援說明</div>
         <div class="grid">
@@ -111,21 +170,22 @@
                     <tr><td>技能執行</td><td>工具和規則</td></tr>
                     <tr><td>技能驗證</td><td>程式碼審查</td></tr>
                     <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
+                    <tr><td>技能管理</td><td>npx skills CLI</td></tr>
                 </table>
             </div>
             <div>
                 <div class="tip text-xs">
-                    <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查
+                    <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查、CLI 管理
                 </div>
                 <div class="highlight text-xs" style="margin-top: 3px;">
-                    <strong>實現方式：</strong>透過自訂模式定義角色，透過 Skills 定義工作流程，透過 AGENTS.md 實現團隊標準，透過內建工具執行任務
+                    <strong>實現方式：</strong>透過自訂模式定義角色，透過 Skills 定義工作流程，透過 AGENTS.md 實現團隊標準，透過 npx skills 管理技能生態系統
                 </div>
             </div>
         </div>
         <div class="tip text-xs" style="margin-top: 4px;">
             <strong>📝 詳細範例：</strong>請參考「實戰範例」分頁的 SKILL.md 完整格式說明
         </div>
-    </div>
+    </div>-->
     
     <!-- 四大機制關係圖 -->
     <div class="card full-width mb-2">
