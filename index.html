@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBM Bob 完整指南 - Cheat Sheet</title>
+    <!-- IBM Plex fonts — same CDN used by bob.ibm.com -->
+    <link rel="preconnect" href="https://1.www.s81c.com">
+    <link rel="stylesheet" href="https://1.www.s81c.com/common/carbon/plex/sans.css">
+    <link rel="stylesheet" href="https://1.www.s81c.com/common/carbon/plex/mono.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Dark/Light Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" title="切換深色/淺色主題">
+        <span class="toggle-icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Light</span>
+    </button>
+
     <div class="version-info">
         v2.3 | 2026-05-15 | 優化資訊架構：消除 Skills 重複、修復錯誤處理顯示、改善視覺設計
     </div>
@@ -27,9 +37,9 @@
     <div id="overview" class="tab-content active">
     
     <!-- ========== 核心機制區 ========== -->
-    <div style="background: linear-gradient(90deg, #1e40af, #7c2d12); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
-        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">📋 核心機制區</h2>
-        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">四大自訂機制 • Memory Import • 工作流程</div>
+    <div class="section-banner banner-blue-red">
+        <h2>📋 核心機制區</h2>
+        <div class="banner-sub">四大自訂機制 • Memory Import • 工作流程</div>
     </div>
     
     <!-- 四大自訂機制概覽 -->
@@ -107,48 +117,48 @@
     <!-- Skills 管理指令 (npx skills CLI) -->
     <div class="card full-width mb-2">
         <div class="card-header">🔧 Skills 管理指令 (npx skills CLI)</div>
-        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px; margin-bottom: 4px;">
+        <div class="panel mb-2">
             <div class="highlight text-xs" style="margin-bottom: 3px;">
-                <strong>🌐 開源生態系統：</strong><a href="https://github.com/vercel-labs/skills" target="_blank" style="color: #4ade80;">vercel-labs/skills</a> - 支援 Bob、Claude Code、Cursor 等 54+ 個 AI 編碼工具
+                <strong>🌐 開源生態系統：</strong><a href="https://github.com/vercel-labs/skills" target="_blank">vercel-labs/skills</a> - 支援 Bob、Claude Code、Cursor 等 54+ 個 AI 編碼工具
             </div>
         </div>
         
         <div class="grid grid-3">
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
-                <h4 class="text-sm mb-1" style="color: #4ade80;">📦 安裝 Skills</h4>
+            <div class="panel panel-sm">
+                <h4 class="text-sm mb-1 text-green">📦 安裝 Skills</h4>
                 <div class="text-xs" style="line-height: 1.6;">
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add vercel-labs/agent-skills</code>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add owner/repo --skill frontend-design</code>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add ./local-skills -g</code>
-                    <div style="margin-top: 3px; color: #888;">
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add vercel-labs/agent-skills</code>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add owner/repo --skill frontend-design</code>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills add ./local-skills -g</code>
+                    <div class="text-muted" style="margin-top: 3px;">
                         <strong>選項：</strong><code>-g</code> 全域安裝、<code>-a bob</code> 指定 agent、<code>-s skill-name</code> 指定技能、<code>-y</code> 跳過確認
                     </div>
                 </div>
             </div>
             
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
-                <h4 class="text-sm mb-1" style="color: #0dcaf0;">📋 管理 Skills</h4>
+            <div class="panel panel-sm">
+                <h4 class="text-sm mb-1 text-cyan">📋 管理 Skills</h4>
                 <div class="text-xs" style="line-height: 1.6;">
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills list</code>
-                    <div style="color: #888; margin-left: 6px;">列出已安裝的 Skills</div>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills find typescript</code>
-                    <div style="color: #888; margin-left: 6px;">搜尋可用的 Skills</div>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills update</code>
-                    <div style="color: #888; margin-left: 6px;">更新已安裝的 Skills</div>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills remove my-skill</code>
-                    <div style="color: #888; margin-left: 6px;">移除指定的 Skill</div>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills list</code>
+                    <div class="text-muted" style="margin-left: 6px;">列出已安裝的 Skills</div>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills find typescript</code>
+                    <div class="text-muted" style="margin-left: 6px;">搜尋可用的 Skills</div>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills update</code>
+                    <div class="text-muted" style="margin-left: 6px;">更新已安裝的 Skills</div>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills remove my-skill</code>
+                    <div class="text-muted" style="margin-left: 6px;">移除指定的 Skill</div>
                 </div>
             </div>
             
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
-                <h4 class="text-sm mb-1" style="color: #ffc107;">✨ 建立 Skills</h4>
+            <div class="panel panel-sm">
+                <h4 class="text-sm mb-1 text-yellow">✨ 建立 Skills</h4>
                 <div class="text-xs" style="line-height: 1.6;">
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init</code>
-                    <div style="color: #888; margin-left: 6px;">在當前目錄建立 SKILL.md 模板</div>
-                    <code style="display: block; background: #0a0a0a; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init my-skill</code>
-                    <div style="color: #888; margin-left: 6px;">在子目錄建立新 Skill</div>
-                    <div style="margin-top: 3px; color: #888;">
-                        <strong>發現：</strong><a href="https://skills.sh" target="_blank" style="color: #4ade80;">skills.sh</a> - Skills 目錄與排行榜
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init</code>
+                    <div class="text-muted" style="margin-left: 6px;">在當前目錄建立 SKILL.md 模板</div>
+                    <code style="display: block; padding: 3px 6px; border-radius: 3px; margin: 2px 0;">npx skills init my-skill</code>
+                    <div class="text-muted" style="margin-left: 6px;">在子目錄建立新 Skill</div>
+                    <div class="text-muted" style="margin-top: 3px;">
+                        <strong>發現：</strong><a href="https://skills.sh" target="_blank">skills.sh</a> - Skills 目錄與排行榜
                     </div>
                 </div>
             </div>
@@ -159,50 +169,19 @@
         </div>
     </div>
     
-    <!-- AgentSkills 支援說明 
-    <div class="card full-width mb-2">
-        <div class="card-header">🤝 AgentSkills 支援說明</div>
-        <div class="grid">
-            <div>
-                <table class="text-xs">
-                    <tr><th>AgentSkills概念</th><th>Bob實現方式</th></tr>
-                    <tr><td>技能定義</td><td>自訂模式 + Skills</td></tr>
-                    <tr><td>技能執行</td><td>工具和規則</td></tr>
-                    <tr><td>技能驗證</td><td>程式碼審查</td></tr>
-                    <tr><td>團隊標準</td><td>AGENTS.md</td></tr>
-                    <tr><td>技能管理</td><td>npx skills CLI</td></tr>
-                </table>
-            </div>
-            <div>
-                <div class="tip text-xs">
-                    <strong>💡 支援程度：</strong>✅完全支援技能定義、團隊標準化、工具整合、程式碼審查、CLI 管理
-                </div>
-                <div class="highlight text-xs" style="margin-top: 3px;">
-                    <strong>實現方式：</strong>透過自訂模式定義角色，透過 Skills 定義工作流程，透過 AGENTS.md 實現團隊標準，透過 npx skills 管理技能生態系統
-                </div>
-            </div>
-        </div>
-        <div class="tip text-xs" style="margin-top: 4px;">
-            <strong>📝 詳細範例：</strong>請參考「實戰範例」分頁的 SKILL.md 完整格式說明
-        </div>
-    </div>-->
-    
     <!-- 四大機制關係圖 -->
     <div class="card full-width mb-2">
-        <div class="card-header">
-            🔄 四大機制工作流程與關係
-        </div>
-        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 8px; margin: 4px 0;">
-            <pre style="background: #0a0a0a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #2a2a2a; margin: 0; line-height: 1.5; text-align: center;">
-使用者需求
+        <div class="card-header">🔄 四大機制工作流程與關係</div>
+        <div class="panel mb-2">
+            <pre class="code-block">使用者需求
     ↓
-<span style="color: #28a745;">Slash Commands</span> ──→ 快速觸發特定任務
+<span class="text-green">Slash Commands</span> ──→ 快速觸發特定任務
     ↓
 <span style="color: #dc3545;">Agents (AGENTS.md)</span> ──→ 提供團隊原則（為什麼這樣做）
     ↓
 <span style="color: #17a2b8;">Custom Rules</span> ────→ 定義實作細節（如何做）
     ↓
-<span style="color: #ffc107;">Skills</span> ──────────→ 執行工作流程（做什麼）
+<span class="text-yellow">Skills</span> ──────────→ 執行工作流程（做什麼）
     ↓
 完成任務</pre>
         </div>
@@ -229,14 +208,12 @@
     
     <!-- Memory Import 機制 -->
     <div class="card full-width mb-2">
-        <div class="card-header">
-            📚 Memory Import 記憶檔案匯入機制
-        </div>
+        <div class="card-header">📚 Memory Import 記憶檔案匯入機制</div>
         
         <!-- 核心概念 -->
-        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px; margin-bottom: 4px;">
-            <h4 class="text-sm mb-1" style="color: #4ade80;">🎯 核心概念</h4>
-            <div class="text-xs" style="line-height: 1.5; color: #e5e5e5;">
+        <div class="panel mb-2">
+            <h4 class="text-sm mb-1 text-green">🎯 核心概念</h4>
+            <div class="text-xs" style="line-height: 1.5;">
                 Memory Import 允許在 AGENTS.md 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。
             </div>
             <div class="highlight text-xs" style="margin-top: 3px; padding: 3px 6px;">
@@ -246,8 +223,8 @@
         
         <!-- 優勢與安全機制 -->
         <div class="grid" style="margin-bottom: 4px;">
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 6px;">
-                <h4 class="text-sm mb-1" style="color: #4ade80;">✅ 優勢與安全機制</h4>
+            <div class="panel">
+                <h4 class="text-sm mb-1 text-green">✅ 優勢與安全機制</h4>
                 <ul class="text-xs" style="line-height: 1.6; margin-bottom: 0;">
                     <li><span class="badge badge-success">模組化</span> 拆分大型文件為小模組</li>
                     <li><span class="badge badge-success">可維護</span> 獨立更新各模組</li>
@@ -257,20 +234,20 @@
                 </ul>
             </div>
             
-            <div style="background: #1a3a4a; border: 1px solid #0dcaf0; border-radius: 4px; padding: 6px;">
-                <h4 class="text-sm mb-1" style="color: #0dcaf0;">💰 Token 節省機制</h4>
+            <div class="panel-info" style="border-radius: 4px;">
+                <h4 class="text-sm mb-1 panel-title">💰 Token 節省機制</h4>
                 <div class="text-xs" style="line-height: 1.6;">
                     <div style="margin-bottom: 3px;">
-                        <strong style="color: #4ade80;">為何節省？</strong><br>
+                        <strong class="text-green">為何節省？</strong><br>
                         避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 引用共享模組
                     </div>
                     <div style="margin-bottom: 3px;">
-                        <strong style="color: #4ade80;">運作方式：</strong><br>
+                        <strong class="text-green">運作方式：</strong><br>
                         每次新對話時，Bob 自動解析 <code>@</code> 語法，動態載入引用的檔案內容到上下文
                     </div>
                     <div>
-                        <strong style="color: #4ade80;">實際效益：</strong><br>
-                        超過 200行 AGENTS.md 拆成多個模組，只載入需要的部分，可節省 <strong style="color: #ffc107;">50-70% token</strong>
+                        <strong class="text-green">實際效益：</strong><br>
+                        超過 200行 AGENTS.md 拆成多個模組，只載入需要的部分，可節省 <strong class="text-yellow">50-70% token</strong>
                     </div>
                 </div>
             </div>
@@ -278,27 +255,27 @@
         
         <!-- 錯誤處理、進階功能、最佳實踐 -->
         <div class="grid grid-3">
-            <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 4px 6px; border-radius: 4px;">
-                <h4 class="text-xs mb-1" style="color: #ff6b6b; font-weight: 600;">⚠️ 錯誤處理</h4>
-                <div class="text-xs" style="line-height: 1.5; color: #ffcccc;">
+            <div class="panel-error text-xs">
+                <div class="panel-title mb-1">⚠️ 錯誤處理</div>
+                <div style="line-height: 1.5;">
                     <div style="margin-bottom: 2px;"><strong>檔案不存在：</strong><br>顯示錯誤訊息，不中斷載入</div>
                     <div style="margin-bottom: 2px;"><strong>權限錯誤：</strong><br>跳過該檔案，記錄警告</div>
                     <div><strong>循環引用：</strong><br>自動偵測並阻止無限迴圈</div>
                 </div>
             </div>
             
-            <div style="background: #2a4a5a; border-left: 3px solid #0dcaf0; padding: 4px 6px; border-radius: 4px;">
-                <h4 class="text-xs mb-1" style="color: #0dcaf0; font-weight: 600;">🔍 進階功能</h4>
-                <div class="text-xs" style="line-height: 1.5; color: #ccf0ff;">
+            <div class="panel-info text-xs">
+                <div class="panel-title mb-1">🔍 進階功能</div>
+                <div style="line-height: 1.5;">
                     • 程式碼區塊偵測（忽略程式碼中的@引用）<br>
                     • 引用樹視覺化<br>
                     • 巢狀引用支援
                 </div>
             </div>
             
-            <div style="background: #1a3a4a; border-left: 3px solid #4ade80; padding: 4px 6px; border-radius: 4px;">
-                <h4 class="text-xs mb-1" style="color: #4ade80; font-weight: 600;">💡 最佳實踐</h4>
-                <div class="text-xs" style="line-height: 1.5; color: #ccffcc;">
+            <div class="panel-success text-xs">
+                <div class="panel-title mb-1">💡 最佳實踐</div>
+                <div style="line-height: 1.5;">
                     將超過 200行的 AGENTS.md 拆分成模組化檔案，每個檔案專注單一主題。詳見「建議結構」分頁
                 </div>
             </div>
@@ -306,9 +283,9 @@
     </div>
     
     <!-- ========== 工具與優化區 ========== -->
-    <div style="background: linear-gradient(90deg, #6f42c1, #17a2b8); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
-        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">🔧 工具與優化區</h2>
-        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">12個內建工具 • Token優化策略 • SDLC整合</div>
+    <div class="section-banner banner-purple-teal">
+        <h2>🔧 工具與優化區</h2>
+        <div class="banner-sub">12個內建工具 • Token優化策略 • SDLC整合</div>
     </div>
     
     <!-- 12個內建工具 -->
@@ -405,7 +382,6 @@
         </div>
     </div>
     
-    
     <!-- SDLC 整合 -->
     <div class="card full-width mb-2">
         <div class="card-header">🔄 SDLC 生命週期整合</div>
@@ -462,26 +438,22 @@
     </div>
     
     <!-- ========== 安全與最佳實踐區 ========== -->
-    <div style="background: linear-gradient(90deg, #dc3545, #fd7e14); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
-        <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">🔒 安全與最佳實踐區</h2>
-        <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">企業級安全 • Sandbox隔離 • 工作流程 • 模式選擇</div>
+    <div class="section-banner banner-red-orange">
+        <h2>🔒 安全與最佳實踐區</h2>
+        <div class="banner-sub">企業級安全 • Sandbox隔離 • 工作流程 • 模式選擇</div>
     </div>
     
-    <!-- 安全指南 - 警示風格 -->
-    <div style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); border: 2px solid #ff6b6b; border-radius: 8px; padding: 8px; margin-bottom: 6px; box-shadow: 0 3px 10px rgba(220,53,69,0.3);">
-        <div style="background: rgba(0,0,0,0.3); margin: -8px -8px 6px -8px; padding: 5px 8px; border-radius: 6px 6px 0 0; font-weight: 700; font-size: 11px; color: #ffffff; text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3);">
-            🔒 安全使用指南 - 必讀重要事項
-        </div>
+    <!-- 安全指南 -->
+    <div class="security-section">
+        <div class="security-section-header">🔒 安全使用指南 - 必讀重要事項</div>
         
         <div class="grid">
             <!-- .bobignore -->
-            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
-                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    📁 .bobignore 檔案保護
-                </h4>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin: 3px 0;">
-                    <div style="font-size: 7px; color: #ffc107; margin-bottom: 2px;"><strong>語法：</strong>與 .gitignore 相同</div>
-                    <pre style="background: #0a0a0a; padding: 3px; border-radius: 2px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #2a2a2a; margin: 0; line-height: 1.3;"># 敏感資訊
+            <div class="security-panel">
+                <h4>📁 .bobignore 檔案保護</h4>
+                <div class="security-inner">
+                    <div class="text-xs text-yellow mb-1"><strong>語法：</strong>與 .gitignore 相同</div>
+                    <pre class="code-block code-block-sm" style="text-align:left;"># 敏感資訊
 .env
 secrets/
 *.key
@@ -489,35 +461,33 @@ secrets/
 src/customer/
 data/customer/</pre>
                 </div>
-                <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ffcccc;">
+                <div class="security-error">
                     <strong>⚠️ 限制：</strong>僅工作區、可能被繞過、非沙箱
                 </div>
             </div>
             
             <!-- 自動批准風險 -->
-            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
-                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    ⚠️ 自動批准風險等級
-                </h4>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin: 3px 0;">
-                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
-                        <span style="color: #e5e5e5;">編輯檔案</span>
+            <div class="security-panel">
+                <h4>⚠️ 自動批准風險等級</h4>
+                <div class="security-inner">
+                    <div class="risk-row">
+                        <span>編輯檔案</span>
                         <span style="background: #dc3545; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🔴 高</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
-                        <span style="color: #e5e5e5;">執行命令</span>
+                    <div class="risk-row">
+                        <span>執行命令</span>
                         <span style="background: #dc3545; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🔴 高</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #2a2a2a; font-size: 7px;">
-                        <span style="color: #e5e5e5;">使用MCP</span>
+                    <div class="risk-row">
+                        <span>使用MCP</span>
                         <span style="background: #fd7e14; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🟠 中-高</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; padding: 2px 0; font-size: 7px;">
-                        <span style="color: #e5e5e5;">讀取檔案</span>
+                    <div class="risk-row">
+                        <span>讀取檔案</span>
                         <span style="background: #ffc107; color: #000; padding: 1px 4px; border-radius: 2px; font-size: 6px; font-weight: 600;">🟡 中</span>
                     </div>
                 </div>
-                <div style="background: #1a3a4a; border-left: 3px solid #0dcaf0; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ccf0ff;">
+                <div class="security-tip">
                     <strong>💡 建議：</strong>僅受控環境啟用
                 </div>
             </div>
@@ -525,74 +495,66 @@ data/customer/</pre>
         
         <div class="grid" style="margin-top: 4px;">
             <!-- 企業級六層防護 -->
-            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
-                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    🛡️ 企業級六層防護（客戶PoC必備）
-                </h4>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
-                    <div style="font-size: 7px; line-height: 1.4; color: #e5e5e5;">
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">1️⃣ .bobignore</strong> 排除客戶資料（語法同 .gitignore）</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">2️⃣ 信任資料夾</strong> 限制存取範圍（Shell 專用）</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">3️⃣ 禁用自動批准</strong> 所有操作需確認</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">4️⃣ 唯讀 API Key</strong> 限制 AI 權限</div>
-                        <div style="padding: 2px 0; border-bottom: 1px solid #2a2a2a;"><strong style="color: #4ade80;">5️⃣ Sandbox 隔離</strong> 容器或 Seatbelt</div>
+            <div class="security-panel">
+                <h4>🛡️ 企業級六層防護（客戶PoC必備）</h4>
+                <div class="security-inner">
+                    <div class="security-inner-text">
+                        <div style="padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #4ade80;">1️⃣ .bobignore</strong> 排除客戶資料（語法同 .gitignore）</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #4ade80;">2️⃣ 信任資料夾</strong> 限制存取範圍（Shell 專用）</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #4ade80;">3️⃣ 禁用自動批准</strong> 所有操作需確認</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #4ade80;">4️⃣ 唯讀 API Key</strong> 限制 AI 權限</div>
+                        <div style="padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #4ade80;">5️⃣ Sandbox 隔離</strong> 容器或 Seatbelt</div>
                         <div style="padding: 2px 0;"><strong style="color: #4ade80;">6️⃣ 稽核監控</strong> 記錄所有操作</div>
                     </div>
                 </div>
-                <div style="background: #1a3a4a; border-left: 3px solid #0dcaf0; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ccf0ff;">
+                <div class="security-tip">
                     <strong>💡 實施建議：</strong>PoC 階段至少實施前 3 層，生產環境建議全部實施
                 </div>
             </div>
             
             <!-- 機密管理 + MCP -->
-            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px;">
-                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    🔐 機密管理 & MCP安全
-                </h4>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin-bottom: 3px;">
-                    <div style="font-size: 7px; color: #e5e5e5; line-height: 1.4;">
+            <div class="security-panel">
+                <h4>🔐 機密管理 &amp; MCP安全</h4>
+                <div class="security-inner" style="margin-bottom: 3px;">
+                    <div class="security-inner-text">
                         <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 使用環境變數</div>
                         <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 配置 .gitignore + .bobignore</div>
                         <div style="padding: 1px 0;"><span style="color: #4ade80;">✓</span> 機密管理工具</div>
                         <div style="padding: 1px 0;"><span style="color: #dc3545;">✗</span> 直接提供機密給AI</div>
                     </div>
                 </div>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
+                <div class="security-inner">
                     <div style="font-size: 6px; color: #0dcaf0; font-weight: 600; margin-bottom: 2px;">MCP 四大要求：</div>
-                    <div style="font-size: 7px; color: #e5e5e5; line-height: 1.3;">
-                        身份驗證 • 加密 • 存取控制 • 稽核
-                    </div>
+                    <div class="security-inner-text">身份驗證 • 加密 • 存取控制 • 稽核</div>
                 </div>
             </div>
         </div>
         
         <!-- Sandbox 環境隔離 -->
         <div class="grid" style="margin-top: 4px;">
-            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px; grid-column: 1 / -1;">
-                <h4 style="color: #fff; font-size: 9px; font-weight: 600; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">
-                    🛡️ Sandbox 環境隔離（Bob Shell）
-                </h4>
+            <div class="security-panel" style="grid-column: 1 / -1;">
+                <h4>🛡️ Sandbox 環境隔離（Bob Shell）</h4>
                 <div style="font-size: 7px; color: #e5e5e5; margin-bottom: 3px; font-style: italic;">
                     可將 Bob Shell 操作隔離在安全的環境中，保護您的主機系統免受潛在危險操作的影響。
                 </div>
                 <div class="grid" style="gap: 4px;">
-                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
+                    <div class="security-inner">
                         <div style="font-size: 6px; color: #ffc107; font-weight: 600; margin-bottom: 2px;">兩種方法：</div>
-                        <div style="font-size: 7px; color: #e5e5e5; line-height: 1.4;">
+                        <div class="security-inner-text">
                             <div style="padding: 1px 0;"><strong style="color: #4ade80;">macOS Seatbelt：</strong>sandbox-exec（僅macOS）</div>
                             <div style="padding: 1px 0;"><strong style="color: #4ade80;">Container：</strong>Docker/Podman（跨平台）</div>
                         </div>
                     </div>
-                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px;">
+                    <div class="security-inner">
                         <div style="font-size: 6px; color: #ffc107; font-weight: 600; margin-bottom: 2px;">三種配置：</div>
-                        <div style="font-size: 7px; color: #e5e5e5; line-height: 1.4;">
+                        <div class="security-inner-text">
                             <div style="padding: 1px 0;">1. 命令列：<code style="font-size: 6px;">bob -s "cmd"</code></div>
                             <div style="padding: 1px 0;">2. 環境變數：<code style="font-size: 6px;">BOB_SHELL_SANDBOX=true</code></div>
                             <div style="padding: 1px 0;">3. 設定檔：<code style="font-size: 6px;">settings.json</code></div>
                         </div>
                     </div>
                 </div>
-                <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 4px; padding: 4px; margin-top: 4px;">
+                <div class="security-inner" style="margin-top: 4px;">
                     <div style="font-size: 6px; color: #ffc107; font-weight: 600; margin-bottom: 2px;">Seatbelt Profiles：</div>
                     <div style="font-size: 6px; color: #e5e5e5; line-height: 1.3; display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
                         <div><strong style="color: #4ade80;">permissive-closed：</strong>阻網路、專案寫入</div>
@@ -601,7 +563,7 @@ data/customer/</pre>
                         <div><strong style="color: #4ade80;">restrictive-closed：</strong>最高安全性</div>
                     </div>
                 </div>
-                <div style="background: #4a1a1a; border-left: 3px solid #dc3545; padding: 3px 5px; margin-top: 3px; font-size: 6px; color: #ffcccc;">
+                <div class="security-error">
                     <strong>⚠️ 限制：</strong>僅專案目錄、GUI無法運作、可能缺工具
                 </div>
             </div>
@@ -683,18 +645,14 @@ data/customer/</pre>
     <!-- 建議結構 Tab -->
     <div id="structure" class="tab-content">
         <div class="card full-width mb-2">
-            <div class="card-header">
-                📁 IBM Bob folder mapping（重新整理版）
-            </div>
+            <div class="card-header">📁 IBM Bob folder mapping（重新整理版）</div>
             <div class="highlight text-xs" style="margin-bottom: 6px; line-height: 1.5;">
                 <strong>設計重點：</strong>參考附圖的「folder fully mapped」呈現方式，將第 2 分頁改為 <strong>根目錄 → 全域設定 → 專案內 .bob/ 子系統 → 載入行為</strong> 的映射說明，讓使用者一眼看懂「放哪裡、何時生效、會不會進上下文」。
             </div>
 
             <div class="grid mb-2">
                 <div class="card">
-                    <div class="card-header" style="background: linear-gradient(90deg, #1e40af, #1a1a1a);">
-                        🧭 先看總原則
-                    </div>
+                    <div class="card-header card-header-blue">🧭 先看總原則</div>
                     <ul class="text-xs" style="line-height: 1.6;">
                         <li><strong>專案根目錄：</strong><code>AGENTS.md</code> 放「為什麼」、<code>.bobignore</code> 放「不能碰什麼」</li>
                         <li><strong>專案內 .bob/：</strong>放可操作的配置，例如 Rules、Commands、Skills、Memory Import</li>
@@ -705,9 +663,7 @@ data/customer/</pre>
                 </div>
 
                 <div class="card">
-                    <div class="card-header" style="background: linear-gradient(90deg, #198754, #1a1a1a);">
-                        🎯 三種判讀方式
-                    </div>
+                    <div class="card-header card-header-green">🎯 三種判讀方式</div>
                     <div class="text-xs" style="line-height: 1.6;">
                         <div style="margin-bottom: 3px;"><span class="badge badge-danger">高</span> 會直接影響系統提示或長期上下文</div>
                         <div style="margin-bottom: 3px;"><span class="badge badge-info">中</span> 規則類檔案，依載入順序生效</div>
@@ -721,10 +677,8 @@ data/customer/</pre>
 
             <!-- Bob 映射主圖 -->
             <div class="card mb-2">
-                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
-                    🗺️ Bob canonical folder mapping
-                </div>
-                <pre style="background: #111; padding: 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #e5e5e5; border: 1px solid #333; margin: 4px 0; line-height: 1.55;">your-project/                                   ← 目前工作區 / project root
+                <div class="card-header card-header-purple">🗺️ Bob canonical folder mapping</div>
+                <pre style="background: var(--bg-panel-alt); padding: 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: var(--text-primary); border: 1px solid var(--border-panel); margin: 4px 0; line-height: 1.55;">your-project/                                   ← 目前工作區 / project root
 ├── AGENTS.md                                   ← 團隊原則、開發標準、自動載入
 ├── .bobignore                                  ← 阻擋敏感檔案/資料夾，不進工具存取範圍
 ├── .gitignore                                  ← Git 忽略；常與 .bobignore 搭配
@@ -766,9 +720,7 @@ data/customer/</pre>
             <!-- 映射說明 -->
             <div class="grid mb-2">
                 <div class="card">
-                    <div class="card-header" style="background: linear-gradient(90deg, #7c2d12, #1a1a1a);">
-                        📦 根目錄層：最先理解的 3 個檔案
-                    </div>
+                    <div class="card-header card-header-wine">📦 根目錄層：最先理解的 3 個檔案</div>
                     <table class="text-xs">
                         <tr>
                             <th style="width: 28%;">檔案</th>
@@ -797,25 +749,21 @@ data/customer/</pre>
                 </div>
 
                 <div class="card">
-                    <div class="card-header" style="background: linear-gradient(90deg, #0d6efd, #1a1a1a);">
-                        🌐 全域層 vs 專案層
-                    </div>
+                    <div class="card-header card-header-indigo">🌐 全域層 vs 專案層</div>
                     <table class="text-xs">
                         <tr><th>層級</th><th>適用範圍</th><th>典型內容</th></tr>
                         <tr><td><code>~/.bob/</code></td><td>所有專案</td><td>個人偏好、常用模式、共用 MCP</td></tr>
                         <tr><td><code>{project}/.bob/</code></td><td>單一專案</td><td>專案規則、專案命令、專案 skills</td></tr>
                     </table>
                     <div class="highlight text-xs">
-                        <strong>優先級：</strong>專案設定 <strong>></strong> 全域設定；模式專屬規則 <strong>></strong> 共用規則。
+                        <strong>優先級：</strong>專案設定 <strong>&gt;</strong> 全域設定；模式專屬規則 <strong>&gt;</strong> 共用規則。
                     </div>
                 </div>
             </div>
 
             <!-- 子資料夾地圖 -->
             <div class="card mb-2">
-                <div class="card-header" style="background: linear-gradient(90deg, #198754, #1a1a1a);">
-                    🧩 `.bob/` 子資料夾用途地圖
-                </div>
+                <div class="card-header card-header-green">🧩 `.bob/` 子資料夾用途地圖</div>
                 <table class="text-xs">
                     <tr>
                         <th style="width: 20%;">路徑</th>
@@ -876,13 +824,11 @@ data/customer/</pre>
 
             <!-- Memory Import -->
             <div class="card mb-2">
-                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
-                    📚 Memory Import：推薦拆法
-                </div>
+                <div class="card-header card-header-purple">📚 Memory Import：推薦拆法</div>
                 <div class="text-xs" style="margin-bottom: 4px; line-height: 1.5;">
                     <strong>核心想法：</strong><code>AGENTS.md</code> 當入口頁，只放核心原則與模組索引；詳細內容交給 <code>.bob/memory/</code>。
                 </div>
-                <pre style="background: #2a2a2a; padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: #4ade80; border: 1px solid #333; margin: 4px 0; line-height: 1.45;">.bob/memory/
+                <pre style="background: var(--bg-code); padding: 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 7px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 4px 0; line-height: 1.45;">.bob/memory/
 ├── intro/
 │   ├── quick-start.md
 │   ├── architecture.md
@@ -921,9 +867,7 @@ data/customer/</pre>
 
             <!-- 載入順序 -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #fd7e14, #1a1a1a);">
-                    🔄 載入順序、觸發時機、實務解讀
-                </div>
+                <div class="card-header card-header-orange">🔄 載入順序、觸發時機、實務解讀</div>
                 <div class="grid grid-3">
                     <div>
                         <h4 class="text-sm mb-1">📋 規則鏈</h4>
@@ -958,25 +902,23 @@ data/customer/</pre>
     <!-- 實戰範例 Tab -->
     <div id="examples" class="tab-content">
         <!-- 標題區 -->
-        <div style="background: linear-gradient(90deg, #6f42c1, #fd7e14); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; text-align: center;">
-            <h2 style="color: white; font-size: 14px; font-weight: 700; margin: 0;">📝 實戰範例區</h2>
-            <div style="color: rgba(255,255,255,0.9); font-size: 8px; margin-top: 2px;">SKILL.md • Custom Mode • Rules • AGENTS.md • Memory Import</div>
+        <div class="section-banner banner-purple-orange">
+            <h2>📝 實戰範例區</h2>
+            <div class="banner-sub">SKILL.md • Custom Mode • Rules • AGENTS.md • Memory Import</div>
         </div>
 
         <!-- 五大機制範例 -->
         <div class="grid grid-3 mb-2">
             <!-- SKILL.md -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #ffc107, #1a1a1a);">
-                    🎯 SKILL.md (僅Advanced模式)
-                </div>
+                <div class="card-header card-header-yellow">🎯 SKILL.md (僅Advanced模式)</div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/security-review/
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/skills/security-review/
 ├── SKILL.md (必需)
 ├── severity-levels.md (選填)
 └── checklist.md (選填)</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 SKILL.md (必要欄位)</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">---
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;">---
 name: security-review (必需)
 description: Review code for security vulnerabilities (必需)
 ---
@@ -996,13 +938,11 @@ description: Review code for security vulnerabilities (必需)
 
             <!-- Custom Mode -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #17a2b8, #1a1a1a);">
-                    🎨 Custom Mode (YAML格式)
-                </div>
+                <div class="card-header card-header-teal">🎨 Custom Mode (YAML格式)</div>
                 <h4 class="text-sm mb-1">📁 位置</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml 或 ~/.bob/custom_modes.yaml</pre>
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml 或 ~/.bob/custom_modes.yaml</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 完整範例（含工具限制）</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">customModes:
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;">customModes:
   - slug: docs-writer
     name: "📝 Documentation Writer"
     roleDefinition: 技術文件專家
@@ -1024,17 +964,15 @@ description: Review code for security vulnerabilities (必需)
 
             <!-- Rules -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #dc3545, #1a1a1a);">
-                    📋 Rules
-                </div>
+                <div class="card-header card-header-red">📋 Rules</div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/rules/
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/rules/
 ├── typescript.md
 └── testing.md
 .bob/rules-code/
 └── code-style.md</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 typescript.md</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># TypeScript 規範
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;"># TypeScript 規範
 ## 型別定義
 - 優先 interface
 - 避免 any
@@ -1048,13 +986,11 @@ description: Review code for security vulnerabilities (必需)
 
             <!-- AGENTS.md -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #28a745, #1a1a1a);">
-                    🤝 AGENTS.md
-                </div>
+                <div class="card-header card-header-olive">🤝 AGENTS.md</div>
                 <h4 class="text-sm mb-1">📁 位置</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">專案根目錄/AGENTS.md</pre>
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">專案根目錄/AGENTS.md</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 內容</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># 團隊規範
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;"># 團隊規範
 ## 核心原則
 1. 品質優先
 2. 安全不妥協
@@ -1070,17 +1006,15 @@ description: Review code for security vulnerabilities (必需)
 
             <!-- Memory Import -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
-                    📚 Memory Import
-                </div>
+                <div class="card-header card-header-purple">📚 Memory Import</div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/memory/
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/memory/
 ├── core/
 ├── security/
 ├── workflows/
 └── project-context.md</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 範例</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;"># coding-standards.md
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;"># coding-standards.md
 ## 程式碼風格
 - ESLint + Prettier
 - Airbnb Style Guide
@@ -1093,17 +1027,15 @@ description: Review code for security vulnerabilities (必需)
 
             <!-- Slash Commands -->
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(90deg, #0d6efd, #1a1a1a);">
-                    ⚡ Slash Commands
-                </div>
+                <div class="card-header card-header-indigo">⚡ Slash Commands</div>
                 <h4 class="text-sm mb-1">📁 結構</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/commands/
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/commands/
 ├── api-endpoint.md
 └── review.md</pre>
                 <h4 class="text-sm mb-1 mt-1">📄 api-endpoint.md (含 argument-hint)</h4>
-                <pre style="background: #2a2a2a; padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.25;">---
+                <pre style="background: var(--bg-code); padding: 3px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 5px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.25;">---
 description: Create a new API endpoint
-argument-hint: <endpoint-name> <http-method>
+argument-hint: &lt;endpoint-name&gt; &lt;http-method&gt;
 ---
 Create API endpoint called $1 that handles $2 requests.
 Include error handling and documentation.</pre>
@@ -1118,13 +1050,11 @@ Include error handling and documentation.</pre>
 
         <!-- 完整專案配置範例 -->
         <div class="card full-width mb-2">
-            <div class="card-header" style="background: linear-gradient(90deg, #6f42c1, #1a1a1a);">
-                📚 Memory Import 完整範例：模組化配置
-            </div>
+            <div class="card-header card-header-purple">📚 Memory Import 完整範例：模組化配置</div>
             <div class="grid grid-3">
                 <div>
                     <h4 class="text-sm mb-1">📁 目錄結構</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #4ade80; border: 1px solid #333; margin: 2px 0; line-height: 1.35;">.bob/memory/
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code-green); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.35;">.bob/memory/
 ├── core/
 │   ├── coding-standards.md
 │   ├── testing-strategy.md
@@ -1139,7 +1069,7 @@ Include error handling and documentation.</pre>
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">📄 coding-standards.md</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 編碼標準
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;"># 編碼標準
 
 ## 程式碼風格
 - 使用 ESLint + Prettier
@@ -1163,7 +1093,7 @@ Include error handling and documentation.</pre>
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">📄 project-context.md</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 專案背景
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;"># 專案背景
 
 ## 專案資訊
 - 名稱：電商平台 API
@@ -1199,16 +1129,14 @@ src/
 
         <!-- 組合使用範例 -->
         <div class="card full-width mb-2">
-            <div class="card-header" style="background: linear-gradient(90deg, #fd7e14, #1a1a1a);">
-                🔄 完整專案配置範例
-            </div>
+            <div class="card-header card-header-orange">🔄 完整專案配置範例</div>
             <div class="text-xs" style="margin-bottom: 4px; line-height: 1.5;">
                 <strong>情境：</strong>中型 Web 應用，5 人團隊，標準化開發流程
             </div>
             <div class="grid grid-3">
                 <div>
                     <h4 class="text-sm mb-1">1️⃣ AGENTS.md（核心原則）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;"># 團隊規範
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;"># 團隊規範
 
 ## 核心價值
 - 品質 > 速度
@@ -1225,7 +1153,7 @@ src/
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">2️⃣ Rules（實作細節）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/rules/
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/rules/
 ├── typescript.md      # TS 規範
 ├── react.md          # React 規範
 └── api-design.md     # API 設計
@@ -1235,7 +1163,7 @@ src/
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">3️⃣ Commands（快速任務）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/commands/
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/commands/
 ├── review.md         # /review
 ├── test.md          # /test
 ├── deploy.md        # /deploy
@@ -1243,7 +1171,7 @@ src/
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">4️⃣ Skills（複雜流程）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/skills/
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/skills/
 ├── api-integration/
 │   └── SKILL.md
 ├── database-migration/
@@ -1253,7 +1181,7 @@ src/
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">5️⃣ Custom Mode（專家角色）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/custom_modes.yaml
 
 custom_modes:
   - slug: architect
@@ -1263,7 +1191,7 @@ custom_modes:
                 </div>
                 <div>
                     <h4 class="text-sm mb-1">6️⃣ Memory（詳細文件）</h4>
-                    <pre style="background: #2a2a2a; padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: #ff6b9d; border: 1px solid #333; margin: 2px 0; line-height: 1.3;">.bob/memory/
+                    <pre style="background: var(--bg-code); padding: 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 6px; color: var(--text-code); border: 1px solid var(--border-panel); margin: 2px 0; line-height: 1.3;">.bob/memory/
 ├── core/
 ├── security/
 ├── workflows/
@@ -1311,7 +1239,7 @@ custom_modes:
     </div>
     
     <!-- 頁腳 -->
-    <div style="margin-top: 8px; text-align: center; font-size: 6px; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 4px;">
+    <div class="footer">
         <strong>IBM Bob 完整指南 v2.3</strong> |
         四大機制：Commands • Rules • Skills • Agents |
         Memory Import：模組化管理 • 可重用配置 |

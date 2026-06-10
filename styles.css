@@ -1,9 +1,171 @@
+/* ===================================================
+   IBM Carbon Design System — Design Tokens
+   Sourced from bob.ibm.com/assets/root-B8tDD2F2.css
+   Fonts: 1.www.s81c.com/common/carbon/plex/
+   =================================================== */
+
+/* IBM Plex fonts from IBM CDN */
+@import url('https://1.www.s81c.com/common/carbon/plex/sans.css');
+@import url('https://1.www.s81c.com/common/carbon/plex/mono.css');
+
 /* A4 頁面設定 */
 @page {
     size: A4;
     margin: 10mm;
 }
 
+/* ===== CSS Custom Properties — Dark Theme (Carbon Gray 100) ===== */
+:root {
+    /* ── IBM Carbon Gray 100 shell ── */
+    --bg-page:         #0f1116;   /* carbon g100 background */
+    --bg-card:         #171717;   /* carbon layer-01 */
+    --bg-card-header:  #212121;   /* carbon layer-02 */
+    --bg-code:         #212121;
+    --bg-code-block:   #0a0a0a;
+    --bg-table-head:   #212121;
+    --bg-version:      #212121;
+    --bg-panel:        #171717;
+    --bg-panel-alt:    #0a0a0a;
+    --bg-highlight:    #1c2234;   /* blue-tinted layer */
+    --bg-tip:          #0e1a26;
+    --bg-warning:      #231a08;
+    --bg-error:        #230b0b;
+    --bg-success:      #0a1f12;
+    /* Card header accent tints — dark */
+    --ch-blue:         #1c2234;
+    --ch-green:        #0a1f12;
+    --ch-purple:       #1a1228;
+    --ch-red:          #230b0b;
+    --ch-orange:       #231208;
+    --ch-teal:         #081a20;
+    --ch-yellow:       #1f1808;
+    --ch-indigo:       #10122a;
+    --ch-wine:         #1a0808;
+    --ch-olive:        #0a1f0a;
+    /* Borders — Carbon subtle */
+    --border-main:     #393939;
+    --border-subtle:   #262626;
+    --border-panel:    #262626;
+    /* Text */
+    --text-primary:    #f4f4f4;   /* carbon text-primary on g100 */
+    --text-secondary:  #8c8c8c;   /* carbon text-secondary */
+    --text-muted:      #697077;
+    --text-code:       #ff7eb6;   /* carbon pink-30 */
+    --text-code-green: #42be65;   /* carbon green-40 */
+    --text-green:      #42be65;
+    --text-cyan:       #33b1ff;   /* carbon blue-40 */
+    --text-yellow:     #d4a72c;   /* carbon yellow */
+    --text-error:      #fa4d56;   /* carbon red-40 */
+    --text-error-body: #ffd7d9;
+    --text-info-body:  #d0e2ff;
+    --text-success-body:#a7f0ba;
+    /* Brand */
+    --ibm-blue:        #0f62fe;   /* IBM Blue 60 */
+    --ibm-purple:      #a56eff;   /* IBM Purple */
+    --ibm-purple-dark: #8a3ffc;
+    /* Misc */
+    --shadow:          rgba(0,0,0,0.5);
+    --shadow-card:     0 2px 6px rgba(0,0,0,0.4);
+    --link-color:      #4589ff;   /* carbon blue-50 */
+    --banner-radius:   2px;       /* Carbon flat style */
+    --card-radius:     2px;
+    --chip-radius:     2px;
+}
+
+/* ===== Light Theme — Carbon White / Gray 10 ===== */
+body.light-theme {
+    /* ── Carbon White shell ── */
+    --bg-page:         #eef2f9;   /* IBM blue-tinted off-white */
+    --bg-card:         #ffffff;
+    --bg-card-header:  #f4f4f4;   /* carbon layer-01 light */
+    --bg-code:         #f4f4f4;
+    --bg-code-block:   #ffffff;
+    --bg-table-head:   #e0e0e0;
+    --bg-version:      #f4f4f4;
+    --bg-panel:        #f4f4f4;
+    --bg-panel-alt:    #eef2f9;
+    --bg-highlight:    #d0e2ff;   /* carbon blue-20 */
+    --bg-tip:          #d0e2ff;
+    --bg-warning:      #fdd13a22;
+    --bg-error:        #ffd7d9;   /* carbon red-20 */
+    --bg-success:      #a7f0ba44;
+    /* Card header accent tints — light */
+    --ch-blue:         #d0e2ff;   /* carbon blue-20 */
+    --ch-green:        #a7f0ba44;
+    --ch-purple:       #e8daff;   /* carbon purple-20 */
+    --ch-red:          #ffd7d9;
+    --ch-orange:       #ffd9be;
+    --ch-teal:         #bae6ff;
+    --ch-yellow:       #fdd13a22;
+    --ch-indigo:       #e0e7ff;
+    --ch-wine:         #ffd7d9;
+    --ch-olive:        #a7f0ba44;
+    /* Borders — Carbon light */
+    --border-main:     #d1d1d1;
+    --border-subtle:   #e0e0e0;
+    --border-panel:    #e0e0e0;
+    /* Text */
+    --text-primary:    #161616;   /* carbon text-primary on white */
+    --text-secondary:  #525252;   /* carbon text-secondary */
+    --text-muted:      #8c8c8c;
+    --text-code:       #a31920;   /* carbon magenta on light */
+    --text-code-green: #198038;   /* carbon green-60 */
+    --text-green:      #198038;
+    --text-cyan:       #0043ce;   /* carbon blue-70 */
+    --text-yellow:     #b28600;
+    --text-error:      #a2191f;   /* carbon red-60 */
+    --text-error-body: #a2191f;
+    --text-info-body:  #0043ce;
+    --text-success-body:#0e6027;
+    /* Brand (same across themes) */
+    --ibm-blue:        #0f62fe;
+    --ibm-purple:      #8a3ffc;
+    --ibm-purple-dark: #6929c4;
+    /* Misc */
+    --shadow:          rgba(0,0,0,0.08);
+    --shadow-card:     0 1px 3px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
+    --link-color:      #0f62fe;
+    --banner-radius:   2px;
+    --card-radius:     2px;
+    --chip-radius:     2px;
+}
+
+/* ===== Theme Toggle Button — Carbon style ===== */
+.theme-toggle {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--bg-card-header);
+    border: 1px solid var(--border-main);
+    border-radius: var(--chip-radius);
+    padding: 4px 10px 4px 7px;
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-card);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    user-select: none;
+    letter-spacing: 0.02em;
+}
+
+.theme-toggle:hover {
+    border-color: var(--ibm-blue);
+    color: var(--text-primary);
+    background: var(--bg-code);
+}
+
+.theme-toggle .toggle-icon {
+    font-size: 13px;
+    line-height: 1;
+}
+
+/* ===== Core Reset ===== */
 * {
     margin: 0;
     padding: 0;
@@ -11,93 +173,109 @@
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'IBM Plex Sans', 'Segoe UI', -apple-system, sans-serif;
     font-size: 9px;
     line-height: 1.2;
-    color: #e5e5e5;
-    background: #0a0a0a;
+    color: var(--text-primary);
+    background: var(--bg-page);
     width: 210mm;
     min-height: 297mm;
     margin: 0 auto;
     padding: 8mm;
+    transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* Tab 樣式 */
+/* ===== Tabs — Carbon style (flat, no radius) ===== */
 .tabs {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     margin-bottom: 8px;
-    border-bottom: 2px solid #404040;
+    border-bottom: 2px solid var(--border-main);
 }
 
 .tab {
-    background: #1a1a1a;
-    border: 1px solid #404040;
+    background: transparent;
+    border: 1px solid transparent;
     border-bottom: none;
-    padding: 6px 12px;
+    padding: 6px 14px;
     cursor: pointer;
-    border-radius: 6px 6px 0 0;
+    border-radius: 0;
     font-size: 10px;
     font-weight: 600;
-    color: #a0a0a0;
-    transition: all 0.3s;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-secondary);
+    transition: background 0.15s, color 0.15s;
+    letter-spacing: 0.01em;
 }
 
 .tab:hover {
-    background: #2a2a2a;
-    color: #e5e5e5;
+    background: var(--bg-card-header);
+    color: var(--text-primary);
 }
 
 .tab.active {
-    background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
-    color: white;
-    border-color: #1e40af;
+    background: var(--bg-card-header);
+    color: var(--text-primary);
+    border-color: var(--border-main);
+    border-bottom-color: transparent;
+    border-top: 2px solid var(--ibm-blue);
+    padding-top: 5px;
+    font-weight: 700;
 }
 
-.tab-content {
-    display: none;
-}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-.tab-content.active {
-    display: block;
-}
-
-/* Impeccable 設計風格 - 暗色主題 */
+/* ===== Header — IBM Carbon brand gradient ===== */
 .header {
-    background: linear-gradient(135deg, #1e40af 0%, #7c2d12 100%);
+    background: linear-gradient(135deg, #0f1b3d 0%, #0f62fe 45%, #8a3ffc 100%);
     color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    padding: 10px 16px;
+    border-radius: var(--card-radius);
+    margin-bottom: 10px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    border: 1px solid #333;
+    box-shadow: 0 2px 12px rgba(15,98,254,0.35);
+    border: 1px solid rgba(255,255,255,0.10);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 25% 60%, rgba(165,110,255,0.18) 0%, transparent 55%);
+    pointer-events: none;
 }
 
 .header h1 {
     font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 2px;
+    font-weight: 800;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
 .header .subtitle {
-    font-size: 10px;
-    opacity: 0.9;
+    font-size: 9px;
+    opacity: 0.88;
+    letter-spacing: 0.02em;
 }
 
+/* ===== Version Info ===== */
 .version-info {
     position: absolute;
     top: 8mm;
     right: 8mm;
-    background: #2a2a2a;
+    background: var(--bg-version);
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 7px;
-    color: #a0a0a0;
-    border: 1px solid #404040;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-main);
 }
 
-/* 網格佈局 */
+/* ===== Grid ===== */
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -105,35 +283,52 @@ body {
     margin-bottom: 6px;
 }
 
-.grid-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-}
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.full-width { grid-column: 1 / -1; }
 
-.full-width {
-    grid-column: 1 / -1;
-}
-
-/* 卡片樣式 - 暗色主題 */
+/* ===== Cards — Carbon flat style ===== */
 .card {
-    background: #1a1a1a;
-    border: 1px solid #404040;
-    border-radius: 6px;
-    padding: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    background: var(--bg-card);
+    border: 1px solid var(--border-main);
+    border-radius: var(--card-radius);
+    padding: 7px;
+    box-shadow: var(--shadow-card);
+    transition: background 0.25s ease, border-color 0.25s ease;
 }
 
 .card-header {
-    background: linear-gradient(90deg, #2a2a2a, #1a1a1a);
-    margin: -6px -6px 4px -6px;
-    padding: 4px 6px;
-    border-radius: 5px 5px 0 0;
-    border-bottom: 1px solid #404040;
+    background: var(--bg-card-header);
+    margin: -7px -7px 5px -7px;
+    padding: 5px 8px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-main);
+    border-left: 3px solid var(--ibm-blue);
     font-weight: 600;
     font-size: 10px;
-    color: #e5e5e5;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
-/* 圖示 */
+/* ── Coloured card-header variants ──────────────────────────────────────
+   Each variant uses:
+     • border-left: accent colour  (always visible, no contrast issue)
+     • background: subtle tint via --ch-* (different per theme)
+     • color: var(--text-primary) (theme-aware, always readable)
+   ─────────────────────────────────────────────────────────────────── */
+/* IBM Carbon brand colors for card accent borders */
+.card-header-blue   { background: var(--ch-blue);   border-left-color: #4589ff; color: var(--text-primary); }
+.card-header-green  { background: var(--ch-green);  border-left-color: #42be65; color: var(--text-primary); }
+.card-header-purple { background: var(--ch-purple); border-left-color: #a56eff; color: var(--text-primary); }
+.card-header-red    { background: var(--ch-red);    border-left-color: #fa4d56; color: var(--text-primary); }
+.card-header-orange { background: var(--ch-orange); border-left-color: #ff832b; color: var(--text-primary); }
+.card-header-teal   { background: var(--ch-teal);   border-left-color: #3ddbd9; color: var(--text-primary); }
+.card-header-yellow { background: var(--ch-yellow); border-left-color: #d4a72c; color: var(--text-primary); }
+.card-header-indigo { background: var(--ch-indigo); border-left-color: #8a3ffc; color: var(--text-primary); }
+.card-header-wine   { background: var(--ch-wine);   border-left-color: #ff7eb6; color: var(--text-primary); }
+.card-header-olive  { background: var(--ch-olive);  border-left-color: #198038; color: var(--text-primary); }
+
+/* ===== Icons ===== */
 .icon {
     display: inline-block;
     width: 12px;
@@ -143,154 +338,484 @@ body {
 }
 
 .icon-commands { background: #28a745; }
-.icon-rules { background: #17a2b8; }
-.icon-skills { background: #ffc107; }
-.icon-agents { background: #dc3545; }
-.icon-tools { background: #6f42c1; }
-.icon-token { background: #fd7e14; }
+.icon-rules    { background: #17a2b8; }
+.icon-skills   { background: #ffc107; }
+.icon-agents   { background: #dc3545; }
+.icon-tools    { background: #6f42c1; }
+.icon-token    { background: #fd7e14; }
 
-/* 表格樣式 */
+/* ===== Tables ===== */
 table {
     width: 100%;
     border-collapse: collapse;
     font-size: 7px;
     margin-bottom: 4px;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 2px 4px;
+    padding: 3px 5px;
     text-align: left;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
 }
 
 th {
-    background: #2a2a2a;
-    font-weight: 600;
-    color: #e5e5e5;
+    background: var(--bg-table-head);
+    font-weight: 700;
+    font-size: 6.5px;
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
 }
 
-/* 列表樣式 */
+tr:last-child td { border-bottom: none; }
+
+/* ===== Lists ===== */
 ul, ol {
     margin-left: 12px;
     margin-bottom: 4px;
 }
 
 li {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
     font-size: 8px;
+    line-height: 1.4;
 }
 
-/* 程式碼樣式 */
+/* ===== Code ===== */
 code {
-    background: #2a2a2a;
-    padding: 1px 3px;
+    background: var(--bg-code);
+    padding: 1px 4px;
     border-radius: 2px;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
     font-size: 7px;
-    color: #ff6b9d;
-    border: 1px solid #333;
+    color: var(--text-code);
+    border: 1px solid var(--border-subtle);
+    font-weight: 400;
 }
 
-/* 標籤樣式 */
+/* pre / code block */
+.code-block {
+    background: var(--bg-code-block);
+    padding: 8px 10px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
+    font-size: 7px;
+    color: var(--text-code-green);
+    border: 1px solid var(--border-panel);
+    margin: 0;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.code-block-pink { color: var(--text-code); }
+
+.code-block-sm {
+    font-size: 6px;
+    line-height: 1.35;
+    padding: 4px 6px;
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
+}
+
+.code-block-xs {
+    font-size: 5px;
+    line-height: 1.28;
+}
+
+/* ===== Badges — IBM Carbon tags ===== */
 .badge {
     display: inline-block;
-    padding: 1px 4px;
+    padding: 1px 5px;
     font-size: 6px;
     font-weight: 600;
-    border-radius: 2px;
+    border-radius: 0;    /* Carbon tag: no radius */
     margin-right: 2px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    letter-spacing: 0.02em;
 }
 
-.badge-success { background: #198754; color: #ffffff; }
-.badge-warning { background: #fd7e14; color: #ffffff; }
-.badge-danger { background: #dc3545; color: #ffffff; }
-.badge-info { background: #0dcaf0; color: #000000; }
+.badge-success { background: #198038; color: #ffffff; }   /* Carbon green-60 */
+.badge-warning { background: #ff832b; color: #ffffff; }   /* Carbon orange */
+.badge-danger  { background: #fa4d56; color: #ffffff; }   /* Carbon red-40 */
+.badge-info    { background: #0f62fe; color: #ffffff; }   /* IBM Blue 60 */
 
-/* 成本指示器 - 暗色主題 */
+/* ===== Cost Indicators ===== */
 .cost-indicator {
     display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     margin-right: 3px;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(128,128,128,0.3);
 }
 
-.cost-low { background: #198754; }
-.cost-medium { background: #fd7e14; }
-.cost-high { background: #fd7e14; }
-.cost-very-high { background: #dc3545; }
+.cost-low      { background: #198038; }   /* Carbon green-60 */
+.cost-medium   { background: #ff832b; }   /* Carbon orange */
+.cost-high     { background: #ff832b; }
+.cost-very-high{ background: #fa4d56; }   /* Carbon red-40 */
 
-/* 特殊樣式 - 暗色主題 */
+/* ===== Semantic Blocks ===== */
+/* Carbon flat inline-notification style */
 .highlight {
-    background: #2a4a5a;
-    color: #e5e5e5;
-    padding: 3px 6px;
-    border-radius: 4px;
-    margin: 2px 0;
-    border: 1px solid #404040;
+    background: var(--bg-highlight);
+    color: var(--text-primary);
+    padding: 4px 7px;
+    border-radius: 0;
+    border-left: 3px solid var(--ibm-blue);
+    margin: 3px 0;
+    line-height: 1.5;
 }
 
 .tip {
-    background: #1a3a4a;
-    border-left: 3px solid #0dcaf0;
-    color: #e5e5e5;
-    padding: 3px 6px;
-    margin: 2px 0;
+    background: var(--bg-tip);
+    border-left: 3px solid #33b1ff;   /* Carbon blue-40 */
+    color: var(--text-primary);
+    padding: 4px 7px;
+    margin: 3px 0;
     font-size: 7px;
+    border-radius: 0;
+    line-height: 1.5;
 }
 
 .warning {
-    background: #4a3a1a;
-    border-left: 3px solid #ff9800;
-    color: #e5e5e5;
-    padding: 3px 6px;
-    margin: 2px 0;
+    background: var(--bg-warning);
+    border-left: 3px solid #d4a72c;   /* Carbon yellow */
+    color: var(--text-primary);
+    padding: 4px 7px;
+    margin: 3px 0;
     font-size: 7px;
+    border-radius: 0;
+    line-height: 1.5;
 }
 
-/* 響應式調整 */
+/* ===== Inner Panels ===== */
+
+/* ===== Inner Panels — Carbon tile/notification style ===== */
+.panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-panel);
+    border-radius: 0;
+    padding: 7px;
+    margin-bottom: 5px;
+}
+
+.panel-sm { padding: 5px; border-radius: 0; }
+
+/* Code/pre block container */
+.panel-code {
+    background: var(--bg-code-block);
+    border: 1px solid var(--border-panel);
+    border-radius: 0;
+    padding: 5px;
+    margin: 3px 0;
+}
+
+/* Error/danger panel — Carbon red notification */
+.panel-error {
+    background: var(--bg-error);
+    border-left: 3px solid #fa4d56;
+    padding: 5px 7px;
+    border-radius: 0;
+    color: var(--text-error-body);
+    line-height: 1.5;
+}
+
+.panel-error .panel-title { color: var(--text-error); font-weight: 700; margin-bottom: 3px; }
+
+/* Info/blue panel — Carbon informational notification */
+.panel-info {
+    background: var(--bg-tip);
+    border-left: 3px solid #4589ff;
+    padding: 5px 7px;
+    border-radius: 0;
+    color: var(--text-info-body);
+    line-height: 1.5;
+}
+
+.panel-info .panel-title { color: var(--text-cyan); font-weight: 700; margin-bottom: 3px; }
+
+/* Success/green panel — Carbon success notification */
+.panel-success {
+    background: var(--bg-success);
+    border-left: 3px solid #42be65;
+    padding: 5px 7px;
+    border-radius: 0;
+    color: var(--text-success-body);
+    line-height: 1.5;
+}
+
+.panel-success .panel-title { color: var(--text-green); font-weight: 700; margin-bottom: 3px; }
+
+/* ===================================================
+   Security Section — DARK theme (Carbon style)
+   IBM Red + IBM Blue gradient, flat 2px radius
+   =================================================== */
+.security-section {
+    background: linear-gradient(135deg, #a2191f 0%, #8a3ffc 55%, #ff832b 100%);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--card-radius);
+    padding: 9px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 12px rgba(162,25,31,0.30);
+    position: relative;
+    overflow: hidden;
+}
+
+.security-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 10% 50%, rgba(255,255,255,0.07) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+.security-section-header {
+    background: rgba(0,0,0,0.32);
+    margin: -9px -9px 7px -9px;
+    padding: 6px 10px;
+    border-radius: 0;
+    font-weight: 700;
+    font-size: 11px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    letter-spacing: 0.03em;
+}
+
+.security-panel {
+    background: rgba(0,0,0,0.30);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 0;
+    padding: 7px;
+}
+
+.security-panel h4 {
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 3px;
+}
+
+.security-inner {
+    background: rgba(15,15,15,0.7);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px 0;
+}
+
+.security-inner-text { color: #e8e8ea; font-size: 7px; line-height: 1.5; }
+
+.security-accent { color: #86efac; font-weight: 700; }  /* green labels */
+.security-label  { color: #7dd3fc; font-weight: 600; }  /* blue/cyan labels */
+
+.security-tip {
+    background: rgba(8,40,55,0.85);
+    border-left: 3px solid #22d3ee;
+    padding: 3px 6px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 4px;
+    font-size: 6px;
+    color: #bae6fd;
+    line-height: 1.5;
+}
+
+.security-error {
+    background: rgba(60,10,10,0.85);
+    border-left: 3px solid #f87171;
+    padding: 3px 6px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 4px;
+    font-size: 6px;
+    color: #fecaca;
+    line-height: 1.5;
+}
+
+.risk-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 7px;
+    color: #e8e8ea;
+}
+
+.risk-row:last-child { border-bottom: none; }
+
+/* ===================================================
+   Security Section — LIGHT theme override
+   Carbon white tile + IBM Red left border
+   =================================================== */
+body.light-theme .security-section {
+    background: #ffffff;
+    border: 1px solid #ffd7d9;
+    border-left: 4px solid #a2191f;
+    border-radius: 0;
+    box-shadow: 0 1px 6px rgba(162,25,31,0.10);
+}
+
+body.light-theme .security-section::before {
+    display: none;
+}
+
+body.light-theme .security-section-header {
+    background: #ffd7d9;
+    color: #a2191f;
+    border-bottom: 1px solid #ffb3b8;
+    text-shadow: none;
+}
+
+body.light-theme .security-panel {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-left: 3px solid #fa4d56;
+}
+
+body.light-theme .security-panel h4 {
+    color: #a2191f;
+    border-bottom: 1px solid #ffd7d9;
+}
+
+body.light-theme .security-inner {
+    background: #f4f4f4;
+    border: 1px solid #e0e0e0;
+}
+
+body.light-theme .security-inner-text {
+    color: #161616;
+}
+
+body.light-theme .security-accent {
+    color: #198038;   /* Carbon green-60 */
+}
+
+body.light-theme .security-label {
+    color: #0f62fe;   /* IBM Blue */
+}
+
+body.light-theme .security-tip {
+    background: #d0e2ff;
+    border-left-color: #0f62fe;
+    color: #0043ce;
+}
+
+body.light-theme .security-error {
+    background: #ffd7d9;
+    border-left-color: #fa4d56;
+    color: #a2191f;
+}
+
+body.light-theme .risk-row {
+    color: #161616;
+    border-bottom-color: #e0e0e0;
+}
+
+/* ===== Text Colours (semantic) ===== */
+.text-green   { color: var(--text-green); }
+.text-cyan    { color: var(--text-cyan); }
+.text-yellow  { color: var(--text-yellow); }
+.text-muted   { color: var(--text-muted); }
+.text-primary { color: var(--text-primary); }
+.text-link    { color: var(--link-color); }
+
+/* ===== Links ===== */
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== Section Banners — IBM Carbon brand palette ===== */
+.section-banner {
+    padding: 7px 14px;
+    border-radius: var(--banner-radius);
+    margin-bottom: 8px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.section-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.07) 0%, transparent 55%);
+    pointer-events: none;
+}
+.section-banner h2 {
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin: 0;
+    letter-spacing: 0;
+}
+.section-banner .banner-sub {
+    color: rgba(255,255,255,0.82);
+    font-size: 8px;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+}
+
+/* Banner colour variants — IBM Carbon brand */
+.banner-blue-red    { background: linear-gradient(120deg, #0f2d6e 0%, #0f62fe 50%, #a2191f 100%); }
+.banner-purple-teal { background: linear-gradient(120deg, #6929c4 0%, #8a3ffc 50%, #0072c3 100%); }
+.banner-red-orange  { background: linear-gradient(120deg, #a2191f 0%, #fa4d56 50%, #ff832b 100%); }
+.banner-purple-orange { background: linear-gradient(120deg, #8a3ffc 0%, #a56eff 50%, #ff832b 100%); }
+
+/* ===== Typography helpers ===== */
+strong { font-weight: 600; }
+
+h4 {
+    font-size: 8px;
+    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+    letter-spacing: 0.01em;
+}
+
+/* ===== Footer ===== */
+.footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 6px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-main);
+    padding-top: 5px;
+    letter-spacing: 0.01em;
+}
+
+/* ===== Print ===== */
 @media print {
     body {
+        font-family: 'IBM Plex Sans', sans-serif;
         width: auto;
         margin: 0;
         padding: 5mm;
         background: white !important;
-        color: black !important;
+        color: #161616 !important;
     }
     .card {
         background: white !important;
-        border: 1px solid #ddd !important;
-        color: black !important;
+        border: 1px solid #d1d1d1 !important;
+        color: #161616 !important;
     }
-    .section-title {
-        color: #333 !important;
-    }
-    th {
-        background: #f8f9fa !important;
-        color: #333 !important;
-    }
-    td {
-        color: #333 !important;
-    }
-    code {
-        background: #f8f9fa !important;
-        color: #e83e8c !important;
-    }
-    .highlight, .tip, .warning {
-        background: #f8f9fa !important;
-        color: #333 !important;
-    }
-    .version-info { display: none; }
+    th { background: #f4f4f4 !important; color: #525252 !important; }
+    td { color: #161616 !important; }
+    code { font-family: 'IBM Plex Mono', monospace !important; background: #f4f4f4 !important; color: #a31920 !important; }
+    .highlight, .tip, .warning { background: #f4f4f4 !important; color: #161616 !important; }
+    .version-info, .theme-toggle { display: none; }
 }
 
-/* 文字大小調整 */
+/* ===== Utility: Size & Spacing ===== */
 .text-xs { font-size: 6px; }
 .text-sm { font-size: 7px; }
 .text-md { font-size: 8px; }
 .text-lg { font-size: 9px; }
 
-/* 間距調整 */
 .mb-1 { margin-bottom: 2px; }
 .mb-2 { margin-bottom: 4px; }
 .mt-1 { margin-top: 2px; }
