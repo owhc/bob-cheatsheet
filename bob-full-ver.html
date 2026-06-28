@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBM Bob v2 完整指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap">
+<style>
+/* ═══════════════════════════════════════════
+   DATA DENSE — IBM Carbon–anchored dashboard
+   ═══════════════════════════════════════════ */
+:root {
+  --bg:        #111318;
+  --bg-1:      #161820;
+  --bg-2:      #1c1f28;
+  --bg-3:      #222530;
+  --border:    #272b38;
+  --border-2:  #1e2230;
+  --text:      #ccd6f6;
+  --text-2:    #8892b0;
+  --text-3:    #4a5478;
+  --blue:      #3a6aff;
+  --blue-dim:  #1a2a5a;
+  --blue-lt:   #8ab4ff;
+  --green:     #2aaa5a;
+  --green-dim: #0a2a18;
+  --green-lt:  #5adda0;
+  --amber:     #c8902a;
+  --amber-dim: #2a1e08;
+  --amber-lt:  #f0c060;
+  --red:       #c83040;
+  --red-dim:   #2a0e14;
+  --red-lt:    #ff7088;
+  --purple:    #7a50cc;
+  --purple-dim:#1e1230;
+  --purple-lt: #b090ff;
+  --teal:      #20a0b0;
+  --teal-dim:  #082028;
+  --teal-lt:   #60d0e0;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --sidebar-w: 188px;
+  --toolbar-h: 36px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+
+body {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══ GLOBAL TOOLBAR ══ */
+.g-toolbar {
+  height: var(--toolbar-h);
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.g-logo {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.g-logo-badge {
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  padding: 1px 6px;
+  letter-spacing: .06em;
+}
+
+.g-sep { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+
+.g-tabs { display: flex; gap: 2px; flex: 1; }
+.g-tab {
+  padding: 6px 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.g-tab:hover { color: var(--text-2); }
+.g-tab.active { color: var(--blue-lt); border-bottom-color: var(--blue); }
+
+.g-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+.g-lite-link {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-3);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.g-lite-link:hover { color: var(--text); border-color: var(--text-3); text-decoration: none; }
+.g-lite-link .arrow { font-size: 10px; transition: transform .15s; }
+.g-lite-link:hover .arrow { transform: translateX(-3px); }
+
+.g-btn {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-3);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  transition: color .15s, border-color .15s;
+}
+.g-btn:hover { color: var(--text); border-color: var(--text-3); }
+.g-btn.active { color: var(--blue-lt); border-color: var(--blue-dim); background: var(--blue-dim); }
+
+/* ══ LAYOUT SHELL ══ */
+.shell {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ══ SIDEBAR ══ */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-1);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sb-section { padding: 12px 0 4px; }
+
+.sb-head {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0 14px 6px;
+}
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 14px;
+  font-size: 10px;
+  color: var(--text-2);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background .1s, color .1s;
+  gap: 6px;
+}
+.sb-item:hover { background: var(--bg-2); color: var(--text); }
+.sb-item.active { color: var(--blue-lt); border-left-color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, transparent); }
+
+.sb-item__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.badge {
+  font-size: 7px;
+  font-weight: 600;
+  padding: 1px 5px;
+  letter-spacing: .06em;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.badge-low    { background: var(--green-dim); color: var(--green-lt); border: 1px solid color-mix(in srgb, var(--green) 30%, transparent); }
+.badge-med    { background: var(--amber-dim); color: var(--amber-lt); border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent); }
+.badge-high   { background: var(--red-dim);   color: var(--red-lt);   border: 1px solid color-mix(in srgb, var(--red)   30%, transparent); }
+.badge-new    { background: var(--blue-dim);  color: var(--blue-lt);  border: 1px solid color-mix(in srgb, var(--blue)  30%, transparent); }
+.badge-info   { background: var(--teal-dim);  color: var(--teal-lt);  border: 1px solid color-mix(in srgb, var(--teal)  30%, transparent); }
+.badge-purple { background: var(--purple-dim);color: var(--purple-lt);border: 1px solid color-mix(in srgb, var(--purple)30%, transparent); }
+
+.sb-divider { height: 1px; background: var(--border-2); margin: 4px 14px; }
+
+/* ══ MAIN CONTENT ══ */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  min-width: 0;
+}
+
+/* Tab panes */
+.pane { display: none; }
+.pane.active { display: block; }
+
+/* ══ PANE HEADER ══ */
+.pane-header {
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  background: var(--bg-1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.pane-title {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.pane-sub {
+  font-size: 9px;
+  color: var(--text-3);
+  letter-spacing: .04em;
+}
+.pane-stats { display: flex; gap: 14px; margin-left: auto; align-items: center; }
+.stat { font-size: 9px; color: var(--text-3); display: flex; gap: 5px; }
+.stat strong { color: var(--text-2); font-weight: 500; }
+
+/* ══ CONTENT SECTIONS ══ */
+.section { padding: 16px 20px; border-bottom: 1px solid var(--border-2); }
+.section:last-child { border-bottom: none; }
+
+.section-label {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border-2); }
+.section-label--blue   { color: var(--blue-lt);   }
+.section-label--green  { color: var(--green-lt);  }
+.section-label--amber  { color: var(--amber-lt);  }
+.section-label--red    { color: var(--red-lt);    }
+.section-label--purple { color: var(--purple-lt); }
+.section-label--teal   { color: var(--teal-lt);   }
+
+/* ══ MECHANISM STRIP ══ */
+.mech-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+}
+.mech-cell {
+  padding: 12px 14px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.mech-cell:last-child { border-right: none; }
+.mech-cell::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.mech-cell--cmd::before   { background: var(--green);  }
+.mech-cell--rule::before  { background: var(--teal);   }
+.mech-cell--skill::before { background: var(--amber);  }
+.mech-cell--agent::before { background: var(--red);    }
+
+.mech-num {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -.04em;
+}
+.mech-title {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.mech-path {
+  font-size: 8px;
+  color: var(--text-3);
+  margin-bottom: 6px;
+  font-family: var(--mono);
+}
+.mech-desc {
+  font-size: 9px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.mech-cost { position: absolute; top: 10px; right: 10px; }
+
+/* ══ DATA TABLE ══ */
+.dtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+.dtable th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+  white-space: nowrap;
+}
+.dtable td {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border-2);
+  color: var(--text-2);
+  vertical-align: middle;
+  font-size: 10px;
+}
+.dtable tr:last-child td { border-bottom: none; }
+.dtable tr:hover td { background: var(--bg-2); }
+.dtable td.key { color: var(--blue-lt); font-family: var(--mono); font-size: 9px; }
+.dtable td.em { color: var(--text); font-weight: 500; }
+
+/* ══ INFO GRID ══ */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.info-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.info-grid-4 { grid-template-columns: repeat(4,1fr); }
+
+.info-block {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 12px;
+}
+.info-block__head {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.info-block__head::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 10px;
+  flex-shrink: 0;
+}
+.ib--blue   .info-block__head::before { background: var(--blue);   }
+.ib--green  .info-block__head::before { background: var(--green);  }
+.ib--amber  .info-block__head::before { background: var(--amber);  }
+.ib--red    .info-block__head::before { background: var(--red);    }
+.ib--purple .info-block__head::before { background: var(--purple); }
+.ib--teal   .info-block__head::before { background: var(--teal);   }
+
+/* ══ KV ROWS ══ */
+.kv { display: flex; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--border-2); align-items: baseline; font-size: 10px; }
+.kv:last-child { border-bottom: none; }
+.kv__k { font-size: 9px; color: var(--text-3); flex-shrink: 0; min-width: 90px; font-family: var(--mono); }
+.kv__v { color: var(--text-2); flex: 1; }
+
+/* ══ INLINE LIST ══ */
+.ilist { list-style: none; padding: 0; }
+.ilist li { padding: 3px 0; border-bottom: 1px solid var(--border-2); font-size: 10px; color: var(--text-2); line-height: 1.5; display: flex; gap: 6px; }
+.ilist li:last-child { border-bottom: none; }
+.ilist li::before { content: '›'; color: var(--text-3); flex-shrink: 0; }
+.ilist li strong { color: var(--text); font-weight: 500; }
+
+/* ══ CALLOUT ══ */
+.callout {
+  display: flex;
+  gap: 10px;
+  padding: 9px 12px;
+  border-left: 2px solid;
+  background: var(--bg-2);
+  font-size: 10px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.callout:last-child { margin-bottom: 0; }
+.callout__icon { flex-shrink: 0; font-size: 11px; line-height: 1.4; }
+.callout--info    { border-left-color: var(--blue);   }
+.callout--tip     { border-left-color: var(--green);  }
+.callout--warn    { border-left-color: var(--amber);  }
+.callout--danger  { border-left-color: var(--red);    }
+
+/* ══ FLOW ══ */
+.flow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; padding: 10px 0; }
+.flow-step {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.flow-step--green  { border-color: var(--green);  color: var(--green-lt);  background: var(--green-dim);  }
+.flow-step--red    { border-color: var(--red);    color: var(--red-lt);    background: var(--red-dim);    }
+.flow-step--teal   { border-color: var(--teal);   color: var(--teal-lt);   background: var(--teal-dim);   }
+.flow-step--amber  { border-color: var(--amber);  color: var(--amber-lt);  background: var(--amber-dim);  }
+.flow-step--blue   { border-color: var(--blue);   color: var(--blue-lt);   background: var(--blue-dim);   }
+.flow-arrow { color: var(--text-3); font-size: 12px; line-height: 1; }
+
+/* ══ CODE BLOCK ══ */
+pre.cb {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.65;
+  overflow-x: auto;
+  color: #8892b0;
+}
+pre.cb .hg { color: #5adda0; }  /* green  */
+pre.cb .hb { color: #8ab4ff; }  /* blue   */
+pre.cb .ha { color: #f0c060; }  /* amber  */
+pre.cb .hr { color: #ff7088; }  /* red    */
+pre.cb .hd { color: #3a4060; }  /* dim    */
+
+/* ══ RISK METER ══ */
+.risk-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border-2); font-size: 10px; }
+.risk-row:last-child { border-bottom: none; }
+.risk-label { flex: 1; color: var(--text-2); }
+.risk-dots { display: flex; gap: 3px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+.dot-r { background: var(--red); }
+.dot-a { background: var(--amber); }
+.dot-g { background: var(--green); }
+
+/* ══ SEC TIERS ══ */
+.sec-tier { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--border-2); font-size: 10px; align-items: center; }
+.sec-tier:last-child { border-bottom: none; }
+.sec-tier__n { font-family: var(--mono); font-size: 9px; color: var(--green-lt); flex-shrink: 0; width: 24px; }
+.sec-tier__t { color: var(--text); font-weight: 500; min-width: 90px; }
+.sec-tier__d { color: var(--text-3); font-size: 9.5px; }
+
+/* ══ TOOL ROWS ══ */
+.tool-group-head { font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); padding: 8px 0 4px; margin-bottom: 2px; border-bottom: 1px solid var(--border-2); display: flex; align-items: center; gap: 6px; }
+.tool-group-head .dot-accent { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ══ INLINE CODE ══ */
+code { font-family: var(--mono); font-size: .88em; background: var(--bg-3); color: var(--blue-lt); padding: 0 4px; }
+
+/* ══ UTILITIES ══ */
+.mb-8  { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+strong { font-weight: 600; color: var(--text); }
+a { color: var(--blue-lt); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ══ THEME TOGGLE ══ */
+#themeToggle {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-3);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .15s;
+}
+#themeToggle:hover { color: var(--text); border-color: var(--text-3); }
+
+/* ══ LIGHT THEME ══ */
+body.light {
+  --bg:         #f4f6fb;
+  --bg-1:       #ffffff;
+  --bg-2:       #eef1f8;
+  --bg-3:       #e4e8f2;
+  --border:     #d0d6e8;
+  --border-2:   #e0e6f2;
+  --text:       #0e1428;
+  --text-2:     #3a4460;
+  --text-3:     #8090b8;
+  --blue-lt:    #1a50d0;
+  --blue-dim:   #d8e4ff;
+  --green-lt:   #0a7040;
+  --green-dim:  #d8f0e8;
+  --amber-lt:   #8a5010;
+  --amber-dim:  #fef0d0;
+  --red-lt:     #a01828;
+  --red-dim:    #ffe0e4;
+  --purple-lt:  #5020a0;
+  --purple-dim: #ede0ff;
+  --teal-lt:    #086878;
+  --teal-dim:   #d0f0f8;
+}
+body.light code { background: var(--bg-3); color: var(--blue-lt); }
+body.light pre.cb { color: #3a4460; background: #f8faff; }
+body.light pre.cb .hg { color: #0a7040; }
+body.light pre.cb .hb { color: #1a50d0; }
+body.light pre.cb .ha { color: #8a5010; }
+body.light pre.cb .hr { color: #a01828; }
+body.light pre.cb .hd { color: #b0b8d0; }
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+/* ══ FOOTER ══ */
+.site-footer {
+  background: var(--bg-1);
+  border-top: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--text-3);
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ GLOBAL TOOLBAR ══ -->
+<div class="g-toolbar">
+  <div class="g-logo">
+    <span>IBM Bob</span>
+    <span class="g-logo-badge">v2.0</span>
+  </div>
+  <div class="g-sep"></div>
+  <div class="g-tabs">
+    <div class="g-tab active" onclick="switchTab('overview',this)">總覽</div>
+    <div class="g-tab" onclick="switchTab('structure',this)">建議結構</div>
+    <div class="g-tab" onclick="switchTab('examples',this)">實戰範例</div>
+  </div>
+  <div class="g-actions">
+    <a href="bob-lite-ver.html" class="g-lite-link"><span class="arrow">←</span> 精簡版 Lite</a>
+    <div class="g-sep"></div>
+    <button id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">☀️</span><span id="themeLabel">Light</span></button>
+  </div>
+</div>
+
+<!-- ══ LAYOUT SHELL ══ -->
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <nav class="sidebar">
+    <div class="sb-section">
+      <div class="sb-head">核心機制</div>
+      <div class="sb-item active" onclick="scrollTo_('#mech')"><span class="sb-item__label">Slash Commands</span><span class="badge badge-low">低</span></div>
+      <div class="sb-item" onclick="scrollTo_('#rules')"><span class="sb-item__label">Custom Rules</span><span class="badge badge-med">中</span></div>
+      <div class="sb-item" onclick="scrollTo_('#skills')"><span class="sb-item__label">Skills</span><span class="badge badge-high">高</span></div>
+      <div class="sb-item" onclick="scrollTo_('#agents')"><span class="sb-item__label">AGENTS.md</span><span class="badge badge-high">最高</span></div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">Memory Import</div>
+      <div class="sb-item" onclick="scrollTo_('#memory')"><span class="sb-item__label">@path 語法</span></div>
+      <div class="sb-item" onclick="scrollTo_('#memory')"><span class="sb-item__label">Token 節省</span><span class="badge badge-info">50–70%</span></div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">v2 新功能</div>
+      <div class="sb-item" onclick="scrollTo_('#subagents')"><span class="sb-item__label">Subagents</span><span class="badge badge-new">🆕</span></div>
+      <div class="sb-item" onclick="scrollTo_('#rollback')"><span class="sb-item__label">Rollback</span><span class="badge badge-new">🆕</span></div>
+      <div class="sb-item" onclick="scrollTo_('#literate')"><span class="sb-item__label">Literate Coding</span><span class="badge badge-new">🆕</span></div>
+      <div class="sb-item" onclick="scrollTo_('#bobtips')"><span class="sb-item__label">Bob Tips</span><span class="badge badge-new">🆕</span></div>
+      <div class="sb-item" onclick="scrollTo_('#misc-v2')"><span class="sb-item__label">其他改進</span><span class="badge badge-info">9項</span></div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">工具 & 優化</div>
+      <div class="sb-item" onclick="scrollTo_('#tools')"><span class="sb-item__label">14+ 內建工具</span></div>
+      <div class="sb-item" onclick="scrollTo_('#token')"><span class="sb-item__label">Token 節省策略</span></div>
+      <div class="sb-item" onclick="scrollTo_('#sdlc')"><span class="sb-item__label">SDLC 整合</span></div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">安全 & 模式</div>
+      <div class="sb-item" onclick="scrollTo_('#security')"><span class="sb-item__label">安全指南</span></div>
+      <div class="sb-item" onclick="scrollTo_('#modes')"><span class="sb-item__label">三大模式</span></div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="main" id="mainContent">
+
+    <!-- ════ PANE: 總覽 ════ -->
+    <div id="pane-overview" class="pane active">
+
+      <div class="pane-header">
+        <span class="pane-title">IBM Bob v2 完整指南</span>
+        <span class="pane-sub">四大機制 · 三種模式 · 14+ 工具</span>
+        <div class="pane-stats">
+          <div class="stat"><span>Context</span><strong>270K tok</strong></div>
+          <div class="stat"><span>工具數</span><strong>14+</strong></div>
+          <div class="stat"><span>版本</span><strong>2026 June</strong></div>
+        </div>
+      </div>
+
+      <!-- v2 公告 -->
+      <div class="section">
+        <div class="callout callout--new" style="border-left-color:var(--blue)">
+          <span class="callout__icon">🆕</span>
+          <div><strong>v2.0 重大更新：</strong>三模式簡化（Agent / Plan / Ask）· Subagents 平行工作流 · Rollback 快照還原 · Literate Coding 編輯器內 AI · Bob Tips 即時品質分析 · 270K tokens · 平行工具呼叫 · MCP 設定 UI · Skills 設定頁</div>
+        </div>
+      </div>
+
+      <!-- 四大機制 -->
+      <div class="section" id="mech">
+        <div class="section-label section-label--blue">01 · 四大自訂機制</div>
+        <div class="mech-strip mb-12">
+          <div class="mech-cell mech-cell--cmd">
+            <div class="mech-cost"><span class="badge badge-low">極低</span></div>
+            <div class="mech-num">01</div>
+            <div class="mech-title">Slash Commands</div>
+            <div class="mech-path">.bob/commands/</div>
+            <div class="mech-desc">快速執行預定義操作，手動觸發，按需載入。支援 <code>argument-hint</code>。</div>
+            <span class="badge badge-info">50–200 tok</span>
+          </div>
+          <div class="mech-cell mech-cell--rule">
+            <div class="mech-cost"><span class="badge badge-med">中</span></div>
+            <div class="mech-num">02</div>
+            <div class="mech-title">Custom Rules</div>
+            <div class="mech-path">.bob/rules/</div>
+            <div class="mech-desc">定義「如何做事」的偏好設定，對話開始自動載入，支援全域 + 工作區 + 模式特定。</div>
+            <span class="badge badge-info">500–5K tok</span>
+          </div>
+          <div class="mech-cell mech-cell--skill">
+            <div class="mech-cost"><span class="badge badge-high">高</span></div>
+            <div class="mech-num">03</div>
+            <div class="mech-title">Skills</div>
+            <div class="mech-path">.bob/skills/*/SKILL.md</div>
+            <div class="mech-desc">定義「做什麼」的工作流程配方，任務相關時提示，預設需批准。<span class="badge badge-new">Agent 可用</span></div>
+            <span class="badge badge-info">1K–10K tok</span>
+          </div>
+          <div class="mech-cell mech-cell--agent">
+            <div class="mech-cost"><span class="badge badge-high">最高</span></div>
+            <div class="mech-num">04</div>
+            <div class="mech-title">AGENTS.md</div>
+            <div class="mech-path">project root</div>
+            <div class="mech-desc">定義「為什麼」的團隊標準，自動載入，僅工作區範圍。避免寫成百科全書。</div>
+            <span class="badge badge-info">2K–20K tok</span>
+          </div>
+        </div>
+
+        <!-- 執行流程 + 載入順序 -->
+        <div class="info-grid">
+          <div class="info-block ib--blue">
+            <div class="info-block__head">執行流程</div>
+            <div class="flow">
+              <span class="flow-step">使用者需求</span>
+              <span class="flow-arrow">›</span>
+              <span class="flow-step flow-step--green">Commands</span>
+              <span class="flow-arrow">›</span>
+              <span class="flow-step flow-step--red">AGENTS.md</span>
+              <span class="flow-arrow">›</span>
+              <span class="flow-step flow-step--teal">Rules</span>
+              <span class="flow-arrow">›</span>
+              <span class="flow-step flow-step--amber">Skills</span>
+              <span class="flow-arrow">›</span>
+              <span class="flow-step flow-step--blue">完成</span>
+            </div>
+          </div>
+          <div class="info-block ib--green">
+            <div class="info-block__head">載入優先級（低 → 高）</div>
+            <ul class="ilist">
+              <li><strong>①</strong> 全域規則 <code>~/.bob/rules/</code></li>
+              <li><strong>②</strong> 工作區模式規則 <code>.bob/rules-{mode}/</code></li>
+              <li><strong>③</strong> <code>AGENTS.md</code>（專案根目錄）</li>
+              <li><strong>④</strong> 工作區一般規則 <code>.bob/rules/</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills CLI -->
+      <div class="section" id="skills">
+        <div class="section-label section-label--amber">02 · Skills 管理（npx skills CLI）</div>
+        <div class="callout callout--info mb-12">
+          <span class="callout__icon">🌐</span>
+          <div>開源生態：<a href="https://github.com/vercel-labs/skills" target="_blank">vercel-labs/skills</a> — 支援 Bob、Claude Code、Cursor 等 54+ AI 工具。目錄：<a href="https://skills.sh" target="_blank">skills.sh</a></div>
+        </div>
+        <div class="info-grid info-grid-3">
+          <div class="info-block ib--green">
+            <div class="info-block__head">安裝</div>
+            <ul class="ilist">
+              <li><code>npx skills add vercel-labs/agent-skills</code></li>
+              <li><code>npx skills add owner/repo --skill name</code></li>
+              <li><code>npx skills add ./local -g</code> 全域安裝</li>
+            </ul>
+          </div>
+          <div class="info-block ib--blue">
+            <div class="info-block__head">管理</div>
+            <ul class="ilist">
+              <li><code>npx skills list</code> — 列出已安裝</li>
+              <li><code>npx skills find typescript</code> — 搜尋</li>
+              <li><code>npx skills update</code> — 更新</li>
+              <li><code>npx skills remove my-skill</code> — 移除</li>
+            </ul>
+          </div>
+          <div class="info-block ib--amber">
+            <div class="info-block__head">建立</div>
+            <ul class="ilist">
+              <li><code>npx skills init</code> — 建立 SKILL.md</li>
+              <li><code>npx skills init my-skill</code> — 子目錄</li>
+            </ul>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>預設裝到 <code>.bob/skills/</code>，<code>-g</code> 裝到 <code>~/.bob/skills/</code>。支援 symlink（推薦）。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Memory Import -->
+      <div class="section" id="memory">
+        <div class="section-label section-label--green">03 · Memory Import</div>
+        <div class="info-grid">
+          <div>
+            <div class="callout callout--info mb-8">
+              <span class="callout__icon">📚</span>
+              <div>在 <code>AGENTS.md</code> 中使用 <code>@path/to/file.md</code> 語法引用外部檔案，實現模組化管理。</div>
+            </div>
+            <table class="dtable">
+              <thead><tr><th>特性</th><th>說明</th></tr></thead>
+              <tbody>
+                <tr><td class="em">模組化</td><td>拆分大型文件為小模組</td></tr>
+                <tr><td class="em">可重用</td><td>跨專案共享配置</td></tr>
+                <tr><td class="em">安全</td><td>循環引用偵測、最大深度 5 層</td></tr>
+                <tr><td class="em">效能</td><td>節省 <strong>50–70%</strong> tokens</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="info-block ib--green">
+              <div class="info-block__head">Token 節省機制</div>
+              <div class="kv"><span class="kv__k">為何節省</span><span class="kv__v">避免在 AGENTS.md、Rules、Skills 中重複相同內容，透過 <code>@path</code> 共享模組</span></div>
+              <div class="kv"><span class="kv__k">運作方式</span><span class="kv__v">新對話時自動解析 <code>@</code> 語法，動態載入引用檔案到上下文</span></div>
+              <div class="kv"><span class="kv__k">實際效益</span><span class="kv__v">200+ 行 AGENTS.md 拆分後，只載入需要的部分</span></div>
+              <div class="kv"><span class="kv__k">錯誤處理</span><span class="kv__v">不存在顯示錯誤不中斷；自動偵測循環引用</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 工具 -->
+      <div class="section" id="tools">
+        <div class="section-label section-label--purple">04 · 內建工具（14+）</div>
+        <div class="callout callout--tip mb-12">
+          <span class="callout__icon">💡</span>
+          <div>只要清楚描述任務，Bob 會自動選擇工具。<strong>🆕 v2 新增平行工具呼叫</strong>，多個獨立工具同時執行，大幅降低等待時間。</div>
+        </div>
+        <div class="info-grid info-grid-3">
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--blue)"></span>檔案操作</div>
+            <table class="dtable">
+              <thead><tr><th>工具</th><th>節省</th></tr></thead>
+              <tbody>
+                <tr><td class="key">read_file</td><td>line_range 省 80–95%</td></tr>
+                <tr><td class="key">write_file</td><td>新檔案首選</td></tr>
+                <tr><td class="key">apply_diff</td><td>小改動省 90%+</td></tr>
+                <tr><td class="key">insert_content</td><td>不覆寫現有</td></tr>
+                <tr><td class="key">search_and_replace <span class="badge badge-new">🆕</span></td><td>跨行精準替換</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--teal)"></span>搜尋探索</div>
+            <table class="dtable">
+              <thead><tr><th>工具</th><th>最佳實踐</th></tr></thead>
+              <tbody>
+                <tr><td class="key">glob <span class="badge badge-new">🆕</span></td><td>按修改時間排序</td></tr>
+                <tr><td class="key">grep <span class="badge badge-new">🆕</span></td><td>省 70–90%探索成本</td></tr>
+                <tr><td class="key">list_files</td><td>遞迴探索專案</td></tr>
+                <tr><td class="key">GetSymbolsOverview <span class="badge badge-new">🆕</span></td><td>先了解結構</td></tr>
+                <tr><td class="key">FindSymbol <span class="badge badge-new">🆕</span></td><td>精準定位函數</td></tr>
+                <tr><td class="key">FindReferencingSymbols <span class="badge badge-new">🆕</span></td><td>理解依賴</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--amber)"></span>執行 &amp; Agent</div>
+            <table class="dtable mb-12">
+              <thead><tr><th>工具</th><th>用途</th></tr></thead>
+              <tbody>
+                <tr><td class="key">execute_command</td><td>合併命令執行</td></tr>
+                <tr><td class="key">ask_followup_question</td><td>需要澄清時</td></tr>
+              </tbody>
+            </table>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--red)"></span>Agent 工具 <span class="badge badge-new">🆕</span></div>
+            <table class="dtable">
+              <thead><tr><th>工具</th><th>用途</th></tr></thead>
+              <tbody>
+                <tr><td class="key">spawn_subagent</td><td>生成子代理</td></tr>
+                <tr><td class="key">start_subtask</td><td>可視化子任務</td></tr>
+                <tr><td class="key">use_skill</td><td>載入 Skill 指令</td></tr>
+                <tr><td class="key">start_workflow</td><td>多步驟流程</td></tr>
+                <tr><td class="key">update_todo_list</td><td>複雜任務追蹤</td></tr>
+                <tr><td class="key">switch_mode</td><td>動態切換模式</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Token -->
+      <div class="section" id="token">
+        <div class="section-label section-label--amber">05 · Token 節省策略</div>
+        <div class="info-grid">
+          <div class="info-block ib--amber">
+            <div class="info-block__head">核心策略 vs 高成本警示</div>
+            <div class="info-grid" style="gap:10px">
+              <div>
+                <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-lt);margin-bottom:6px;font-weight:600">核心策略</div>
+                <ul class="ilist">
+                  <li><strong>精準任務</strong>：明確具體的描述</li>
+                  <li><strong>Line Range</strong>：只讀需要的行</li>
+                  <li><strong>批次處理</strong>：一次完成相關任務</li>
+                  <li><strong>選對工具</strong>：apply_diff > write_file</li>
+                </ul>
+              </div>
+              <div>
+                <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-lt);margin-bottom:6px;font-weight:600">高成本警示</div>
+                <ul class="ilist">
+                  <li><span class="badge badge-high">高</span> 讀取 &gt;1000 行大檔案</li>
+                  <li><span class="badge badge-high">高</span> 相同檔案重複操作</li>
+                  <li><span class="badge badge-med">中</span> 不明確的模糊任務</li>
+                  <li><span class="badge badge-med">中</span> 無限制全專案掃描</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="info-block ib--blue">
+            <div class="info-block__head">成本估算參考</div>
+            <table class="dtable">
+              <thead><tr><th>操作類型</th><th>Token 成本</th><th>建議</th></tr></thead>
+              <tbody>
+                <tr><td>簡單查詢</td><td>100–500</td><td>直接執行</td></tr>
+                <tr><td>檔案修改</td><td>500–2,000</td><td>apply_diff</td></tr>
+                <tr><td>複雜重構</td><td>2,000–10,000</td><td>分階段處理</td></tr>
+                <tr><td>全專案分析</td><td>10,000+</td><td>精準指定範圍</td></tr>
+              </tbody>
+            </table>
+            <div class="callout callout--warn mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">⚠️</span>
+              <div>以上僅供參考，依實際使用為主。連接 MCP 會增加基礎成本，只在必要時使用。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- v2 新功能 -->
+      <div class="section" id="subagents">
+        <div class="section-label section-label--red">06 · v2 全新功能</div>
+        <div class="info-grid mb-12">
+          <div class="info-block ib--purple">
+            <div class="info-block__head">🤖 Subagents — 平行子代理</div>
+            <div class="callout callout--info mb-8" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">ℹ️</span>
+              <div>讓 Bob 生成獨立代理處理聚焦任務，避免污染主對話上下文。</div>
+            </div>
+            <table class="dtable mb-8">
+              <thead><tr><th>類型</th><th>能力</th><th>適用</th></tr></thead>
+              <tbody>
+                <tr><td class="key">explore</td><td>唯讀、輕量模型</td><td>搜尋程式碼</td></tr>
+                <tr><td class="key">general</td><td>完整工具、預設模型</td><td>讀寫獨立任務</td></tr>
+              </tbody>
+            </table>
+            <ul class="ilist">
+              <li>Bob 決定生成子代理 → 你批准 → 子代理執行</li>
+              <li>子代理有獨立 context window，不共享</li>
+              <li>任務完成後摘要回傳主對話</li>
+            </ul>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div><strong>vs Subtask：</strong>Subagent 靜默執行；Subtask 在 UI 顯示完整對話可追蹤。</div>
+            </div>
+          </div>
+          <div class="info-block ib--green" id="rollback">
+            <div class="info-block__head">⏪ Rollback — 快照還原</div>
+            <div class="callout callout--info mb-8" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">ℹ️</span>
+              <div>每個任務前自動建立快照，底層使用 Shadow Git Repository。</div>
+            </div>
+            <div class="kv"><span class="kv__k">快照時機</span><span class="kv__v">任務開始時、檔案修改前</span></div>
+            <div class="kv"><span class="kv__k">兩大功能</span><span class="kv__v"><span class="badge badge-info">View diff</span> 比較差異 &nbsp; <span class="badge badge-med">Rollback</span> 還原</span></div>
+            <div class="kv"><span class="kv__k">還原選項</span><span class="kv__v"><strong>Restore files</strong>：僅還原檔案，保留對話</span></div>
+            <div class="kv"><span class="kv__k"></span><span class="kv__v"><strong>Restore files &amp; task</strong>：還原並刪後續對話（不可逆）</span></div>
+            <div class="kv"><span class="kv__k">限制</span><span class="kv__v">僅追蹤 Bob 任務內的變更，<code>.gitignore</code> 排除的不追蹤</span></div>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>Bob 輸出變差時，直接 Rollback 重試比繼續糾正更有效！</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-grid info-grid-3">
+          <div class="info-block ib--teal" id="literate">
+            <div class="info-block__head">✏️ Literate Coding</div>
+            <ul class="ilist">
+              <li><strong>啟動</strong>：<code>Cmd+I</code> / <code>Ctrl+I</code></li>
+              <li><strong>生成</strong>：<code>Cmd+Enter</code> 觸發 inline diff</li>
+              <li><strong>接受</strong>：<code>Cmd+Enter</code></li>
+              <li><strong>拒絕</strong>：<code>Cmd+Shift+Backspace</code></li>
+            </ul>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>不需切換 Chat，原地描述意圖即可生成。</div>
+            </div>
+          </div>
+          <div class="info-block ib--amber" id="bobtips">
+            <div class="info-block__head">💡 Bob Tips 即時品質分析</div>
+            <ul class="ilist">
+              <li><strong>Cyclomatic Complexity ≥ 10</strong>：過高複雜度</li>
+              <li><strong>Maintainability Index ≤ 70</strong>：低可維護性</li>
+              <li>問題函數顯示紫色底線</li>
+              <li>懸停 → Fix with Bob 開啟 Chat</li>
+            </ul>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>Settings → Bob Findings → Bob Tips 開關</div>
+            </div>
+          </div>
+          <div class="info-block ib--blue" id="misc-v2">
+            <div class="info-block__head">🚀 其他重大改進</div>
+            <ul class="ilist">
+              <li><strong>Agent Steering</strong>：執行中輸入新指令</li>
+              <li><strong>Context 270K</strong>：從 200K 增加</li>
+              <li><strong>平行工具呼叫</strong>：多工具同時執行</li>
+              <li><strong>可編輯命令</strong>：執行前手動修改</li>
+              <li><strong>Task-level 批准</strong>：任務獨立設定</li>
+              <li><strong>MCP UI 管理</strong>：Settings 視覺化</li>
+              <li><strong>Context Pills</strong>：文字自動轉 pill</li>
+              <li><strong>Nested Workflows</strong>：工作流可巢狀</li>
+              <li><strong>.docx/.pdf/.xlsx</strong>：可直接附件</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 安全 -->
+      <div class="section" id="security">
+        <div class="section-label section-label--red">07 · 安全與最佳實踐</div>
+        <div class="info-grid mb-12">
+          <div class="info-block ib--red">
+            <div class="info-block__head">📁 .bobignore 檔案保護</div>
+            <pre class="cb"><code><span class="hd"># 敏感資訊</span>
+.env
+secrets/
+*.key
+<span class="hd"># 客戶資料</span>
+src/customer/
+data/customer/</code></pre>
+            <div class="callout callout--warn mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">⚠️</span>
+              <div>語法同 .gitignore。<strong>限制：</strong>僅工作區、可能被繞過、非沙箱。</div>
+            </div>
+          </div>
+          <div class="info-block ib--amber">
+            <div class="info-block__head">⚠️ 自動批准風險等級</div>
+            <div class="risk-row"><span class="risk-label">編輯檔案</span><div class="risk-dots"><div class="dot dot-r"></div><div class="dot dot-r"></div><div class="dot dot-r"></div></div><span class="badge badge-high">高</span></div>
+            <div class="risk-row"><span class="risk-label">執行命令</span><div class="risk-dots"><div class="dot dot-r"></div><div class="dot dot-r"></div><div class="dot dot-r"></div></div><span class="badge badge-high">高</span></div>
+            <div class="risk-row"><span class="risk-label">使用 MCP</span><div class="risk-dots"><div class="dot dot-a"></div><div class="dot dot-a"></div><div class="dot"></div></div><span class="badge badge-med">中高</span></div>
+            <div class="risk-row"><span class="risk-label">讀取檔案</span><div class="risk-dots"><div class="dot dot-g"></div><div class="dot"></div><div class="dot"></div></div><span class="badge badge-low">中</span></div>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>建議：僅受控環境下啟用自動批准</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-block ib--green">
+          <div class="info-block__head">🛡️ 企業級六層防護（客戶 PoC 必備）</div>
+          <div class="info-grid" style="gap:8px">
+            <div>
+              <div class="sec-tier"><span class="sec-tier__n">1️⃣</span><span class="sec-tier__t">.bobignore</span><span class="sec-tier__d">排除客戶資料（語法同 .gitignore）</span></div>
+              <div class="sec-tier"><span class="sec-tier__n">2️⃣</span><span class="sec-tier__t">信任資料夾</span><span class="sec-tier__d">限制存取範圍（Shell 專用）</span></div>
+              <div class="sec-tier"><span class="sec-tier__n">3️⃣</span><span class="sec-tier__t">禁用自動批准</span><span class="sec-tier__d">所有操作需確認</span></div>
+            </div>
+            <div>
+              <div class="sec-tier"><span class="sec-tier__n">4️⃣</span><span class="sec-tier__t">唯讀 API Key</span><span class="sec-tier__d">限制 AI 權限</span></div>
+              <div class="sec-tier"><span class="sec-tier__n">5️⃣</span><span class="sec-tier__t">Sandbox 隔離</span><span class="sec-tier__d">容器或 macOS Seatbelt</span></div>
+              <div class="sec-tier"><span class="sec-tier__n">6️⃣</span><span class="sec-tier__t">稽核監控</span><span class="sec-tier__d">記錄所有操作</span></div>
+            </div>
+          </div>
+          <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+            <span class="callout__icon" style="font-size:10px">💡</span>
+            <div>PoC 階段至少實施前 3 層；生產環境建議全部實施。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 模式 & SDLC -->
+      <div class="section" id="modes">
+        <div class="section-label section-label--blue">08 · 模式 &amp; SDLC</div>
+        <div class="info-grid mb-12">
+          <div class="info-block ib--blue">
+            <div class="info-block__head">⚡ v2 三大內建模式</div>
+            <table class="dtable mb-8">
+              <thead><tr><th>模式</th><th>工具存取</th><th>場景</th></tr></thead>
+              <tbody>
+                <tr><td class="em">🤖 Agent</td><td>Read, Edit, Execute, MCP, Skill, Subagent…</td><td>實作、修 Bug</td></tr>
+                <tr><td class="em">📝 Plan</td><td>Read, Edit, MCP, Skill, Subagent</td><td>規劃（禁 Execute）</td></tr>
+                <tr><td class="em">❓ Ask</td><td>Read, MCP, Skill, Subagent</td><td>學習（唯讀）</td></tr>
+              </tbody>
+            </table>
+            <div class="callout callout--tip mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">🔄</span>
+              <div><strong>4 種切換：</strong>下拉選單 · /agent /plan /ask · ⌘+. / Ctrl+. · Bob 自動切換</div>
+            </div>
+          </div>
+          <div class="info-block ib--teal" id="sdlc">
+            <div class="info-block__head">🔄 SDLC 整合</div>
+            <table class="dtable">
+              <thead><tr><th>階段</th><th>IDE</th><th>CLI / 自動化</th></tr></thead>
+              <tbody>
+                <tr><td class="em">需求分析</td><td>互動式探索</td><td>批次分析 / 影響分析</td></tr>
+                <tr><td class="em">架構設計</td><td>互動式討論</td><td>批次驗證 / 一致性檢查</td></tr>
+                <tr><td class="em">開發</td><td>即時程式碼輔助</td><td>批次生成 / Pre-commit</td></tr>
+                <tr><td class="em">測試</td><td>互動式撰寫</td><td>自動執行 / CI/CD</td></tr>
+                <tr><td class="em">部署</td><td>腳本審查</td><td>自動化檢查 / CD</td></tr>
+                <tr><td class="em">維護</td><td>問題診斷</td><td>日誌分析 / 監控警報</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="info-grid info-grid-3">
+          <div class="info-block ib--green">
+            <div class="info-block__head">🚀 快速決策</div>
+            <table class="dtable">
+              <thead><tr><th>需求</th><th>機制</th></tr></thead>
+              <tbody>
+                <tr><td>快速任務</td><td>Slash Commands</td></tr>
+                <tr><td>編碼風格</td><td>Custom Rules</td></tr>
+                <tr><td>複雜流程</td><td>Skills</td></tr>
+                <tr><td>團隊規範</td><td>Agents</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="info-block ib--blue" style="grid-column:span 2">
+            <div class="info-block__head">✅ 最佳實踐 &amp; 常見錯誤</div>
+            <div class="info-grid" style="gap:10px">
+              <ul class="ilist">
+                <li><strong>從小開始</strong>：AGENTS.md + 1–2 Rules</li>
+                <li><strong>逐步擴展</strong>：需要時才加 Commands/Skills</li>
+                <li><strong>保持簡短</strong>：每個檔案專注單一主題</li>
+                <li><strong>定期審查</strong>：移除不再使用的配置</li>
+              </ul>
+              <ul class="ilist">
+                <li><strong>避免過度配置</strong>：一開始不要建立所有機制</li>
+                <li><strong>避免內容重複</strong>：不在多處寫相同規則</li>
+                <li><strong>避免檔案過大</strong>：AGENTS.md &gt; 500 行</li>
+                <li><strong>避免忽略成本</strong>：不載入不必要的內容</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pane-overview -->
+
+    <!-- ════ PANE: 建議結構 ════ -->
+    <div id="pane-structure" class="pane">
+      <div class="pane-header">
+        <span class="pane-title">建議結構</span>
+        <span class="pane-sub">Folder Mapping · 載入行為 · Memory 拆法</span>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--blue">總原則</div>
+        <div class="info-grid mb-12">
+          <div class="info-block ib--blue">
+            <div class="info-block__head">🧭 放哪裡</div>
+            <ul class="ilist">
+              <li><strong>專案根目錄</strong>：<code>AGENTS.md</code> 放「為什麼」、<code>.bobignore</code> 放「不能碰什麼」</li>
+              <li><strong>專案內 .bob/</strong>：放可操作的配置（Rules、Commands、Skills、Memory）</li>
+              <li><strong>全域 ~/.bob/</strong>：放跨專案共用設定（個人模式、MCP、常用規則）</li>
+              <li><strong>高成本項</strong>：<code>AGENTS.md</code>、<code>custom_modes.yaml</code>、<code>mcp_settings.json</code></li>
+              <li><strong>按需載入項</strong>：Slash Commands、Skills</li>
+            </ul>
+          </div>
+          <div class="info-block ib--green">
+            <div class="info-block__head">🎯 判讀公式</div>
+            <div class="kv"><span class="kv__k"><span class="badge badge-high">高</span></span><span class="kv__v">直接影響系統提示或長期上下文</span></div>
+            <div class="kv"><span class="kv__k"><span class="badge badge-med">中</span></span><span class="kv__v">規則類檔案，依載入順序生效</span></div>
+            <div class="kv"><span class="kv__k"><span class="badge badge-low">低</span></span><span class="kv__v">僅在觸發時載入，不會常駐</span></div>
+            <div class="callout callout--info mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">🗝️</span>
+              <div><strong>判讀公式：</strong>位置決定範圍、檔名決定用途、載入時機決定 token 成本</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--purple">Canonical Folder Mapping</div>
+        <pre class="cb"><code><span class="ha">your-project/</span>                              <span class="hd">← 工作區 / project root</span>
+├── <span class="hr">AGENTS.md</span>                              <span class="hd">← 團隊原則、開發標準（自動載入）</span>
+├── <span class="hr">.bobignore</span>                             <span class="hd">← 阻擋敏感檔案/資料夾</span>
+├── .gitignore                             <span class="hd">← 常與 .bobignore 搭配</span>
+└── <span class="hb">.bob/</span>                                  <span class="hd">← 專案級 Bob 設定，優先於全域</span>
+    ├── settings.json                      <span class="hd">← 專案設定；不直接進上下文</span>
+    ├── custom_modes.yaml                  <span class="hd">← 自訂模式；模式指令進系統提示</span>
+    ├── mcp_settings.json                  <span class="hd">← MCP 設定；description 成本高</span>
+    ├── <span class="hg">rules/</span>         *.md               <span class="hd">← 所有模式共用；持續影響回應</span>
+    ├── <span class="hg">rules-{mode-slug}/</span>  *.md          <span class="hd">← 只在該 mode 載入</span>
+    ├── <span class="ha">commands/</span>      *.md               <span class="hd">← 手動觸發時載入，低成本</span>
+    ├── <span class="ha">skills/</span>
+    │   └── skill-name/
+    │       ├── SKILL.md                   <span class="hd">← 技能主定義；選擇時載入</span>
+    │       └── support-files...
+    └── <span class="hg">memory/</span>                            <span class="hd">← Memory Import 模組庫</span>
+        ├── intro/   core/   features/
+        ├── security/   best-practices/
+        └── project-context.md
+
+<span class="ha">~/.bob/</span>                                    <span class="hd">← 全域設定，跨專案共用</span>
+├── settings.json   custom_modes.yaml
+├── mcp_settings.json
+└── <span class="hg">rules/</span>  <span class="hg">rules-{mode}/</span>  <span class="ha">commands/</span>  <span class="ha">skills/</span></code></pre>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--green">.bob/ 子資料夾用途地圖</div>
+        <table class="dtable mb-12">
+          <thead><tr><th>路徑</th><th>主要用途</th><th>載入時機</th><th>建議寫法</th></tr></thead>
+          <tbody>
+            <tr><td class="key">rules/</td><td>所有模式共用規則</td><td><span class="badge badge-med">中</span> 對話開始時</td><td>短、小、單一主題、多檔拆分</td></tr>
+            <tr><td class="key">rules-{mode}/</td><td>某一 mode 專用規則</td><td><span class="badge badge-med">中</span> 僅該模式啟用時</td><td>只寫該 mode 真正需要的限制</td></tr>
+            <tr><td class="key">commands/</td><td>Slash Commands</td><td><span class="badge badge-low">低</span> 手動觸發時</td><td>一個命令只做一件事</td></tr>
+            <tr><td class="key">skills/</td><td>複雜任務流程</td><td><span class="badge badge-high">高</span> 被選中時載入</td><td>SKILL.md 聚焦，支援檔外拆</td></tr>
+            <tr><td class="key">memory/</td><td>@path 引用的模組化知識</td><td>由 AGENTS.md 引用時</td><td>按主題分層，不要堆成大檔</td></tr>
+            <tr><td class="key">custom_modes.yaml</td><td>定義角色與 custom instructions</td><td><span class="badge badge-high">高</span> 進系統提示</td><td>只保留必要 persona</td></tr>
+            <tr><td class="key">mcp_settings.json</td><td>MCP server 註冊與描述</td><td><span class="badge badge-high">高</span> description 成本明顯</td><td>只連必要 MCP，description 要短</td></tr>
+            <tr><td class="key">settings.json</td><td>設定與行為開關</td><td>通常不進上下文</td><td>視為執行設定，不要混規範</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-grid">
+          <div class="info-block ib--purple">
+            <div class="info-block__head">📚 Memory Import 推薦拆法</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hg">.bob/memory/</span>
+├── intro/
+│   ├── <span class="hb">quick-start.md</span>
+│   └── architecture.md
+├── core/
+│   ├── mechanisms.md
+│   ├── tools.md  └── modes.md
+├── features/
+│   ├── mcp-integration.md
+│   ├── sandbox.md
+│   └── token-optimization.md
+├── security/
+│   └── file-access.md
+├── best-practices/
+│   └── workflow.md
+└── <span class="ha">project-context.md</span></code></pre>
+            <div class="callout callout--warn mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">⚠️</span>
+              <div>避免把所有內容塞回 AGENTS.md，失去 Memory Import 意義</div>
+            </div>
+          </div>
+          <div class="info-block ib--amber">
+            <div class="info-block__head">🔄 載入順序 &amp; 實務建議</div>
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;font-weight:600">規則鏈（低 → 高）</div>
+            <ul class="ilist mb-12">
+              <li>① 全域規則 <code>~/.bob/rules/</code></li>
+              <li>② 工作區模式規則 <code>.bob/rules-{mode}/</code></li>
+              <li>③ <code>AGENTS.md</code>（專案根目錄）</li>
+              <li>④ 工作區一般規則 <code>.bob/rules/</code></li>
+            </ul>
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;font-weight:600">按需載入</div>
+            <ul class="ilist mb-12">
+              <li><strong>Commands：</strong>使用該命令時才載入</li>
+              <li><strong>Skills：</strong>被挑選/批准後才載入</li>
+              <li><strong>MCP：</strong>連線時 description 進提示</li>
+            </ul>
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;font-weight:600">實務建議</div>
+            <ul class="ilist">
+              <li>長內容放 Memory，不放根 AGENTS</li>
+              <li>共用規則短、模式規則更短</li>
+              <li>高成本設定只保留必要項</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><!-- /pane-structure -->
+
+    <!-- ════ PANE: 實戰範例 ════ -->
+    <div id="pane-examples" class="pane">
+      <div class="pane-header">
+        <span class="pane-title">實戰範例</span>
+        <span class="pane-sub">SKILL.md · Custom Mode · Rules · AGENTS.md · Memory Import · Commands</span>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--blue">五大機制範例</div>
+        <div class="info-grid info-grid-3 mb-12">
+          <div class="info-block ib--amber">
+            <div class="info-block__head">🎯 SKILL.md</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hd">---</span>
+<span class="hg">name</span>: security-review
+<span class="hg">description</span>: Review code for
+         security vulnerabilities
+<span class="hd">---</span>
+執行安全審查：
+1. 檢查常見漏洞
+2. 審查最佳實踐
+3. 提供發現結果
+
+參考 severity-levels.md 分級</code></pre>
+            <div class="callout callout--info mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">🆕</span>
+              <div>v2 Agent 模式可用。description 影響 Bob 判斷何時啟用。</div>
+            </div>
+          </div>
+          <div class="info-block ib--teal">
+            <div class="info-block__head">🎨 Custom Mode（YAML）</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hg">customModes</span>:
+  - <span class="ha">slug</span>: docs-writer
+    <span class="ha">name</span>: "📝 Documentation Writer"
+    <span class="ha">roleDefinition</span>: 技術文件專家
+    <span class="ha">whenToUse</span>: 撰寫文件時使用
+    <span class="ha">groups</span>:
+      - read
+      - - edit
+        - fileRegex: \.(md|mdx)$
+          description: 僅 Markdown
+      - browser</code></pre>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>工具群組：read, edit, browser, command, mcp</div>
+            </div>
+          </div>
+          <div class="info-block ib--red">
+            <div class="info-block__head">📋 Custom Rules</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="ha"># TypeScript 規範</span>
+<span class="hg">## 型別定義</span>
+- 優先 interface
+- 避免 any
+- 善用 generics
+
+<span class="hg">## 命名規範</span>
+- 介面：PascalCase
+- 函數：camelCase
+- 常數：SCREAMING_SNAKE</code></pre>
+            <div class="callout callout--warn mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">⚠️</span>
+              <div>持續影響，保持簡短。</div>
+            </div>
+          </div>
+          <div class="info-block ib--green">
+            <div class="info-block__head">🤝 AGENTS.md</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="ha"># 團隊規範</span>
+<span class="hg">## 核心原則</span>
+1. 品質優先
+2. 安全不妥協
+
+<span class="hg">## 詳細規範</span>
+<span class="hb">@./.bob/memory/core/coding-standards.md</span>
+<span class="hb">@./.bob/memory/security/checklist.md</span></code></pre>
+            <div class="callout callout--info mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">🎯</span>
+              <div>用 @path 引用，讓 AGENTS.md 保持簡短。</div>
+            </div>
+          </div>
+          <div class="info-block ib--purple">
+            <div class="info-block__head">📚 Memory Import</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hd"># coding-standards.md</span>
+<span class="ha">## 程式碼風格</span>
+- ESLint + Prettier
+- Airbnb Style Guide
+- 最大行長：80 字元
+
+<span class="ha">## 提交訊息</span>
+格式：`type(scope): subject`
+類型：feat/fix/docs/refactor</code></pre>
+            <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">💡</span>
+              <div>模組化管理，一檔一主題，名稱可預測。</div>
+            </div>
+          </div>
+          <div class="info-block ib--blue">
+            <div class="info-block__head">⚡ Slash Commands</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hd">---</span>
+<span class="hg">description</span>: Create a new API endpoint
+<span class="hg">argument-hint</span>: &lt;endpoint&gt; &lt;method&gt;
+<span class="hd">---</span>
+Create API endpoint called $1
+that handles $2 requests.
+Include error handling and docs.</code></pre>
+            <div class="callout callout--info mt-8 mb-0" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon" style="font-size:10px">🎯</span>
+              <div><strong>內建：</strong>/init · /review · /create-pr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--purple">完整專案配置範例（中型 Web 應用，5 人團隊）</div>
+        <div class="info-grid info-grid-3 mb-12">
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--red)"></span>AGENTS.md（核心原則）</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="ha"># 團隊規範</span>
+<span class="hg">## 核心價值</span>
+- 品質 > 速度
+- 安全 > 便利
+
+<span class="hg">## 技術決策</span>
+<span class="hb">@./.bob/memory/core/architecture.md</span>
+<span class="hb">@./.bob/memory/core/tech-stack.md</span>
+
+<span class="hg">## 開發標準</span>
+<span class="hb">@./.bob/memory/core/coding-standards.md</span></code></pre>
+          </div>
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--teal)"></span>Rules（實作細節）</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code>.bob/rules/
+├── typescript.md
+├── react.md
+└── api-design.md
+
+.bob/rules-code/
+└── code-review.md</code></pre>
+            <div class="tool-group-head mt-8"><span class="dot-accent" style="background:var(--green)"></span>Commands（快速任務）</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code>.bob/commands/
+├── review.md    <span class="hd"># /review</span>
+├── test.md      <span class="hd"># /test</span>
+└── deploy.md    <span class="hd"># /deploy</span></code></pre>
+          </div>
+          <div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--amber)"></span>Skills（複雜流程）</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code>.bob/skills/
+├── api-integration/
+│   └── SKILL.md
+├── db-migration/
+│   └── SKILL.md
+└── security-audit/
+    └── SKILL.md</code></pre>
+            <div class="tool-group-head mt-8"><span class="dot-accent" style="background:var(--purple)"></span>Custom Mode</div>
+            <pre class="cb" style="font-size:9px;padding:10px"><code>customModes:
+  - slug: architect
+    name: "🏗️ Architect"
+  - slug: reviewer
+    name: "👀 Reviewer"</code></pre>
+          </div>
+        </div>
+        <div class="callout callout--tip" style="margin-bottom:0">
+          <span class="callout__icon">🎯</span>
+          <div><strong>使用流程：</strong>AGENTS.md 定義「為什麼」→ Rules 定義「如何做」→ Commands 快速執行 → Skills 處理複雜任務 → Custom Mode 切換專家角色 → Memory Import 提供詳細文件</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label section-label--green">進階技巧</div>
+        <div class="info-grid info-grid-3">
+          <div class="info-block ib--green">
+            <div class="info-block__head">💡 實戰技巧</div>
+            <ul class="ilist">
+              <li><strong>從小開始</strong>：先建 AGENTS.md + 1–2 Rules</li>
+              <li><strong>逐步擴展</strong>：需要時才加 Commands/Skills</li>
+              <li><strong>保持簡短</strong>：每個檔案專注單一主題</li>
+              <li><strong>定期審查</strong>：移除不再使用的配置</li>
+              <li><strong>版本控制</strong>：配置納入 Git</li>
+            </ul>
+          </div>
+          <div class="info-block ib--red">
+            <div class="info-block__head">⚠️ 常見錯誤</div>
+            <ul class="ilist">
+              <li><strong>過度配置</strong>：一開始建立所有機制</li>
+              <li><strong>內容重複</strong>：在多個地方寫相同規則</li>
+              <li><strong>檔案過大</strong>：AGENTS.md &gt; 500 行</li>
+              <li><strong>缺乏組織</strong>：Memory 檔案沒有分類</li>
+              <li><strong>忽略成本</strong>：載入過多不必要內容</li>
+            </ul>
+          </div>
+          <div class="info-block ib--purple">
+            <div class="info-block__head">🚀 進階應用</div>
+            <ul class="ilist">
+              <li><strong>多專案共用</strong>：全域 Rules 放個人偏好</li>
+              <li><strong>模式專屬</strong>：rules-code/ 只在 Code 模式</li>
+              <li><strong>動態載入</strong>：Skills 按需批准載入</li>
+              <li><strong>分層管理</strong>：Memory 按主題分目錄</li>
+              <li><strong>版本演進</strong>：配置隨專案成長調整</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><!-- /pane-examples -->
+
+  </main>
+</div><!-- /shell -->
+
+<footer class="site-footer">
+  <span>IBM Bob v2 完整指南 · 2026 June</span>
+  <span>三模式：Agent · Plan · Ask &nbsp;|&nbsp; 四大機制：Commands · Rules · Skills · Agents</span>
+  <span>模組化配置，選對工具，安全第一 🚀 &nbsp;|&nbsp; Made with IBM Bob</span>
+</footer>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.g-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('mainContent').scrollTop = 0;
+}
+
+function scrollTo_(id) {
+  const el = document.querySelector(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // activate sidebar item
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+const THEME_KEY = 'bob-dd-theme';
+function applyTheme(t) {
+  document.body.classList.toggle('light', t === 'light');
+  document.getElementById('themeIcon').textContent  = t === 'light' ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = t === 'light' ? 'Dark'  : 'Light';
+  localStorage.setItem(THEME_KEY, t);
+}
+function toggleTheme() {
+  applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
+}
+(function() {
+  const s = localStorage.getItem(THEME_KEY);
+  const sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  applyTheme(s || sys);
+})();
+</script>
+</body>
+</html>
