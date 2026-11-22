@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Updated: 2026-08-17 15:26:18 +0800 -->
-<title>IBM Bob v2 完整指南</title>
+<!-- Updated: 2026-11-04 13:50:45 +0800 -->
+<title>IBM Bob v2.3.0 & Bob Shell 完整指南</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap">
 <style>
@@ -604,6 +604,7 @@ body.light pre.cb .hd { color: #b0b8d0; }
       <div class="sb-item" onclick="scrollTo_('#rules')"><span class="sb-item__label">Custom Rules</span><span class="badge badge-med">中</span></div>
       <div class="sb-item" onclick="scrollTo_('#skills')"><span class="sb-item__label">Skills</span><span class="badge badge-high">高</span></div>
       <div class="sb-item" onclick="scrollTo_('#agents')"><span class="sb-item__label">AGENTS.md</span><span class="badge badge-high">最高</span></div>
+      <div class="sb-item" onclick="scrollTo_('#plugins')"><span class="sb-item__label">Plugins 插件</span><span class="badge badge-new">v2.3</span></div>
     </div>
     <div class="sb-divider"></div>
     <div class="sb-section">
@@ -613,20 +614,21 @@ body.light pre.cb .hd { color: #b0b8d0; }
     </div>
     <div class="sb-divider"></div>
     <div class="sb-section">
-      <div class="sb-head">v2 新功能</div>
-      <div class="sb-item" onclick="scrollTo_('#subagents')"><span class="sb-item__label">Subagents</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#rollback')"><span class="sb-item__label">Rollback</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#literate')"><span class="sb-item__label">Literate Coding</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#bobtips')"><span class="sb-item__label">Bob Tips</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#personas')"><span class="sb-item__label">Agent Personas</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#hooks')"><span class="sb-item__label">Lifecycle Hooks</span><span class="badge badge-new">🆕</span></div>
-      <div class="sb-item" onclick="scrollTo_('#bobalytics')"><span class="sb-item__label">Bobalytics</span><span class="badge badge-purple">Enterprise</span></div>
-      <div class="sb-item" onclick="scrollTo_('#misc-v2')"><span class="sb-item__label">其他改進</span><span class="badge badge-info">9項</span></div>
+      <div class="sb-head">v2.3 重大功能</div>
+      <div class="sb-item" onclick="scrollTo_('#subagents')"><span class="sb-item__label">Subagents</span><span class="badge badge-new">串流</span></div>
+      <div class="sb-item" onclick="scrollTo_('#rollback')"><span class="sb-item__label">Rollback</span><span class="badge badge-new">快照</span></div>
+      <div class="sb-item" onclick="scrollTo_('#literate')"><span class="sb-item__label">Literate Coding</span><span class="badge badge-new">Cmd+I</span></div>
+      <div class="sb-item" onclick="scrollTo_('#bobtips')"><span class="sb-item__label">Bob Tips</span><span class="badge badge-new">品質</span></div>
+      <div class="sb-item" onclick="scrollTo_('#personas')"><span class="sb-item__label">Agent Personas</span><span class="badge badge-new">角色</span></div>
+      <div class="sb-item" onclick="scrollTo_('#hooks')"><span class="sb-item__label">Lifecycle Hooks</span><span class="badge badge-new">7+ Hook</span></div>
+      <div class="sb-item" onclick="scrollTo_('#bobshell')"><span class="sb-item__label">Bob Shell (CLI)</span><span class="badge badge-info">v2.0.9</span></div>
+      <div class="sb-item" onclick="scrollTo_('#bobalytics')"><span class="sb-item__label">Bobalytics &amp; OTEL</span><span class="badge badge-purple">Enterprise</span></div>
+      <div class="sb-item" onclick="scrollTo_('#misc-v2')"><span class="sb-item__label">v2.3 新增特性</span><span class="badge badge-info">最新</span></div>
     </div>
     <div class="sb-divider"></div>
     <div class="sb-section">
       <div class="sb-head">工具 & 優化</div>
-      <div class="sb-item" onclick="scrollTo_('#tools')"><span class="sb-item__label">14+ 內建工具</span></div>
+      <div class="sb-item" onclick="scrollTo_('#tools')"><span class="sb-item__label">18+ 內建工具</span></div>
       <div class="sb-item" onclick="scrollTo_('#token')"><span class="sb-item__label">Token 節省策略</span></div>
       <div class="sb-item" onclick="scrollTo_('#sdlc')"><span class="sb-item__label">SDLC 整合</span></div>
     </div>
@@ -635,7 +637,7 @@ body.light pre.cb .hd { color: #b0b8d0; }
       <div class="sb-head">安全 & 模式</div>
       <div class="sb-item" onclick="scrollTo_('#security')"><span class="sb-item__label">安全指南</span></div>
       <div class="sb-item" onclick="scrollTo_('#modes')"><span class="sb-item__label">三大模式</span></div>
-      <div class="sb-item" onclick="scrollTo_('#pr-review')"><span class="sb-item__label">PR &amp; Code Review</span></div>
+      <div class="sb-item" onclick="scrollTo_('#pr-review')"><span class="sb-item__label">PR &amp; Review &amp; MCP</span></div>
     </div>
   </nav>
 
@@ -646,20 +648,20 @@ body.light pre.cb .hd { color: #b0b8d0; }
     <div id="pane-overview" class="pane active">
 
       <div class="pane-header">
-      <span class="pane-title">IBM Bob v2 完整指南</span>
-      <span class="pane-sub">四大機制 · 三種模式 · 14+ 工具</span>
+      <span class="pane-title">IBM Bob v2.3.0 完整指南</span>
+      <span class="pane-sub">四大機制 + Plugins · 三大模式 · 18+ 工具 · Bob Shell v2.0.9</span>
       <div class="pane-stats">
         <div class="stat"><span>Context</span><strong>270K tok</strong></div>
-        <div class="stat"><span>工具數</span><strong>14+</strong></div>
-        <div class="stat"><span>版本</span><strong>2026 Aug</strong></div>
+        <div class="stat"><span>工具數</span><strong>18+</strong></div>
+        <div class="stat"><span>版本</span><strong>v2.3.0 (2026 Nov)</strong></div>
         </div>
       </div>
 
-      <!-- v2 公告 -->
+      <!-- v2.3 公告 -->
     <div class="section">
       <div class="callout callout--new" style="border-left-color:var(--blue)">
         <span class="callout__icon">🆕</span>
-        <div><strong>v2 重大更新：</strong>三模式簡化（Agent / Plan / Ask）· Subagents 平行工作流 · Rollback 快照還原 · Literate Coding 編輯器內 AI · Bob Tips 即時品質分析 · 270K tokens · 平行工具呼叫 · MCP 設定 UI · Skills 設定頁 · <strong>Agent Personas</strong>（<code>.bob/agents/</code>）· <strong>Lifecycle Hooks</strong>（5 種 Hook）· <strong>Bobalytics</strong>（Enterprise 分析）· <strong>PR 生成</strong>與 <strong>Code Review</strong> 整合</div>
+        <div><strong>v2.3.0 重大更新：</strong>Mode 快速切換器（+ 選單與 prompt 內 chip）· 外部檔案與圖片附件（&gt;3.75MB 自動壓縮）· 實驗性網路搜尋（<code>web_search</code>）· <strong>Plugins 插件架構</strong>（<code>plugins/</code> 打包 skills、modes、rules、<code>mcp.json</code>）· <strong>MCP v2 Client</strong>（指令自動轉發 system prompt、tool annotations 標註）· <strong>Office 編輯自動備份與還原</strong>（<code>office_edit</code> 變更追蹤與備份）· <strong>Lifecycle Hooks 擴充</strong>（支援 HTTPS endpoint、<code>PermissionRequest/Resolved</code>、<code>Pre/PostCompact</code>）· <strong>Subagent 即時工具串流與回合繼承</strong> · <strong>Bob Shell v2.0.9</strong>（<code>@ibm/bob</code> npm 套件、Vim 模式、<code>/export</code>、Ctrl+Y 自動批准、ACP 編輯器協作）。</div>
       </div>
     </div>
 
@@ -770,6 +772,46 @@ body.light pre.cb .hd { color: #b0b8d0; }
         </div>
       </div>
 
+      <!-- Plugins 架構 -->
+      <div class="section" id="plugins">
+        <div class="section-label section-label--purple">02.5 · Plugins 插件架構（v2.3 核心）</div>
+        <div class="info-grid info-grid-3">
+          <div class="info-block ib--purple" style="grid-column:span 2">
+            <div class="info-block__head">📦 統一打包 Skills + Modes + Rules + MCP</div>
+            <div class="callout callout--info mb-8" style="padding:6px 10px;font-size:9px">
+              <span class="callout__icon">ℹ️</span>
+              <div>Bob v2.3 支援將整套能力打包進插件目錄，免重啟自動即時監控載入：</div>
+            </div>
+            <div class="info-grid" style="gap:8px">
+              <div>
+                <pre class="cb" style="font-size:9px;padding:8px"><code><span class="ha">.bob/plugins/my-plugin/</span>  <span class="hd"># 或 ~/.bob/plugins/</span>
+├── <span class="hr">mcp.json</span>            <span class="hd"># 內嵌 MCP 伺服器</span>
+├── <span class="ha">skills/</span>             <span class="hd"># 專屬技能組</span>
+│   └── my-skill/SKILL.md
+├── <span class="hg">modes/</span>              <span class="hd"># 自訂模式定義</span>
+└── <span class="hg">rules/</span>              <span class="hd"># 專屬規則集</span></code></pre>
+              </div>
+              <div>
+                <ul class="ilist">
+                  <li><strong>即時生效：</strong>新增或變更插件免重開 IDE 即刻熱載入</li>
+                  <li><strong>MCP 自動綁定：</strong>啟用插件時自動載入其 <code>mcp.json</code></li>
+                  <li><strong>狀態繼承：</strong>停用插件會連帶隱藏其所屬 skills/modes</li>
+                  <li><strong>全域插件：</strong>放置於 <code>~/.bob/plugins/</code> 跨工作區共用</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="info-block ib--teal">
+            <div class="info-block__head">✨ 插件優勢</div>
+            <ul class="ilist">
+              <li><strong>團隊一鍵分發：</strong>Git 同步 <code>.bob/plugins/</code> 即獲完整工具鏈</li>
+              <li><strong>隔離與模組化：</strong>不同業務領域套件各自獨立維護</li>
+              <li><strong>乾淨配置：</strong>主設定檔免堆積數十個 MCP 與規則</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <!-- Memory Import -->
       <div class="section" id="memory">
         <div class="section-label section-label--green">03 · Memory Import</div>
@@ -803,58 +845,65 @@ body.light pre.cb .hd { color: #b0b8d0; }
 
       <!-- 工具 -->
       <div class="section" id="tools">
-        <div class="section-label section-label--purple">04 · 內建工具（14+）</div>
+        <div class="section-label section-label--purple">04 · 內建工具（18+ 工具完整陣容）</div>
         <div class="callout callout--tip mb-12">
           <span class="callout__icon">💡</span>
-          <div>只要清楚描述任務，Bob 會自動選擇工具。<strong>🆕 v2 新增平行工具呼叫</strong>，多個獨立工具同時執行，大幅降低等待時間。</div>
+          <div>只要清楚描述任務，Bob 會自動選擇最佳工具。支援<strong>平行工具呼叫</strong>、<strong>即時串流輸出</strong>與<strong>權限精細控制</strong>。</div>
         </div>
         <div class="info-grid info-grid-3">
           <div>
-            <div class="tool-group-head"><span class="dot-accent" style="background:var(--blue)"></span>檔案操作</div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--blue)"></span>檔案操作 &amp; Office</div>
             <table class="dtable">
-              <thead><tr><th>工具</th><th>節省</th></tr></thead>
+              <thead><tr><th>工具</th><th>特性與用途</th></tr></thead>
               <tbody>
-                <tr><td class="key">read_file</td><td>line_range 省 80–95%</td></tr>
-                <tr><td class="key">write_file</td><td>新檔案首選</td></tr>
-                <tr><td class="key">apply_diff</td><td>小改動省 90%+</td></tr>
-                <tr><td class="key">insert_content</td><td>不覆寫現有</td></tr>
-                <tr><td class="key">search_and_replace <span class="badge badge-new">🆕</span></td><td>跨行精準替換</td></tr>
+                <tr><td class="key">read_file</td><td><code>range</code> + <code>context_focus_query</code></td></tr>
+                <tr><td class="key">apply_diff</td><td>Surgical edits 首選，省 90%+ token</td></tr>
+                <tr><td class="key">write_file</td><td>完整建立新檔案</td></tr>
+                <tr><td class="key">insert_content</td><td>行號精準插入不覆寫</td></tr>
+                <tr><td class="key">search_and_replace</td><td>支援 Regex 跨檔替換</td></tr>
+                <tr><td class="key">office_read <span class="badge badge-new">v2.3</span></td><td>讀取 .docx / .xlsx / .pptx 結構</td></tr>
+                <tr><td class="key">office_edit <span class="badge badge-new">v2.3</span></td><td>Office 編輯 + 自動備份與還原</td></tr>
               </tbody>
             </table>
           </div>
           <div>
-            <div class="tool-group-head"><span class="dot-accent" style="background:var(--teal)"></span>搜尋探索</div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--teal)"></span>搜尋探索 &amp; 聯網</div>
             <table class="dtable">
               <thead><tr><th>工具</th><th>最佳實踐</th></tr></thead>
               <tbody>
-                <tr><td class="key">glob <span class="badge badge-new">🆕</span></td><td>按修改時間排序</td></tr>
-                <tr><td class="key">grep <span class="badge badge-new">🆕</span></td><td>省 70–90%探索成本</td></tr>
-                <tr><td class="key">list_files</td><td>遞迴探索專案</td></tr>
-                <tr><td class="key">GetSymbolsOverview <span class="badge badge-new">🆕</span></td><td>先了解結構</td></tr>
-                <tr><td class="key">FindSymbol <span class="badge badge-new">🆕</span></td><td>精準定位函數</td></tr>
-                <tr><td class="key">FindReferencingSymbols <span class="badge badge-new">🆕</span></td><td>理解依賴</td></tr>
+                <tr><td class="key">grep</td><td>Regex 內容搜尋，省 70–90% 成本</td></tr>
+                <tr><td class="key">glob</td><td>檔名模式匹配（依修改時間排序）</td></tr>
+                <tr><td class="key">list_files</td><td>目錄樹結構掃描</td></tr>
+                <tr><td class="key">GetSymbolsOverview</td><td>代碼符號高階輪廓</td></tr>
+                <tr><td class="key">FindSymbol</td><td>精確定位類別/函數路徑</td></tr>
+                <tr><td class="key">FindReferencingSymbols</td><td>交叉依賴與引用關聯</td></tr>
+                <tr><td class="key">web_search <span class="badge badge-new">v2.3</span></td><td>即時公網搜尋（最新資訊）</td></tr>
+                <tr><td class="key">web_fetch</td><td>讀取指定 URL 網頁內容</td></tr>
               </tbody>
             </table>
           </div>
           <div>
-            <div class="tool-group-head"><span class="dot-accent" style="background:var(--amber)"></span>執行 &amp; Agent</div>
-            <table class="dtable mb-12">
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--amber)"></span>執行、視覺化 &amp; 安全</div>
+            <table class="dtable mb-8">
               <thead><tr><th>工具</th><th>用途</th></tr></thead>
               <tbody>
-                <tr><td class="key">execute_command</td><td>合併命令執行</td></tr>
-                <tr><td class="key">ask_followup_question</td><td>需要澄清時</td></tr>
+                <tr><td class="key">execute_command</td><td>終端命令（支援串流與背景進程）</td></tr>
+                <tr><td class="key">create_chart <span class="badge badge-new">v2.3</span></td><td>生成互動 ECharts 視覺圖表</td></tr>
+                <tr><td class="key">create_html_artifact</td><td>產出可分享的一頁式靜態摘要</td></tr>
+                <tr><td class="key">check_package_vulnerabilities</td><td>OSV.dev 依賴漏洞掃描</td></tr>
+                <tr><td class="key">dismiss_security_findings</td><td>安全儀表板告警判定與解除</td></tr>
               </tbody>
             </table>
-            <div class="tool-group-head"><span class="dot-accent" style="background:var(--red)"></span>Agent 工具 <span class="badge badge-new">🆕</span></div>
+            <div class="tool-group-head"><span class="dot-accent" style="background:var(--red)"></span>Agent &amp; 流程編排</div>
             <table class="dtable">
               <thead><tr><th>工具</th><th>用途</th></tr></thead>
               <tbody>
-                <tr><td class="key">spawn_subagent</td><td>生成子代理</td></tr>
-                <tr><td class="key">start_subtask</td><td>可視化子任務</td></tr>
-                <tr><td class="key">use_skill</td><td>載入 Skill 指令</td></tr>
-                <tr><td class="key">start_workflow</td><td>多步驟流程</td></tr>
-                <tr><td class="key">update_todo_list</td><td>複雜任務追蹤</td></tr>
-                <tr><td class="key">switch_mode</td><td>動態切換模式</td></tr>
+                <tr><td class="key">spawn_subagent <span class="badge badge-new">v2.3</span></td><td>平行子代理（支援 <code>fork_context</code> 與串流）</td></tr>
+                <tr><td class="key">start_subtask</td><td>可視化子任務進程</td></tr>
+                <tr><td class="key">start_workflow</td><td>引導式多步驟工作流程</td></tr>
+                <tr><td class="key">use_skill</td><td>按需啟動專業 Skill 指令集</td></tr>
+                <tr><td class="key">update_todo_list</td><td>動態任務狀態追蹤管理</td></tr>
+                <tr><td class="key">switch_mode</td><td>動態模式切換</td></tr>
               </tbody>
             </table>
           </div>
@@ -979,17 +1028,16 @@ body.light pre.cb .hd { color: #b0b8d0; }
             </div>
           </div>
           <div class="info-block ib--blue" id="misc-v2">
-            <div class="info-block__head">🚀 其他重大改進</div>
+            <div class="info-block__head">🚀 v2.3 重大改進精華</div>
             <ul class="ilist">
-              <li><strong>Agent Steering</strong>：執行中輸入新指令</li>
-              <li><strong>Context 270K</strong>：從 200K 增加</li>
-              <li><strong>平行工具呼叫</strong>：多工具同時執行</li>
-              <li><strong>可編輯命令</strong>：執行前手動修改</li>
-              <li><strong>Task-level 批准</strong>：任務獨立設定</li>
-              <li><strong>MCP UI 管理</strong>：Settings 視覺化</li>
-              <li><strong>Context Pills</strong>：文字自動轉 pill</li>
-              <li><strong>Nested Workflows</strong>：工作流可巢狀</li>
-              <li><strong>.docx/.pdf/.xlsx</strong>：可直接附件</li>
+              <li><strong>Mode 快速切換</strong>：+ 選單與 prompt 內 active chip</li>
+              <li><strong>外部檔案附件</strong>：工作區外檔案/圖片直接拖入（&gt;3.75MB 自動壓縮）</li>
+              <li><strong>Web Search 聯網</strong>：實驗性 <code>web_search</code> 即時搜尋</li>
+              <li><strong>Office 變更追蹤</strong>：<code>office_edit</code> 自動備份與單鍵還原</li>
+              <li><strong>MCP v2 升級</strong>：Server instructions 自動轉發至 system prompt</li>
+              <li><strong>Subagent 工具串流</strong>：即時展示工具執行結果，繼承任務回合限制</li>
+              <li><strong>Contextual Task Naming</strong>：工作流程中 <code>setTaskTitle</code> 動態命名</li>
+              <li><strong>環境即時時鐘</strong>：Turn 上下文自動注入精準時間戳與日期</li>
             </ul>
           </div>
         </div>
@@ -1034,37 +1082,86 @@ Severity | File | Lines | Description
 
           <!-- Lifecycle Hooks -->
           <div class="info-block ib--teal" id="hooks">
-            <div class="info-block__head">🔗 Lifecycle Hooks <span class="badge badge-new">🆕</span></div>
+            <div class="info-block__head">🔗 Lifecycle Hooks <span class="badge badge-new">v2.3 擴充</span></div>
             <div class="callout callout--info mb-8" style="padding:6px 10px;font-size:9px">
               <span class="callout__icon">ℹ️</span>
-              <div>在 <code>settings.json</code> 的 <code>hooks</code> 鍵定義 shell 命令，在 Bob session 關鍵節點自動執行。</div>
+              <div>在 <code>settings.json</code> 定義 Shell 命令或 <strong>HTTPS 遠端端點</strong>，在關鍵生命週期事件自動觸發。</div>
             </div>
             <table class="dtable mb-8">
-              <thead><tr><th>Hook</th><th>時機</th><th>可阻擋</th><th>Stdout</th></tr></thead>
+              <thead><tr><th>Hook 事件</th><th>觸發時機</th><th>阻擋行為</th><th>Stdout 處理</th></tr></thead>
               <tbody>
-                <tr><td class="key">SessionStart</td><td>Session 開始時（一次）</td><td>✗</td><td>注入 context</td></tr>
-                <tr><td class="key">UserPromptSubmit</td><td>每次送出 prompt 前</td><td>✓ exit 2</td><td>注入 context</td></tr>
-                <tr><td class="key">PreToolUse</td><td>工具執行前</td><td>✓ exit 2</td><td>忽略</td></tr>
-                <tr><td class="key">PostToolUse</td><td>工具執行後</td><td>✗</td><td>忽略</td></tr>
-                <tr><td class="key">Stop</td><td>Agent 停止後</td><td>✗</td><td>忽略</td></tr>
+                <tr><td class="key">SessionStart</td><td>Session 啟動時</td><td>✗</td><td>自動注入為上下文</td></tr>
+                <tr><td class="key">UserPromptSubmit</td><td>使用者送出 Prompt 前</td><td>✓ exit 2 阻擋</td><td>自動注入為上下文</td></tr>
+                <tr><td class="key">PreToolUse</td><td>指定工具執行前</td><td>✓ exit 2 阻擋</td><td>忽略</td></tr>
+                <tr><td class="key">PostToolUse</td><td>工具完成後</td><td>✗</td><td>忽略（接收工具 I/O）</td></tr>
+                <tr><td class="key">PreCompact <span class="badge badge-new">v2.3</span></td><td>上下文壓縮前</td><td>✓ exit 2 阻擋</td><td>檢查或阻擋壓縮</td></tr>
+                <tr><td class="key">PostCompact <span class="badge badge-new">v2.3</span></td><td>上下文壓縮完成後</td><td>✗</td><td>壓縮後處理</td></tr>
+                <tr><td class="key">PermissionRequest <span class="badge badge-new">v2.3</span></td><td>工具請求授權時</td><td>✓ 自動解析</td><td>自動判定授權</td></tr>
+                <tr><td class="key">PermissionResolved <span class="badge badge-new">v2.3</span></td><td>授權決定成立時</td><td>✗</td><td>授權稽核</td></tr>
+                <tr><td class="key">Stop</td><td>Agent 停止後</td><td>✗</td><td>後續清理/通知</td></tr>
               </tbody>
             </table>
-            <pre class="cb" style="font-size:9px;padding:10px"><code><span class="hd">// settings.json</span>
+            <pre class="cb" style="font-size:9px;padding:8px"><code><span class="hd">// settings.json — 支援 command 與 https 雙重 handler</span>
 {
   <span class="hg">"hooks"</span>: {
     <span class="ha">"PreToolUse"</span>: [{
-      <span class="hg">"matcher"</span>: <span class="hb">"^write_file$"</span>,
+      <span class="hg">"matcher"</span>: <span class="hb">"^(write_file|apply_diff)$"</span>,
       <span class="hg">"hooks"</span>: [{
         <span class="hg">"type"</span>: <span class="hb">"command"</span>,
-        <span class="hg">"command"</span>: <span class="hb">"sh .bob/hooks/check.sh"</span>,
+        <span class="hg">"command"</span>: <span class="hb">"sh .bob/hooks/security-guard.sh"</span>,
         <span class="hg">"timeout"</span>: 5
+      }]
+    }],
+    <span class="ha">"PostToolUse"</span>: [{
+      <span class="hg">"hooks"</span>: [{
+        <span class="hg">"type"</span>: <span class="hb">"https"</span>,
+        <span class="hg">"url"</span>: <span class="hb">"https://audit.company.internal/bob-events"</span>
       }]
     }]
   }
 }</code></pre>
             <div class="callout callout--tip mt-8 mb-0" style="padding:6px 10px;font-size:9px">
               <span class="callout__icon">💡</span>
-              <div><strong>阻擋原則：</strong>只有 UserPromptSubmit 和 PreToolUse 支援 exit 2 阻擋。全域 hooks（<code>~/.bob/settings/settings.json</code>）與工作區 hooks（<code>.bob/settings.json</code>）合併執行。</div>
+              <div><strong>遠端工作區支援：</strong>Hooks 現已原生支援 Remote SSH 環境，並在遠端主機上依工作區路徑正常運作。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bob Shell CLI 專區 -->
+        <div class="section" id="bobshell" style="padding-top:0">
+          <div class="section-label section-label--green">06.8 · Bob Shell CLI（v2.0.9 終端代理）</div>
+          <div class="info-grid info-grid-3 mb-12">
+            <div class="info-block ib--green">
+              <div class="info-block__head">💻 安裝與快速指令</div>
+              <ul class="ilist">
+                <li><strong>npm 安裝：</strong><code>npm install -g @ibm/bob</code>（自動更新）</li>
+                <li><strong>啟動互動：</strong><code>bob</code></li>
+                <li><strong>非互動執行：</strong><code>bob run "重構使用者模組"</code></li>
+                <li><strong>Vim 模式：</strong><code>/vim</code>（支援 INSERT / NORMAL 模式）</li>
+                <li><strong>匯出任務：</strong><code>/export markdown task-summary.md</code></li>
+              </ul>
+            </div>
+            <div class="info-block ib--blue">
+              <div class="info-block__head">⌨️ 快捷鍵與終端操作</div>
+              <table class="dtable">
+                <thead><tr><th>快捷鍵</th><th>功能</th></tr></thead>
+                <tbody>
+                  <tr><td class="key">Ctrl+Y</td><td>切換自動批准（跨平台統一）</td></tr>
+                  <tr><td class="key">Ctrl+R</td><td>在 MCP 對話框中即時重啟 MCP Server</td></tr>
+                  <tr><td class="key">Ctrl+O</td><td>直接在編輯器開啟 settings.json</td></tr>
+                  <tr><td class="key">Ctrl+A / E</td><td>Emacs 行首 / 行尾跳轉</td></tr>
+                  <tr><td class="key">Ctrl+K / D</td><td>Emacs 刪除游標後文字 / 單字元</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-block ib--amber">
+              <div class="info-block__head">🔌 ACP 伺服器 &amp; 跨編輯器協作</div>
+              <ul class="ilist">
+                <li><strong>ACP Agent：</strong>支援 Agent Client Protocol</li>
+                <li><strong>編輯器任務共享：</strong>與 Zed、IntelliJ、Neovim 雙向同步</li>
+                <li><strong>初始模式設定：</strong>透過 <code>_meta: {"bob/mode": "agent"}</code> 直接指定模式</li>
+                <li><strong>背景進程：</strong><code>/processes</code> 即時管理終端背景任務</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -1117,6 +1214,9 @@ Severity | File | Lines | Description
             <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-lt);margin-bottom:6px;font-weight:600">支援政策</div>
             <ul class="ilist">
               <li><strong>DisabledAutoApprovalGroups：</strong>永久禁用指定群組自動批准，UI 鎖定</li>
+              <li><strong>RequiredExtensions <span class="badge badge-new">v2.2</span>：</strong>開機背景靜默自動安裝企業指定套件</li>
+              <li><strong>OtelConfiguration <span class="badge badge-new">v2.3</span>：</strong>集中配置 OpenTelemetry 導出端點</li>
+              <li><strong>EnableTelemetry &amp; sz_otel_allowlists：</strong>嚴格過濾與管理企業觀測事件/屬性</li>
               <li><strong>UpdateMode：</strong>控制自動更新行為（default/start/manual/none）</li>
             </ul>
           </div>
@@ -1284,7 +1384,7 @@ data/customer/</code></pre>
               <li>只需設定 server URL，無需手動管理 token</li>
               <li>Settings → MCP → Renew / Reset auth 管理狀態</li>
             </ul>
-            <pre class="cb" style="font-size:9px;padding:8px"><code><span class="hd">// mcp_settings.json — OAuth server</span>
+            <pre class="cb" style="font-size:9px;padding:8px"><code><span class="hd">// .bob/mcp.json — OAuth server</span>
 {
   <span class="hg">"mcpServers"</span>: {
     <span class="ha">"my-oauth-server"</span>: {
@@ -1317,9 +1417,9 @@ data/customer/</code></pre>
             <ul class="ilist">
               <li><strong>專案根目錄</strong>：<code>AGENTS.md</code> 放「為什麼」、<code>.bobignore</code> 放「不能碰什麼」</li>
               <li><strong>專案內 .bob/</strong>：放可操作的配置（Rules、Commands、Skills、Memory）</li>
-              <li><strong>全域 ~/.bob/</strong>：放跨專案共用設定（個人模式、MCP、常用規則）</li>
-              <li><strong>高成本項</strong>：<code>AGENTS.md</code>、<code>custom_modes.yaml</code>、<code>mcp_settings.json</code></li>
-              <li><strong>按需載入項</strong>：Slash Commands、Skills</li>
+              <li><strong>全域 ~/.bob/</strong>：放跨專案共用設定（個人模式、MCP、常用規則、全域插件）</li>
+              <li><strong>高成本項</strong>：<code>AGENTS.md</code>、<code>custom_modes.yaml</code>、<code>.bob/mcp.json</code></li>
+              <li><strong>按需載入項</strong>：Slash Commands、Skills、Plugins</li>
             </ul>
           </div>
           <div class="info-block ib--green">
@@ -1342,9 +1442,9 @@ data/customer/</code></pre>
 ├── <span class="hr">.bobignore</span>                             <span class="hd">← 阻擋敏感檔案/資料夾</span>
 ├── .gitignore                             <span class="hd">← 常與 .bobignore 搭配</span>
 └── <span class="hb">.bob/</span>                                  <span class="hd">← 專案級 Bob 設定，優先於全域</span>
-    ├── settings.json                      <span class="hd">← 專案設定；不直接進上下文</span>
+    ├── settings.json                      <span class="hd">← 專案設定、Hooks、Profiles</span>
     ├── custom_modes.yaml                  <span class="hd">← 自訂模式；模式指令進系統提示</span>
-    ├── mcp_settings.json                  <span class="hd">← MCP 設定；description 成本高</span>
+    ├── <span class="hr">mcp.json</span>                           <span class="hd">← 專案 MCP 設定（v2 規範）</span>
     ├── <span class="hg">rules/</span>         *.md               <span class="hd">← 所有模式共用；持續影響回應</span>
     ├── <span class="hg">rules-{mode-slug}/</span>  *.md          <span class="hd">← 只在該 mode 載入</span>
     ├── <span class="ha">commands/</span>      *.md               <span class="hd">← 手動觸發時載入，低成本</span>
@@ -1352,17 +1452,22 @@ data/customer/</code></pre>
     │   └── skill-name/
     │       ├── SKILL.md                   <span class="hd">← 技能主定義；選擇時載入</span>
     │       └── support-files...
+    ├── <span class="hr">plugins/</span>                           <span class="hd">← Plugins 套件打包 🆕 v2.3</span>
+    │   └── plugin-name/                   <span class="hd">← 內建 mcp.json, skills, modes, rules</span>
     ├── <span class="hr">agents/</span>
-    │   └── code-reviewer.md               <span class="hd">← Subagent Persona 定義 🆕</span>
+    │   └── code-reviewer.md               <span class="hd">← Subagent Persona 定義</span>
     └── <span class="hg">memory/</span>                            <span class="hd">← Memory Import 模組庫</span>
         ├── intro/   core/   features/
         ├── security/   best-practices/
         └── project-context.md
 
 <span class="ha">~/.bob/</span>                                    <span class="hd">← 全域設定，跨專案共用</span>
-├── settings.json   custom_modes.yaml
-├── mcp_settings.json
-└── <span class="hg">rules/</span>  <span class="hg">rules-{mode}/</span>  <span class="ha">commands/</span>  <span class="ha">skills/</span></code></pre>
+├── settings/
+│   ├── settings.json
+│   └── mcp.json
+├── custom_modes.yaml
+├── <span class="hr">plugins/</span>                               <span class="hd">← 全域插件目錄 🆕</span>
+└── <span class="hg">rules/</span>  <span class="hg">rules-{mode}/</span>  <span class="ha">commands/</span>  <span class="ha">skills/</span>  <span class="ha">agents/</span></code></pre>
       </div>
 
       <div class="section">
@@ -1374,11 +1479,12 @@ data/customer/</code></pre>
             <tr><td class="key">rules-{mode}/</td><td>某一 mode 專用規則</td><td><span class="badge badge-med">中</span> 僅該模式啟用時</td><td>只寫該 mode 真正需要的限制</td></tr>
             <tr><td class="key">commands/</td><td>Slash Commands</td><td><span class="badge badge-low">低</span> 手動觸發時</td><td>一個命令只做一件事</td></tr>
             <tr><td class="key">skills/</td><td>複雜任務流程</td><td><span class="badge badge-high">高</span> 被選中時載入</td><td>SKILL.md 聚焦，支援檔外拆</td></tr>
-            <tr><td class="key">agents/ <span class="badge badge-new">🆕</span></td><td>Subagent Persona 定義</td><td><span class="badge badge-low">低</span> spawn 時匹配載入</td><td>name/description/tools 三欄位</td></tr>
+            <tr><td class="key">plugins/ <span class="badge badge-new">v2.3</span></td><td>整合套件（Skills+Modes+Rules+MCP）</td><td><span class="badge badge-low">低</span> 熱載入監控</td><td>一模組一目錄，內建獨立 mcp.json</td></tr>
+            <tr><td class="key">agents/</td><td>Subagent Persona 定義</td><td><span class="badge badge-low">低</span> spawn 時匹配載入</td><td>name/description/tools 三欄位</td></tr>
             <tr><td class="key">memory/</td><td>@path 引用的模組化知識</td><td>由 AGENTS.md 引用時</td><td>按主題分層，不要堆成大檔</td></tr>
             <tr><td class="key">custom_modes.yaml</td><td>定義角色與 custom instructions</td><td><span class="badge badge-high">高</span> 進系統提示</td><td>只保留必要 persona</td></tr>
-            <tr><td class="key">mcp_settings.json</td><td>MCP server 註冊與描述</td><td><span class="badge badge-high">高</span> description 成本明顯</td><td>只連必要 MCP，description 要短</td></tr>
-            <tr><td class="key">settings.json</td><td>設定與行為開關</td><td>通常不進上下文</td><td>視為執行設定，不要混規範</td></tr>
+            <tr><td class="key">mcp.json <span class="badge badge-new">v2.3</span></td><td>MCP server 註冊與描述（v2）</td><td><span class="badge badge-high">高</span> description 成本明顯</td><td>只連必要 MCP，使用 v2 協議</td></tr>
+            <tr><td class="key">settings.json</td><td>設定、Hooks 與 Profiles</td><td>通常不進上下文</td><td>視為執行設定，包含 hooks 與 profiles</td></tr>
           </tbody>
         </table>
 
@@ -1639,9 +1745,9 @@ Include error handling and docs.</code></pre>
 </div><!-- /shell -->
 
 <footer class="site-footer">
-  <span>IBM Bob v2 完整指南 · 2026 Aug（爬取 2026-08-16）</span>
-  <span>三模式：Agent · Plan · Ask &nbsp;|&nbsp; 五大機制：Commands · Rules · Skills · Agents · Personas</span>
-  <span>Agent Personas · Lifecycle Hooks · Bobalytics · Group Policies · PR/Review · MCP OAuth 🚀 &nbsp;|&nbsp; Made with IBM Bob</span>
+  <span>IBM Bob v2.3.0 &amp; Bob Shell v2.0.9 完整指南 · 2026 Nov Edition</span>
+  <span>三模式：Agent · Plan · Ask &nbsp;|&nbsp; 五大機制 + Plugins：Commands · Rules · Skills · Agents · Personas · Plugins</span>
+  <span>Plugins · Lifecycle Hooks · Bob Shell · Bobalytics · OTEL Policies · PR/Review · Office 變更追蹤 · Made with IBM Bob</span>
 </footer>
 
 <script>
